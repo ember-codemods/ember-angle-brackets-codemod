@@ -4,12 +4,13 @@ const HTML_ATTRIBUTES = [
   "title",
   "label",
   "placeholder",
-  "required",
-  
-
+  "required"
 ];
 
-const ignoreBlocks = ["each"];
+const ignoreBlocks = [
+  "each",
+  "if"
+];
 
 const capitalizedTagName = tagname =>
   tagname
@@ -45,40 +46,35 @@ module.exports = function({ plugins, syntax }) {
     });
   };
 
-
-
   return {
     name: "ast-transform",
 
     visitor: {
-      ElementNode(node) {},
 
       MustacheStatement(node) {
         // Don't change attribute statements
-    if (node.loc.source !== "(synthetic)" && node.hash.pairs.length > 0) {
-      const tagname = node.path.original;
-      const _capitalizedTagName = capitalizedTagName(tagname);
-      const attributes = transformAttrs(node.hash.pairs);
+        if (node.loc.source !== "(synthetic)" && node.hash.pairs.length > 0) {
+          const tagname = node.path.original;
+          const _capitalizedTagName = capitalizedTagName(tagname);
+          const attributes = transformAttrs(node.hash.pairs);
 
-      return b.element(_capitalizedTagName, { attrs: attributes });
-    }
+          return b.element(_capitalizedTagName, { attrs: attributes });
+        }
       },
+
       BlockStatement(node) {
         if (!ignoreBlocks.includes(node.path.original)) {
 
-          
-          console.log(node);
+          const tagname = node.path.original;
+          let _capitalizedTagName = capitalizedTagName(tagname);
+          let attributes = transformAttrs(node.hash.pairs);
 
-    const tagname = node.path.original;
-    let _capitalizedTagName = capitalizedTagName(tagname);
-    let attributes = transformAttrs(node.hash.pairs);
+          return b.element(_capitalizedTagName, {
+            attrs: attributes,
+            children: node.program.body,
 
-    return b.element(_capitalizedTagName, {
-      attrs: attributes,
-      children: node.program.body,
-
-      blockParams: node.program.blockParams
-    });
+            blockParams: node.program.blockParams
+          });
         }
       }
     }

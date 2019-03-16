@@ -1,9 +1,14 @@
-# ember-angle-brackets-codemod
+# ember-angle-brackets-codemod [BETA]
 A jscodeshift Codemod to convert curly braces syntax to angle brackets syntax
 
 Refer to this [RFC](https://github.com/emberjs/rfcs/blob/master/text/0311-angle-bracket-invocation.md) for more details on Angle brackets invocation syntax.
 
 ## Usage
+
+1. Go to the [AST Explorer](https://astexplorer.net/#/gist/b128d5545d7ccc52400b922f3b5010b4/571266d8c29cb8eb1bd5730c0c388526081cce46)
+2. Paste your curly brace syntax code in the top left corner window (Source)
+3. You will get the converted angle bracket syntax in the bottom right corner window (Transform Output)
+
 
 ### 1. Install jscodeshift
 Get jscodeshift from npm:
@@ -14,6 +19,8 @@ $ npm install -g jscodeshift
 This will install the runner as jscodeshift.
 
 ### 2. Run the transform
+[WARNING : The transform is not working currently with jscodeshift]
+
 ```sh
 jscodeshift -t https://raw.githubusercontent.com/rajasegar/ember-angle-brackets-codemods/master/transform.js app/templates
 ```
