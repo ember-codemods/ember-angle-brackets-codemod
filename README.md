@@ -1,6 +1,8 @@
 # ember-angle-brackets-codemod
 A jscodeshift Codemod to convert curly braces syntax to angle brackets syntax
 
+Refer to this [RFC](https://github.com/emberjs/rfcs/blob/master/text/0311-angle-bracket-invocation.md) for more details on Angle brackets invocation syntax.
+
 ## Usage
 
 ### 1. Install jscodeshift
@@ -30,13 +32,10 @@ jscodeshift -t https://raw.githubusercontent.com/rajasegar/ember-angle-brackets-
 
 ## To
 ```hbs
-<SiteHeader @user={{this.user}} class={{if this.user.isAdmin "admin"}} />
+<SiteHeader @user={{this.user}} class={{if this.user.isAdmin admin}}></SiteHeader>
 
-<SuperSelect @selected={{this.user.country}} as |Option|>
-  {{#each this.availableCountries as |country|}}
-    <Option @value={{country}}>{{country.name}}</Option>
-  {{/each}}
-</SuperSelect>
+<SuperSelect @selected={{this.user.country}} as |s|>{{#each this.availableCountries as |country|}}    <S.option value={{country}}>{{country.name}}</S.option>
+{{/each}}</SuperSelect>
 ```
 
 ## AST Explorer playground
@@ -45,3 +44,7 @@ jscodeshift -t https://raw.githubusercontent.com/rajasegar/ember-angle-brackets-
 ## Known issues
 - No formatting preserved
 - Block params need to be tweaked
+
+## Things to do
+- Need to add more html attributes
+- Need to add more ignore blocks like if, unless, etc.,
