@@ -1,3 +1,4 @@
+const glimmer = require('@glimmer/syntax');
 const HTML_ATTRIBUTES = [
   "class",
   "value",
@@ -20,9 +21,9 @@ const capitalizedTagName = tagname =>
     })
     .join("");
 
-module.exports = function({ plugins, syntax }) {
-  const { parse, print, builders, traverse, Walker } = syntax;
-  const b = builders;
+module.exports = function(fileInfo, api, options) {
+  const ast = glimmer.preprocess(fileInfo.source);
+  const b = glimmer.builders;
 
   const transformAttrs = attrs => {
     return attrs.map(a => {
@@ -46,37 +47,39 @@ module.exports = function({ plugins, syntax }) {
     });
   };
 
-  return {
-    name: "ast-transform",
 
-    visitor: {
+  glimmer.traverse(ast, {
+    MustacheStatement(node) {
+      // Don't change attribute statements
+      if (node.loc.source !== "(synthetic)" && node.hash.pairs.length > 0) {
+        const tagname = node.path.original;
+        const _capitalizedTagName = capitalizedTagName(tagname);
+        const attributes = transformAttrs(node.hash.pairs);
 
-      MustacheStatement(node) {
-        // Don't change attribute statements
-        if (node.loc.source !== "(synthetic)" && node.hash.pairs.length > 0) {
-          const tagname = node.path.original;
-          const _capitalizedTagName = capitalizedTagName(tagname);
-          const attributes = transformAttrs(node.hash.pairs);
+        return b.element(
+          { name: _capitalizedTagName, selfClosing: true }, 
+          { attrs: attributes }
+        );
+      }
+    },
+    BlockStatement(node) {
+      if (!ignoreBlocks.includes(node.path.original)) {
 
-          return b.element(_capitalizedTagName, { attrs: attributes });
-        }
-      },
+        const tagname = node.path.original;
+        let _capitalizedTagName = capitalizedTagName(tagname);
+        let attributes = transformAttrs(node.hash.pairs);
 
-      BlockStatement(node) {
-        if (!ignoreBlocks.includes(node.path.original)) {
+        return b.element(_capitalizedTagName, {
+          attrs: attributes,
+          children: node.program.body,
 
-          const tagname = node.path.original;
-          let _capitalizedTagName = capitalizedTagName(tagname);
-          let attributes = transformAttrs(node.hash.pairs);
-
-          return b.element(_capitalizedTagName, {
-            attrs: attributes,
-            children: node.program.body,
-
-            blockParams: node.program.blockParams
-          });
-        }
+          blockParams: node.program.blockParams
+        });
       }
     }
-  };
+
+
+  });
+  return glimmer.print(ast); 
 };
+

@@ -1,7 +1,4 @@
-{{site-header user=this.user class=(if this.user.isAdmin "admin")}}
+<SiteHeader @user={{this.user}} class={{if this.user.isAdmin admin}}></SiteHeader>
 
-{{#super-select selected=this.user.country as |s|}}
-  {{#each this.availableCountries as |country|}}
-    {{#s.option value=country}}{{country.name}}{{/s.option}}
-  {{/each}}
-{{/super-select}}
+<SuperSelect @selected={{this.user.country}} as |s|>{{#each this.availableCountries as |country|}}    <S.option value={{country}}>{{country.name}}</S.option>
+{{/each}}</SuperSelect>
