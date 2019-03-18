@@ -25,7 +25,7 @@ This will install the runner as jscodeshift.
 
 ```sh
 cd my-ember-app-or-addon
-jscodeshift -t https://raw.githubusercontent.com/rajasegar/ember-angle-brackets-codemods/master/transforms/angle-brackets-syntax.js --extensions=hbs app/templates
+jscodeshift -t https://raw.githubusercontent.com/rajasegar/ember-angle-brackets-codemod/master/transforms/angle-brackets-syntax.js --extensions=hbs app/templates
 ```
 
 ## From
