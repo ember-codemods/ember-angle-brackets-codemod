@@ -16,7 +16,7 @@ This will install the runner as jscodeshift.
 ### 2. Run the transform
 
 ```sh
-jscodeshift -t https://raw.githubusercontent.com/rajasegar/ember-angle-brackets-codemods/master/transforms/transform.js --extensions=hbs app/templates
+jscodeshift -t https://raw.githubusercontent.com/rajasegar/ember-angle-brackets-codemods/master/transforms/angle-brackets-syntax.js --extensions=hbs app/templates
 ```
 
 
@@ -67,10 +67,14 @@ One problem with this approach is that the inner blockStatements are not being t
 
 ## To
 ```hbs
-<SiteHeader @user={{this.user}} class={{if this.user.isAdmin admin}}></SiteHeader>
-
-<SuperSelect @selected={{this.user.country}} as |s|>{{#each this.availableCountries as |country|}}    <S.option value={{country}}>{{country.name}}</S.option>
-{{/each}}</SuperSelect>
+<SiteHeader @user={{this.user}} class={{if this.user.isAdmin admin}} />
+<SuperSelect @selected={{this.user.country}} as |s|>
+  {{#each this.availableCountries as |country|}}
+    <S.option value={{country}}>
+      {{country.name}}
+    </S.option>
+  {{/each}}
+</SuperSelect>
 ```
 
 ## AST Explorer playground

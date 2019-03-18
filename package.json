@@ -10,8 +10,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@glimmer/syntax": "^0.39.3",
     "codemod-cli": "^0.2.5",
-    "@glimmer/syntax": "^0.39.3"
+    "prettier": "^1.16.4"
   },
   "repository": {
     "type": "git",

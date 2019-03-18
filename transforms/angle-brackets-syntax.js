@@ -1,4 +1,5 @@
 const glimmer = require('@glimmer/syntax');
+const prettier = require("prettier");
 const HTML_ATTRIBUTES = [
   "class",
   "value",
@@ -81,6 +82,7 @@ module.exports = function(fileInfo, api, options) {
 
 
   });
-  return glimmer.print(ast); 
+  let uglySource = glimmer.print(ast);
+  return prettier.format(uglySource, { parser: "glimmer" });
 };
 
