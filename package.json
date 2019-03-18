@@ -1,0 +1,30 @@
+{
+  "name": "ember-angle-brackets-codemod",
+  "version": "1.0.0",
+  "description": "Codemod to convert to Angle brackets syntax",
+  "main": "etr-transform.js",
+  "bin": {
+    "ember-angle-brackets-codemod": "cli.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "codemod-cli": "^0.2.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rajasegar/ember-angle-brackets-codemod.git"
+  },
+  "keywords": [
+    "codemod-cli",
+    "ember",
+    "codemods"
+  ],
+  "author": "Rajasegar Chandran <rajasegar.c@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rajasegar/ember-angle-brackets-codemod/issues"
+  },
+  "homepage": "https://github.com/rajasegar/ember-angle-brackets-codemod#readme"
+}
