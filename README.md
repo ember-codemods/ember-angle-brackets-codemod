@@ -1,15 +1,32 @@
 # ember-angle-brackets-codemod [BETA]
-A ~~jscodeshift~~ Codemod to convert curly braces syntax to angle brackets syntax
+A jscodeshift Codemod to convert curly braces syntax to angle brackets syntax
 
 Refer to this [RFC](https://github.com/emberjs/rfcs/blob/master/text/0311-angle-bracket-invocation.md) for more details on Angle brackets invocation syntax.
 
-## Usage 1 (Working)
+## Usage 1 
+
+### 1. Install jscodeshift
+Get jscodeshift from npm:
+
+```sh
+$ npm install -g jscodeshift
+```
+This will install the runner as jscodeshift.
+
+### 2. Run the transform
+
+```sh
+jscodeshift -t https://raw.githubusercontent.com/rajasegar/ember-angle-brackets-codemods/master/transforms/transform.js --extensions=hbs app/templates
+```
+
+
+## Usage 2 (Working)
 
 1. Go to the [AST Explorer](https://astexplorer.net/#/gist/b128d5545d7ccc52400b922f3b5010b4/571266d8c29cb8eb1bd5730c0c388526081cce46)
 2. Paste your curly brace syntax code in the top left corner window (Source)
 3. You will get the converted angle bracket syntax in the bottom right corner window (Transform Output)
 
-## Usage 2 (Working partially)
+## Usage 3 (Working partially)
 In this approach we will be using the `ember-template-recast` tool  to transform.
 [ember-template-recast](https://github.com/ember-template-lint/ember-template-recast) is a Non-destructive template transformer.
 
@@ -35,23 +52,6 @@ One problem with this approach is that the inner blockStatements are not being t
 </SuperSelect>
 ```
 
-
-## Usage 3 (Not working)
-
-### 1. Install jscodeshift
-Get jscodeshift from npm:
-
-```sh
-$ npm install -g jscodeshift
-```
-This will install the runner as jscodeshift.
-
-### 2. Run the transform
-[WARNING : The transform is not working currently with jscodeshift]
-
-```sh
-jscodeshift -t https://raw.githubusercontent.com/rajasegar/ember-angle-brackets-codemods/master/transforms/transform.js app/templates
-```
 
 
 ## From

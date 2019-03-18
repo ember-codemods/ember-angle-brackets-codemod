@@ -13,13 +13,14 @@ const ignoreBlocks = [
   "if"
 ];
 
-const capitalizedTagName = tagname =>
-  tagname
+const capitalizedTagName = tagname => {
+  return tagname
     .split("-")
     .map(s => {
       return s[0].toUpperCase() + s.slice(1);
     })
     .join("");
+};
 
 module.exports = function(fileInfo, api, options) {
   const ast = glimmer.preprocess(fileInfo.source);
