@@ -11,21 +11,9 @@ It does not make a copy. Make sure your code is checked into a source control
 repository like Git and that you have no outstanding changes to commit before
 running this tool.
 
-### 1. Install jscodeshift
-Get jscodeshift from npm:
-
-```sh
-$ npm install -g jscodeshift
-```
-This will install the runner as jscodeshift.
-
-### 2. Run the transform
-
-**IMPORTANT**: Ensure you pass the `--extensions=hbs` parameter while running the codemod, since jscodeshift process only js files by default.
-
 ```sh
 cd my-ember-app-or-addon
-jscodeshift -t https://raw.githubusercontent.com/rajasegar/ember-angle-brackets-codemod/master/transforms/angle-brackets-syntax.js --extensions=hbs app/templates
+npx ember-angle-brackets-codemod angle-brackets app/templates
 ```
 
 ## From
