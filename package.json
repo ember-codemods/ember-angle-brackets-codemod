@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "Codemod to convert to Angle brackets syntax",
   "main": "etr-transform.js",
-  "bin": {
-    "ember-angle-brackets-codemod": "cli.js"
-  },
+  "bin":  "./bin/cli.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
