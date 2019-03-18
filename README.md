@@ -1,5 +1,5 @@
 # ember-angle-brackets-codemod [BETA]
-A jscodeshift Codemod to convert curly braces syntax to angle brackets syntax
+A ~~jscodeshift~~ Codemod to convert curly braces syntax to angle brackets syntax
 
 Refer to this [RFC](https://github.com/emberjs/rfcs/blob/master/text/0311-angle-bracket-invocation.md) for more details on Angle brackets invocation syntax.
 
@@ -20,7 +20,7 @@ $ npm install -g ember-template-recast
 
 Run the transform
 ```sh
-$ ember-template-recast -t https://raw.githubusercontent.com/rajasegar/ember-angle-brackets-codemods/master/etr-transform.js app/templates
+$ ember-template-recast -t https://raw.githubusercontent.com/rajasegar/ember-angle-brackets-codemods/master/transforms/etr-transform.js app/templates
 ```
 
 One problem with this approach is that the inner blockStatements are not being transformed.
@@ -50,7 +50,7 @@ This will install the runner as jscodeshift.
 [WARNING : The transform is not working currently with jscodeshift]
 
 ```sh
-jscodeshift -t https://raw.githubusercontent.com/rajasegar/ember-angle-brackets-codemods/master/transform.js app/templates
+jscodeshift -t https://raw.githubusercontent.com/rajasegar/ember-angle-brackets-codemods/master/transforms/transform.js app/templates
 ```
 
 
