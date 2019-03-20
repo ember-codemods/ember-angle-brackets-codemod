@@ -12,8 +12,8 @@ repository like Git and that you have no outstanding changes to commit before
 running this tool.
 
 ```sh
-cd my-ember-app-or-addon
-npx ember-angle-brackets-codemod angle-brackets app/templates
+$ cd my-ember-app-or-addon
+$ npx ember-angle-brackets-codemod angle-brackets app/templates
 ```
 
 ## From
@@ -32,7 +32,7 @@ npx ember-angle-brackets-codemod angle-brackets app/templates
 <SiteHeader @user={{this.user}} class={{if this.user.isAdmin admin}} />
 <SuperSelect @selected={{this.user.country}} as |s|>
   {{#each this.availableCountries as |country|}}
-    <S.option value={{country}}>
+    <S.option @value={{country}}>
       {{country.name}}
     </S.option>
   {{/each}}

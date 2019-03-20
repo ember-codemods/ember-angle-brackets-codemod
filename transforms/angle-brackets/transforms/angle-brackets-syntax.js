@@ -2,9 +2,6 @@ const glimmer = require('@glimmer/syntax');
 const prettier = require("prettier");
 const HTML_ATTRIBUTES = [
   "class",
-  "value",
-  "title",
-  "label",
   "placeholder",
   "required"
 ];
