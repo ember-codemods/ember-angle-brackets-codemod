@@ -36,7 +36,15 @@ module.exports = function(fileInfo, api, options) {
       if (_valueType === "PathExpression") {
         _value = b.mustache(b.path(a.value.original));
       } else if (_valueType === "SubExpression") {
-        const params = a.value.params.map(p => p.original).join(" ");
+        const params = a.value.params.map(p => {
+          if(p.type === "SubExpression") {
+            return "(" + p.path.original + " " + p.params.map(p => p.original) + ")";
+          } else {
+
+            return p.original
+          }
+
+        }).join(" ");
         _value = b.mustache(b.path(a.value.path.original + " " + params));
       } else {
         _value = b.text(a.value.original);
@@ -64,11 +72,13 @@ module.exports = function(fileInfo, api, options) {
     BlockStatement(node) {
       if (!ignoreBlocks.includes(node.path.original)) {
 
-        const tagname = node.path.original;
-        let _capitalizedTagName = capitalizedTagName(tagname);
+        const tagName = node.path.original;
+        let newTagName = tagName.includes('.') ? tagName : capitalizedTagName(tagName);
+        //let _capitalizedTagName = capitalizedTagName(tagname);
         let attributes = transformAttrs(node.hash.pairs);
 
-        return b.element(_capitalizedTagName, {
+        //return b.element(_capitalizedTagName, {
+        return b.element(newTagName, {
           attrs: attributes,
           children: node.program.body,
 
