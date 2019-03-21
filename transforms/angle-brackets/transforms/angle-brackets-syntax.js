@@ -36,16 +36,21 @@ module.exports = function(fileInfo, api, options) {
       if (_valueType === "PathExpression") {
         _value = b.mustache(b.path(a.value.original));
       } else if (_valueType === "SubExpression") {
+
         const params = a.value.params.map(p => {
           if(p.type === "SubExpression") {
             return "(" + p.path.original + " " + p.params.map(p => p.original) + ")";
+          } else if(p.type === "StringLiteral") {
+            return  `"${p.original}"` ;
           } else {
-
             return p.original
           }
-
         }).join(" ");
+
         _value = b.mustache(b.path(a.value.path.original + " " + params));
+
+      } else if(_valueType === "BooleanLiteral") {
+       _value = b.mustache(b.boolean(a.value.original))
       } else {
         _value = b.text(a.value.original);
       }
