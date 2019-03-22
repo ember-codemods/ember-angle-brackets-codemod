@@ -39,9 +39,9 @@ $ npx ember-angle-brackets-codemod angle-brackets app/templates
 <SiteHeader @user={{this.user}} class={{if this.user.isAdmin "admin"}} />
 <SuperSelect @selected={{this.user.country}} as |s|>
   {{#each this.availableCountries as |country|}}
-    <S.option @value={{country}}>
+    <s.option @value={{country}}>
       {{country.name}}
-    </S.option>
+    </s.option>
   {{/each}}
 </SuperSelect>
 ```
@@ -59,7 +59,6 @@ $ npx ember-angle-brackets-codemod angle-brackets app/templates
 
 ## Things to do
 - Need to add more html attributes
-- Need to add more ignore blocks like if, unless, etc.,
 
 ## References:
  - https://github.com/glimmerjs/glimmer-vm/issues/685
