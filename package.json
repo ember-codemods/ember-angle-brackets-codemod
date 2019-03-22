@@ -1,11 +1,12 @@
 {
   "name": "ember-angle-brackets-codemod",
-  "version": "1.0.3",
+  "version": "1.0.2",
   "description": "Codemod to convert to Angle brackets syntax",
   "main": "etr-transform.js",
   "bin": "./bin/cli.js",
   "scripts": {
-    "test": "codemod-cli test"
+    "test": "codemod-cli test",
+    "deploy": "npm version patch && npm publish"
   },
   "dependencies": {
     "@glimmer/syntax": "^0.39.3",

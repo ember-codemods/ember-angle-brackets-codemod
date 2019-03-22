@@ -1,17 +1,36 @@
 const glimmer = require('@glimmer/syntax');
 const prettier = require("prettier");
+
+
+/**
+ * 
+ *
+ * List of HTML attributes for which @ should not be appended
+ */
 const HTML_ATTRIBUTES = [
   "class",
   "placeholder",
   "required"
 ];
 
+/**
+ * Ignore the following list of BlockStatements from transform
+ */
 const ignoreBlocks = [
   "each",
   "if",
-  "unless"
+  "unless",
+  "let",
+  "each-in",
+  "link-to"
 ];
 
+
+/**
+ *  Returns a capitalized tagname for angle brackets syntax
+ *  {{my-component}} => MyComponent
+ * 
+ */
 const capitalizedTagName = tagname => {
   return tagname
     .split("-")
@@ -21,10 +40,23 @@ const capitalizedTagName = tagname => {
     .join("");
 };
 
+/**
+ * exports
+ *
+ * @param fileInfo
+ * @param api
+ * @param options
+ * @returns {undefined}
+ */
 module.exports = function(fileInfo, api, options) {
   const ast = glimmer.preprocess(fileInfo.source);
   const b = glimmer.builders;
 
+  /**
+   * Transform the attributes names & values properly 
+   *
+   * 
+   */
   const transformAttrs = attrs => {
     return attrs.map(a => {
       let _key = a.key;
@@ -65,8 +97,8 @@ module.exports = function(fileInfo, api, options) {
     MustacheStatement(node) {
       // Don't change attribute statements
       if (node.loc.source !== "(synthetic)" && node.hash.pairs.length > 0) {
-        const tagname = node.path.original;
-        const _capitalizedTagName = capitalizedTagName(tagname);
+        const tagName = node.path.original;
+        const _capitalizedTagName = capitalizedTagName(tagName);
         const attributes = transformAttrs(node.hash.pairs);
 
         return b.element(
@@ -80,22 +112,17 @@ module.exports = function(fileInfo, api, options) {
 
         const tagName = node.path.original;
         let newTagName = tagName.includes('.') ? tagName : capitalizedTagName(tagName);
-        //let _capitalizedTagName = capitalizedTagName(tagname);
         let attributes = transformAttrs(node.hash.pairs);
 
-        //return b.element(_capitalizedTagName, {
         return b.element(newTagName, {
           attrs: attributes,
           children: node.program.body,
-
           blockParams: node.program.blockParams
         });
       }
     }
 
-
   });
   let uglySource = glimmer.print(ast);
   return prettier.format(uglySource, { parser: "glimmer" });
 };
-
