@@ -8,7 +8,8 @@ const HTML_ATTRIBUTES = [
 
 const ignoreBlocks = [
   "each",
-  "if"
+  "if",
+  "unless"
 ];
 
 const capitalizedTagName = tagname => {

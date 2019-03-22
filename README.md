@@ -1,4 +1,4 @@
-# ember-angle-brackets-codemod [BETA]
+# ember-angle-brackets-codemod
 
 [![Build Status](https://travis-ci.org/rajasegar/ember-angle-brackets-codemod.svg?branch=master)](https://travis-ci.org/rajasegar/ember-angle-brackets-codemod) 
 [![Coverage Status](https://coveralls.io/repos/github/rajasegar/ember-angle-brackets-codemod/badge.svg?branch=master)](https://coveralls.io/github/rajasegar/ember-angle-brackets-codemod?branch=master)
@@ -36,7 +36,7 @@ $ npx ember-angle-brackets-codemod angle-brackets app/templates
 
 ## To
 ```hbs
-<SiteHeader @user={{this.user}} class={{if this.user.isAdmin admin}} />
+<SiteHeader @user={{this.user}} class={{if this.user.isAdmin "admin"}} />
 <SuperSelect @selected={{this.user.country}} as |s|>
   {{#each this.availableCountries as |country|}}
     <S.option @value={{country}}>
