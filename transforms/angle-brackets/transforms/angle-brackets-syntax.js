@@ -98,11 +98,11 @@ module.exports = function(fileInfo, api, options) {
       // Don't change attribute statements
       if (node.loc.source !== "(synthetic)" && node.hash.pairs.length > 0) {
         const tagName = node.path.original;
-        const _capitalizedTagName = capitalizedTagName(tagName);
+        const newTagName = tagName.includes('.') ? tagName : capitalizedTagName(tagName);
         const attributes = transformAttrs(node.hash.pairs);
 
         return b.element(
-          { name: _capitalizedTagName, selfClosing: true }, 
+          { name: newTagName, selfClosing: true }, 
           { attrs: attributes }
         );
       }
@@ -111,8 +111,8 @@ module.exports = function(fileInfo, api, options) {
       if (!ignoreBlocks.includes(node.path.original)) {
 
         const tagName = node.path.original;
-        let newTagName = tagName.includes('.') ? tagName : capitalizedTagName(tagName);
-        let attributes = transformAttrs(node.hash.pairs);
+        const newTagName = tagName.includes('.') ? tagName : capitalizedTagName(tagName);
+        const attributes = transformAttrs(node.hash.pairs);
 
         return b.element(newTagName, {
           attrs: attributes,
