@@ -6,11 +6,5 @@ node_js:
 cache:
   npm: true
 
-script:
-  # Usually, it's ok to finish the test scenario without reverting
-  #  to the addon's original dependency state, skipping "cleanup".
-  - npm test
-  - npm run coverage
-
 after_success:
 - npm run coveralls

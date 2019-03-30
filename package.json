@@ -5,9 +5,8 @@
   "main": "etr-transform.js",
   "bin": "./bin/cli.js",
   "scripts": {
-    "test": "codemod-cli test",
+    "test": "codemod-cli test --coverage",
     "deploy": "npm version patch && git push && git push --tags && npm publish",
-    "coverage": "COVERAGE=true npm test",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls"
   },
   "dependencies": {
