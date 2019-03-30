@@ -20,7 +20,8 @@
   "keywords": [
     "codemod-cli",
     "ember",
-    "codemods"
+    "codemods",
+    "ember-addon"
   ],
   "author": "Rajasegar Chandran <rajasegar.c@gmail.com>",
   "license": "MIT",

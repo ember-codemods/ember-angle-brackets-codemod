@@ -53,12 +53,13 @@ $ npx ember-angle-brackets-codemod angle-brackets app/templates
 3. You will get the converted angle bracket syntax in the bottom right corner window (Transform Output)
 
 
+## RFC
+- [Angle Bracket Invocation](https://github.com/emberjs/rfcs/blob/master/text/0311-angle-bracket-invocation.md)
+- [Angle Bracket Invocations For Built-in Components](https://github.com/emberjs/rfcs/blob/32a25b31d67d67bc7581dd0bead559063b06f076/text/0459-angle-bracket-built-in-components.md)
+
+
 ## Known issues
 - No formatting preserved
-- Block params need to be tweaked
-
-## Things to do
-- Need to add more html attributes
 
 ## References:
  - https://github.com/glimmerjs/glimmer-vm/issues/685
