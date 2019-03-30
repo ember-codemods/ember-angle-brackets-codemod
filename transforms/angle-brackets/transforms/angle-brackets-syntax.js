@@ -1,7 +1,6 @@
 const glimmer = require('@glimmer/syntax');
 const prettier = require("prettier");
 
-
 /**
  * 
  *
@@ -13,6 +12,10 @@ const HTML_ATTRIBUTES = [
   "required"
 ];
 
+const IGNORE_MUSTACHE_STATEMENTS = [ 
+  "hash"
+];
+
 /**
  * Ignore the following list of BlockStatements from transform
  */
@@ -21,10 +24,8 @@ const ignoreBlocks = [
   "if",
   "unless",
   "let",
-  "each-in",
-  "link-to"
+  "each-in"
 ];
-
 
 /**
  *  Returns a capitalized tagname for angle brackets syntax
@@ -92,11 +93,38 @@ module.exports = function(fileInfo, api, options) {
     });
   };
 
+const transformLinkToAttrs = params => {
+    let attributes = [];
+    if (params.length === 1) {
+      // route param
+      attributes = [b.attr("@route", b.text(params[0].value))];
+    } else if (params.length === 2) {
+      // route and model param
+      let _routeParam = b.attr("@route", b.text(params[0].value));
+      if (params[1].type === "SubExpression") {
+        let _queryParam = b.attr("@query", b.mustache(b.path("hash"), [], params[1].hash));
+        attributes = [_routeParam, _queryParam];
+      } else {
+        let _modelParam = b.attr("@model", b.mustache(params[1].original));
+        attributes = [_routeParam, _modelParam];
+      }
+    } else if (params.length === 3) {
+      // multiple model params
+      let [route, ...models] = params;
+      let _routeParam = b.attr("@route", b.text(route.value));
+      let _modelsParam = b.attr("@models", b.mustache("array " + models.map(m => m.original).join(" ")));
+      attributes = [_routeParam, _modelsParam];
+    }
+
+    return attributes;
+  };
+
 
   glimmer.traverse(ast, {
     MustacheStatement(node) {
       // Don't change attribute statements
-      if (node.loc.source !== "(synthetic)" && node.hash.pairs.length > 0) {
+      const isValidMustache = node.loc.source !== "(synthetic)" && !IGNORE_MUSTACHE_STATEMENTS.includes(node.path.original);
+      if (isValidMustache && node.hash.pairs.length > 0) {
         const tagName = node.path.original;
         const newTagName = tagName.includes('.') ? tagName : capitalizedTagName(tagName);
         const attributes = transformAttrs(node.hash.pairs);
@@ -111,8 +139,18 @@ module.exports = function(fileInfo, api, options) {
       if (!ignoreBlocks.includes(node.path.original)) {
 
         const tagName = node.path.original;
+
+        // Handling Angle Bracket Invocations For Built-in Components based on RFC-0459
+        // https://github.com/emberjs/rfcs/blob/32a25b31d67d67bc7581dd0bead559063b06f076/text/0459-angle-bracket-built-in-components.md
+        
+        let attributes = [];
+
+        if(tagName === 'link-to') {
+          attributes = transformLinkToAttrs(node.params);
+        } else {
+          attributes = transformAttrs(node.hash.pairs);
+        }
         const newTagName = tagName.includes('.') ? tagName : capitalizedTagName(tagName);
-        const attributes = transformAttrs(node.hash.pairs);
 
         return b.element(newTagName, {
           attrs: attributes,

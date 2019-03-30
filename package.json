@@ -6,7 +6,7 @@
   "bin": "./bin/cli.js",
   "scripts": {
     "test": "codemod-cli test",
-    "deploy": "git push --tags && npm version patch && npm publish"
+    "deploy": "npm version patch && git push && git push --tags && npm publish"
   },
   "dependencies": {
     "@glimmer/syntax": "^0.39.3",
