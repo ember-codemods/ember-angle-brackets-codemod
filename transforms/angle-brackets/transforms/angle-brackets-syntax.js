@@ -2,8 +2,6 @@ const glimmer = require('@glimmer/syntax');
 const prettier = require("prettier");
 
 /**
- * 
- *
  * List of HTML attributes for which @ should not be appended
  */
 const HTML_ATTRIBUTES = [
@@ -12,6 +10,9 @@ const HTML_ATTRIBUTES = [
   "required"
 ];
 
+/**
+ * Ignore the following list of MustacheStatements from transform
+ */
 const IGNORE_MUSTACHE_STATEMENTS = [ 
   "hash"
 ];
@@ -30,7 +31,6 @@ const ignoreBlocks = [
 /**
  *  Returns a capitalized tagname for angle brackets syntax
  *  {{my-component}} => MyComponent
- * 
  */
 const capitalizedTagName = tagname => {
   return tagname
@@ -55,8 +55,6 @@ module.exports = function(fileInfo, api, options) {
 
   /**
    * Transform the attributes names & values properly 
-   *
-   * 
    */
   const transformAttrs = attrs => {
     return attrs.map(a => {
@@ -95,24 +93,27 @@ module.exports = function(fileInfo, api, options) {
 
 const transformLinkToAttrs = params => {
     let attributes = [];
+
     if (params.length === 1) {
-      // route param
+      // @route param
       attributes = [b.attr("@route", b.text(params[0].value))];
     } else if (params.length === 2) {
-      // route and model param
-      let _routeParam = b.attr("@route", b.text(params[0].value));
-      if (params[1].type === "SubExpression") {
-        let _queryParam = b.attr("@query", b.mustache(b.path("hash"), [], params[1].hash));
+      // @route and @model param
+      let [route, model] = params;
+      let _routeParam = b.attr("@route", b.text(route.value));
+
+      if (model.type === "SubExpression") {
+        let _queryParam = b.attr("@query", b.mustache(b.path("hash"), [], model.hash));
         attributes = [_routeParam, _queryParam];
       } else {
-        let _modelParam = b.attr("@model", b.mustache(params[1].original));
+        let _modelParam = b.attr("@model", b.mustache(model.original));
         attributes = [_routeParam, _modelParam];
       }
-    } else if (params.length === 3) {
-      // multiple model params
+    } else if (params.length > 2) {
+      // @route and @models params
       let [route, ...models] = params;
       let _routeParam = b.attr("@route", b.text(route.value));
-      let _modelsParam = b.attr("@models", b.mustache("array " + models.map(m => m.original).join(" ")));
+      let _modelsParam = b.attr("@models", b.mustache(b.path("array"), models));
       attributes = [_routeParam, _modelsParam];
     }
 
@@ -121,6 +122,7 @@ const transformLinkToAttrs = params => {
 
 
   glimmer.traverse(ast, {
+
     MustacheStatement(node) {
       // Don't change attribute statements
       const isValidMustache = node.loc.source !== "(synthetic)" && !IGNORE_MUSTACHE_STATEMENTS.includes(node.path.original);
@@ -135,6 +137,7 @@ const transformLinkToAttrs = params => {
         );
       }
     },
+
     BlockStatement(node) {
       if (!ignoreBlocks.includes(node.path.original)) {
 
