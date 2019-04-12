@@ -1,0 +1,7 @@
+{{ui/site-header user=this.user class=(if this.user.isAdmin "admin")}}
+{{ui/button text="Click me"}}
+{{#some-path/another-path/super-select selected=this.user.country as |s|}}
+  {{#each this.availableCountries as |country|}}
+    {{#s.option value=country}}{{country.name}}{{/s.option}}
+  {{/each}}
+{{/some-path/another-path/super-select}}
