@@ -32,6 +32,8 @@ $ npx ember-angle-brackets-codemod angle-brackets app/templates
     {{#s.option value=country}}{{country.name}}{{/s.option}}
   {{/each}}
 {{/super-select}}
+
+{{ui/button text="Click me"}}
 ```
 
 ## To
@@ -44,6 +46,8 @@ $ npx ember-angle-brackets-codemod angle-brackets app/templates
     </s.option>
   {{/each}}
 </SuperSelect>
+
+<Ui::Button @text="Click me" />
 ```
 
 ## AST Explorer playground

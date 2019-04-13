@@ -41,6 +41,23 @@ const capitalizedTagName = tagname => {
     .join("");
 };
 
+const transformTagName = tagName => {
+  if (tagName.includes('.')) {
+    return tagName;
+  }
+
+  if (tagName.includes('/')) {
+    return transformNestedTagName(tagName);
+  }
+
+  return capitalizedTagName(tagName)
+};
+
+const transformNestedTagName = tagName => {
+  const paths = tagName.split('/');
+  return paths.map(name => capitalizedTagName(name)).join('::');
+};
+
 /**
  * exports
  *
@@ -128,7 +145,7 @@ const transformLinkToAttrs = params => {
       const isValidMustache = node.loc.source !== "(synthetic)" && !IGNORE_MUSTACHE_STATEMENTS.includes(node.path.original);
       if (isValidMustache && node.hash.pairs.length > 0) {
         const tagName = node.path.original;
-        const newTagName = tagName.includes('.') ? tagName : capitalizedTagName(tagName);
+        const newTagName = transformTagName(tagName);
         const attributes = transformAttrs(node.hash.pairs);
 
         return b.element(
@@ -153,7 +170,7 @@ const transformLinkToAttrs = params => {
         } else {
           attributes = transformAttrs(node.hash.pairs);
         }
-        const newTagName = tagName.includes('.') ? tagName : capitalizedTagName(tagName);
+        const newTagName = transformTagName(tagName);
 
         return b.element(newTagName, {
           attrs: attributes,

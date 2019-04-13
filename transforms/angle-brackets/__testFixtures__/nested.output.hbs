@@ -1,0 +1,9 @@
+<Ui::SiteHeader @user={{this.user}} class={{if this.user.isAdmin "admin"}} />
+<Ui::Button @text="Click me" />
+<SomePath::AnotherPath::SuperSelect @selected={{this.user.country}} as |s|>
+  {{#each this.availableCountries as |country|}}
+    <s.option @value={{country}}>
+      {{country.name}}
+    </s.option>
+  {{/each}}
+</SomePath::AnotherPath::SuperSelect>
