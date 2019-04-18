@@ -14,7 +14,8 @@ const HTML_ATTRIBUTES = [
  * Ignore the following list of MustacheStatements from transform
  */
 const IGNORE_MUSTACHE_STATEMENTS = [ 
-  "hash"
+  "hash",
+  "t"
 ];
 
 /**
