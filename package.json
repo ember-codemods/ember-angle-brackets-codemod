@@ -1,6 +1,6 @@
 {
   "name": "ember-angle-brackets-codemod",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Codemod to convert to Angle brackets syntax",
   "main": "etr-transform.js",
   "bin": "./bin/cli.js",
