@@ -59,12 +59,12 @@ const transformNestedTagName = tagName => {
 };
 
 const nestedSubEx = p => {
-	return "(" + p.path.original + " " + p.params.map(p => {
-		if (p.type === "SubExpression") {
-			return nestedSubEx(p)
-		}
-		return p.original
-	}).join(" ") + ")";
+  return "(" + p.path.original + " " + p.params.map(p => {
+    if (p.type === "SubExpression") {
+      return nestedSubEx(p)
+    }
+    return p.original
+  }).join(" ") + ")";
 }
 
 /**
