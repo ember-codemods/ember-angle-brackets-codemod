@@ -30,7 +30,7 @@ const ignoreBlocks = [
 ];
 
 const isAttribute = key => {
-  return HTML_ATTRIBUTES.includes.key || key.startsWith('data-');
+  return HTML_ATTRIBUTES.includes(key) || key.startsWith('data-');
 }
 
 /**
