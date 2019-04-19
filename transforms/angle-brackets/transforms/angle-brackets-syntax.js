@@ -59,6 +59,15 @@ const transformNestedTagName = tagName => {
   return paths.map(name => capitalizedTagName(name)).join('::');
 };
 
+const nestedSubEx = p => {
+  return "(" + p.path.original + " " + p.params.map(p => {
+    if (p.type === "SubExpression") {
+      return nestedSubEx(p)
+    }
+    return p.original
+  }).join(" ") + ")";
+}
+
 /**
  * exports
  *
@@ -89,7 +98,7 @@ module.exports = function(fileInfo, api, options) {
 
         const params = a.value.params.map(p => {
           if(p.type === "SubExpression") {
-            return "(" + p.path.original + " " + p.params.map(p => p.original) + ")";
+            return nestedSubEx(p)
           } else if(p.type === "StringLiteral") {
             return  `"${p.original}"` ;
           } else {
