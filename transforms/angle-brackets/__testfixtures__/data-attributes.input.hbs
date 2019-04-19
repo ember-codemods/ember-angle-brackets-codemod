@@ -1,0 +1,20 @@
+{{x-foo data-foo=true}}
+{{x-foo data-test-selector=true}}
+{{x-foo data-test-selector=post.id}}
+{{x-foo label="hi" data-test-selector=true}}
+
+{{#x-foo data-foo=true}}
+  block
+{{/x-foo}}
+
+{{#x-foo data-test-selector=true}}
+  block
+{{/x-foo}}
+
+{{#x-foo data-test-selector=post.id}}
+  block
+{{/x-foo}}
+
+{{#common/accordion-component data-test-accordion as |accordion|}}
+  block
+{{/common/accordion-component}}

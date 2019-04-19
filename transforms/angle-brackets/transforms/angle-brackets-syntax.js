@@ -29,6 +29,10 @@ const ignoreBlocks = [
   "each-in"
 ];
 
+const isAttribute = key => {
+  return HTML_ATTRIBUTES.includes.key || key.startsWith('data-');
+}
+
 /**
  *  Returns a capitalized tagname for angle brackets syntax
  *  {{my-component}} => MyComponent
@@ -88,7 +92,7 @@ module.exports = function(fileInfo, api, options) {
       let _key = a.key;
       let _valueType = a.value.type;
       let _value;
-      if (!HTML_ATTRIBUTES.includes(a.key)) {
+      if (!isAttribute(a.key)) {
         _key = "@" + _key;
       }
 
@@ -147,6 +151,12 @@ const transformLinkToAttrs = params => {
     return attributes;
   };
 
+const tranformValuelessDataParams = params => {
+    let valuelessDataParams = params.filter(param => param.original.startsWith('data-'));
+    let valuelessDataAttributes = valuelessDataParams.map(param => b.attr(param.parts[0], b.mustache("true")));
+    return valuelessDataAttributes;
+  };
+
 
   glimmer.traverse(ast, {
 
@@ -167,7 +177,6 @@ const transformLinkToAttrs = params => {
 
     BlockStatement(node) {
       if (!ignoreBlocks.includes(node.path.original)) {
-
         const tagName = node.path.original;
 
         // Handling Angle Bracket Invocations For Built-in Components based on RFC-0459
@@ -179,6 +188,10 @@ const transformLinkToAttrs = params => {
           attributes = transformLinkToAttrs(node.params);
         } else {
           attributes = transformAttrs(node.hash.pairs);
+
+          if (node.params) {
+            attributes = attributes.concat(tranformValuelessDataParams(node.params));
+          }
         }
         const newTagName = transformTagName(tagName);
 
