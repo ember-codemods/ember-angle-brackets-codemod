@@ -29,6 +29,10 @@ const ignoreBlocks = [
   "each-in"
 ];
 
+const isAttribute = key => {
+  return HTML_ATTRIBUTES.includes.key || key.startsWith('data-');
+}
+
 /**
  *  Returns a capitalized tagname for angle brackets syntax
  *  {{my-component}} => MyComponent
@@ -79,7 +83,7 @@ module.exports = function(fileInfo, api, options) {
       let _key = a.key;
       let _valueType = a.value.type;
       let _value;
-      if (!HTML_ATTRIBUTES.includes(a.key)) {
+      if (!isAttribute(a.key)) {
         _key = "@" + _key;
       }
 
