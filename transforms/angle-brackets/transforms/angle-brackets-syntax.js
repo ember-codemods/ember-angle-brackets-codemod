@@ -72,6 +72,9 @@ const transformNestedSubExpression = subExpression => {
         let nestedValue = transformNestedSubExpression(pair.value);
         return `${pair.key}=${nestedValue}`;
       } else {
+        if(pair.value.type === "StringLiteral") {
+          return `${pair.key}="${pair.value.original}"`;
+        }
         return `${pair.key}=${pair.value.original}`;
       }
     });
