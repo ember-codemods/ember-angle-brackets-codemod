@@ -145,7 +145,7 @@ module.exports = function(fileInfo, api, options) {
     });
   };
 
-const transformLinkToAttrs = params => {
+  const transformLinkToAttrs = params => {
     let attributes = [];
 
     if (params.length === 1) {
@@ -174,11 +174,18 @@ const transformLinkToAttrs = params => {
     return attributes;
   };
 
-const tranformValuelessDataParams = params => {
+  const tranformValuelessDataParams = params => {
     let valuelessDataParams = params.filter(param => param.original.startsWith('data-'));
     let valuelessDataAttributes = valuelessDataParams.map(param => b.attr(param.parts[0], b.mustache("true")));
     return valuelessDataAttributes;
   };
+
+  const transformNodeAttributes = node => {
+    let params = tranformValuelessDataParams(node.params);
+    let attributes = transformAttrs(node.hash.pairs);
+
+    return params.concat(attributes);
+  }
 
   glimmer.traverse(ast, {
 
@@ -188,7 +195,7 @@ const tranformValuelessDataParams = params => {
       if (isValidMustache && node.hash.pairs.length > 0) {
         const tagName = node.path.original;
         const newTagName = transformTagName(tagName);
-        const attributes = transformAttrs(node.hash.pairs);
+        const attributes = transformNodeAttributes(node);
 
         return b.element(
           { name: newTagName, selfClosing: true }, 
@@ -209,12 +216,9 @@ const tranformValuelessDataParams = params => {
         if(tagName === 'link-to') {
           attributes = transformLinkToAttrs(node.params);
         } else {
-          attributes = transformAttrs(node.hash.pairs);
-
-          if (node.params) {
-            attributes = attributes.concat(tranformValuelessDataParams(node.params));
-          }
+          attributes = transformNodeAttributes(node);
         }
+
         const newTagName = transformTagName(tagName);
 
         return b.element(newTagName, {
