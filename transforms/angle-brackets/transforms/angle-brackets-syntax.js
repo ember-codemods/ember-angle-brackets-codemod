@@ -64,10 +64,17 @@ const transformNestedTagName = tagName => {
 };
 
 const transformNestedSubExpression = subExpression => {
-  let values;
+  let positionalArgs = subExpression.params.map(param => {
+    if (param.type === "SubExpression") {
+      return transformNestedSubExpression(param);
+    } else {
+      return param.original;
+    }
+  });
 
-  if (subExpression.hash.pairs.length > 0) { //hash eg. `(hash name="Ben")`
-    values = subExpression.hash.pairs.map(pair => {
+  let namedArgs = [];
+  if (subExpression.hash.pairs.length > 0) {
+    namedArgs = subExpression.hash.pairs.map(pair => {
       if (pair.value.type === "SubExpression") {
         let nestedValue = transformNestedSubExpression(pair.value);
         return `${pair.key}=${nestedValue}`;
@@ -78,17 +85,10 @@ const transformNestedSubExpression = subExpression => {
         return `${pair.key}=${pair.value.original}`;
       }
     });
-  } else { //params eg. `(add 1 2)`
-    values = subExpression.params.map(param => {
-      if (param.type === "SubExpression") {
-        return transformNestedSubExpression(param);
-      } else {
-        return param.original;
-      }
-    });
   }
 
-  return `(${subExpression.path.original} ${values.join(" ")})`;
+  let args = positionalArgs.concat(namedArgs);
+  return `(${subExpression.path.original} ${args.join(" ")})`;
 }
 
 /**
@@ -120,7 +120,7 @@ module.exports = function(fileInfo, api, options) {
         _value = b.mustache(b.path(a.value.original));
       } else if (_valueType === "SubExpression") {
         if (a.value.hash.pairs.length > 0) {
-          _value = b.mustache(a.value.path.original, [], a.value.hash)
+          _value = b.mustache(a.value.path.original, a.value.params, a.value.hash)
         } else {
           const params = a.value.params.map(p => {
             if(p.type === "SubExpression") {
@@ -179,7 +179,6 @@ const tranformValuelessDataParams = params => {
     let valuelessDataAttributes = valuelessDataParams.map(param => b.attr(param.parts[0], b.mustache("true")));
     return valuelessDataAttributes;
   };
-
 
   glimmer.traverse(ast, {
 
