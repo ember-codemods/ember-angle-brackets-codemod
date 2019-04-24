@@ -1,5 +1,22 @@
 const glimmer = require('@glimmer/syntax');
 const prettier = require("prettier");
+const path = require('path');
+const fs = require('fs');
+
+class Config {
+  constructor(options) {
+    this.helpers = [];
+
+    if (options.config) {
+      let filePath = path.join(process.cwd(), options.config);
+      let data = JSON.parse(fs.readFileSync(filePath));
+
+      if (data.helpers) {
+        this.helpers = data.helpers;
+      }
+    }
+  }
+}
 
 /**
  * List of HTML attributes for which @ should not be appended
@@ -102,6 +119,7 @@ const transformNestedSubExpression = subExpression => {
 module.exports = function(fileInfo, api, options) {
   const ast = glimmer.preprocess(fileInfo.source);
   const b = glimmer.builders;
+  const config = new Config(options);
 
   /**
    * Transform the attributes names & values properly 
@@ -187,11 +205,15 @@ module.exports = function(fileInfo, api, options) {
     return params.concat(attributes);
   }
 
+  const shouldIgnoreMustacheStatement = (name) => {
+    return IGNORE_MUSTACHE_STATEMENTS.includes(name) || config.helpers.includes(name);
+  }
+
   glimmer.traverse(ast, {
 
     MustacheStatement(node) {
       // Don't change attribute statements
-      const isValidMustache = node.loc.source !== "(synthetic)" && !IGNORE_MUSTACHE_STATEMENTS.includes(node.path.original);
+      const isValidMustache = node.loc.source !== "(synthetic)" && !shouldIgnoreMustacheStatement(node.path.original);
       if (isValidMustache && node.hash.pairs.length > 0) {
         const tagName = node.path.original;
         const newTagName = transformTagName(tagName);
