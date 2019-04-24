@@ -63,13 +63,32 @@ const transformNestedTagName = tagName => {
   return paths.map(name => capitalizedTagName(name)).join('::');
 };
 
-const nestedSubEx = p => {
-  return "(" + p.path.original + " " + p.params.map(p => {
-    if (p.type === "SubExpression") {
-      return nestedSubEx(p)
-    }
-    return p.original
-  }).join(" ") + ")";
+const transformNestedSubExpression = subExpression => {
+  let values;
+
+  if (subExpression.hash.pairs.length > 0) { //hash eg. `(hash name="Ben")`
+    values = subExpression.hash.pairs.map(pair => {
+      if (pair.value.type === "SubExpression") {
+        let nestedValue = transformNestedSubExpression(pair.value);
+        return `${pair.key}=${nestedValue}`;
+      } else {
+        if(pair.value.type === "StringLiteral") {
+          return `${pair.key}="${pair.value.original}"`;
+        }
+        return `${pair.key}=${pair.value.original}`;
+      }
+    });
+  } else { //params eg. `(add 1 2)`
+    values = subExpression.params.map(param => {
+      if (param.type === "SubExpression") {
+        return transformNestedSubExpression(param);
+      } else {
+        return param.original;
+      }
+    });
+  }
+
+  return `(${subExpression.path.original} ${values.join(" ")})`;
 }
 
 /**
@@ -88,6 +107,7 @@ module.exports = function(fileInfo, api, options) {
    * Transform the attributes names & values properly 
    */
   const transformAttrs = attrs => {
+
     return attrs.map(a => {
       let _key = a.key;
       let _valueType = a.value.type;
@@ -99,18 +119,21 @@ module.exports = function(fileInfo, api, options) {
       if (_valueType === "PathExpression") {
         _value = b.mustache(b.path(a.value.original));
       } else if (_valueType === "SubExpression") {
+        if (a.value.hash.pairs.length > 0) {
+          _value = b.mustache(a.value.path.original, [], a.value.hash)
+        } else {
+          const params = a.value.params.map(p => {
+            if(p.type === "SubExpression") {
+              return transformNestedSubExpression(p)
+            } else if(p.type === "StringLiteral") {
+              return  `"${p.original}"` ;
+            } else {
+              return p.original
+            }
+          }).join(" ");
 
-        const params = a.value.params.map(p => {
-          if(p.type === "SubExpression") {
-            return nestedSubEx(p)
-          } else if(p.type === "StringLiteral") {
-            return  `"${p.original}"` ;
-          } else {
-            return p.original
-          }
-        }).join(" ");
-
-        _value = b.mustache(b.path(a.value.path.original + " " + params));
+          _value = b.mustache(b.path(a.value.path.original + " " + params));
+        }
 
       } else if(_valueType === "BooleanLiteral") {
        _value = b.mustache(b.boolean(a.value.original))
