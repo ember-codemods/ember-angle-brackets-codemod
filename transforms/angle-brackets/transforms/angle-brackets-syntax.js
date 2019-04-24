@@ -29,22 +29,113 @@ const HTML_ATTRIBUTES = [
 
 /**
  * Ignore the following list of MustacheStatements from transform
+ * Politely lifted from https://github.com/lifeart/ember-ast-hot-load/blob/master/lib/ast-transform.js#L26
  */
-const IGNORE_MUSTACHE_STATEMENTS = [ 
-  "hash",
-  "t",
-  "action"
-];
-
-/**
- * Ignore the following list of BlockStatements from transform
- */
-const ignoreBlocks = [
-  "each",
+const IGNORE_MUSTACHE_STATEMENTS = [
+  "identity", // glimmer blocks
+  "render-inverse", // glimmer blocks
+  "-get-dynamic-var", // glimmer internal helper
+  "-lf-get-outlet-state", // dunno
+  "action",
+  "component",
+  "hot-content",
+  "hot-placeholder",
   "if",
+  "if-unless",
+  "each",
+  "each-in",
+  "format-date",
+  "format-message",
+  "format-relative",
+  "format-time",
+  "format-money",
+  "format-number",
   "unless",
+  "in-element",
+  "query-params",
+  "-in-element",
+  "-class",
+  "-html-safe",
+  "-input-type",
+  "-normalize-class",
+  "concat",
+  "get",
+  "mut",
+  "readonly",
+  "unbound",
+  "debugger",
+  "else",
   "let",
-  "each-in"
+  "log",
+  "loc",
+  "hash",
+  "partial",
+  "yield",
+  "t",
+  "t-for",
+  "transition-to",
+  "get-meta",
+  "get-attr",
+  "index-of",
+
+  //ember-moment
+  "moment-format",
+  "moment-from-now",
+  "moment-from",
+  "moment-to",
+  "moment-to-now",
+  "moment-duration",
+  "moment-calendar",
+  "moment-diff",
+
+  "outlet",
+
+  "is-before",
+  "is-after",
+  "is-same",
+  "is-same-or-before",
+  "is-same-or-after",
+  "is-between",
+  "now",
+  "unix",
+
+  //cp-validations
+  "v-get",
+
+  //route-action
+  "route-action",
+
+  // composable-helpers
+  "map-by",
+  "sort-by",
+  "filter-by",
+  "reject-by",
+  "find-by",
+  "object-at",
+  "hasBlock",
+  "has-block",
+  "has-next",
+  "has-previous",
+  "group-by",
+  "not-eq",
+  "is-array",
+  "is-empty",
+  "is-equal",
+
+  // liquid
+  "liquid-unless",
+  "liquid-container",
+  "liquid-outlet",
+  "liquid-versions",
+  "liquid-bind",
+  "liquid-spacer",
+  "liquid-sync",
+  "liquid-measured",
+  "liquid-child",
+  "liquid-if",
+
+  //app-version
+  "app-version"
 ];
 
 const isAttribute = key => {
@@ -228,7 +319,7 @@ module.exports = function(fileInfo, api, options) {
     },
 
     BlockStatement(node) {
-      if (!ignoreBlocks.includes(node.path.original)) {
+      if (!shouldIgnoreMustacheStatement(node.path.original)) {
         const tagName = node.path.original;
 
         // Handling Angle Bracket Invocations For Built-in Components based on RFC-0459
