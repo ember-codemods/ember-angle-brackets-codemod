@@ -64,7 +64,7 @@ To help the codemod disambiguate components and helpers, you can define a list o
   ]
 }
 ```
-
+The codemod will then ignore the above list of helpers and prevent them from being transformed into the new (angle-brackets) syntax.
 And then execute the codemod as follows:
 
 ```sh
