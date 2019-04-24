@@ -7,3 +7,19 @@
 
 <SomeComponent class={{concat foo (some-helper bar)}} />
 <SomeComponent class={{concat foo (some-helper bar quuz)}} />
+<SomeComponent
+  @person={{hash name="Sophie" age=1}}
+  @message={{t "welcome" count=1}}
+ />
+
+<SomeComponent
+  @people={{array
+    (hash
+      name="Alex"
+      age=5
+      nested=(hash oldest=true amount=(format-currency 350 sign="£"))
+    )
+    (hash name="Ben" age=4)
+    (hash name="Sophie" age=1)
+  }}
+ />

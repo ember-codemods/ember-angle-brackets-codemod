@@ -1,10 +1,18 @@
 {{#some-component class=(concat foo (some-helper ted (some-dude bar (a b c)))) }} 
-	help 
+  help 
 {{/some-component}}
 {{deep-component class=(concat foo (nice-helper ted (some-crazy bar (a d (d e f)))))}}
 {{some-component
-    class=(concat foo (some-helper bar))
+  class=(concat foo (some-helper bar))
 }}
 {{some-component
-    class=(concat foo (some-helper bar quuz))
+  class=(concat foo (some-helper bar quuz))
+}}
+{{some-component person=(hash name="Sophie" age=1) message=(t "welcome" count=1)}}
+{{some-component
+  people=(array
+    (hash name="Alex" age=5 nested=(hash oldest=true amount=(format-currency 350 sign="£")))
+    (hash name="Ben" age=4)
+    (hash name="Sophie" age=1)
+  )
 }}

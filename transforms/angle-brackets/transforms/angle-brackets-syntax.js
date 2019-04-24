@@ -1,5 +1,22 @@
 const glimmer = require('@glimmer/syntax');
 const prettier = require("prettier");
+const path = require('path');
+const fs = require('fs');
+
+class Config {
+  constructor(options) {
+    this.helpers = [];
+
+    if (options.config) {
+      let filePath = path.join(process.cwd(), options.config);
+      let data = JSON.parse(fs.readFileSync(filePath));
+
+      if (data.helpers) {
+        this.helpers = data.helpers;
+      }
+    }
+  }
+}
 
 /**
  * List of HTML attributes for which @ should not be appended
@@ -64,13 +81,32 @@ const transformNestedTagName = tagName => {
   return paths.map(name => capitalizedTagName(name)).join('::');
 };
 
-const nestedSubEx = p => {
-  return "(" + p.path.original + " " + p.params.map(p => {
-    if (p.type === "SubExpression") {
-      return nestedSubEx(p)
+const transformNestedSubExpression = subExpression => {
+  let positionalArgs = subExpression.params.map(param => {
+    if (param.type === "SubExpression") {
+      return transformNestedSubExpression(param);
+    } else {
+      return param.original;
     }
-    return p.original
-  }).join(" ") + ")";
+  });
+
+  let namedArgs = [];
+  if (subExpression.hash.pairs.length > 0) {
+    namedArgs = subExpression.hash.pairs.map(pair => {
+      if (pair.value.type === "SubExpression") {
+        let nestedValue = transformNestedSubExpression(pair.value);
+        return `${pair.key}=${nestedValue}`;
+      } else {
+        if(pair.value.type === "StringLiteral") {
+          return `${pair.key}="${pair.value.original}"`;
+        }
+        return `${pair.key}=${pair.value.original}`;
+      }
+    });
+  }
+
+  let args = positionalArgs.concat(namedArgs);
+  return `(${subExpression.path.original} ${args.join(" ")})`;
 }
 
 /**
@@ -84,11 +120,13 @@ const nestedSubEx = p => {
 module.exports = function(fileInfo, api, options) {
   const ast = glimmer.preprocess(fileInfo.source);
   const b = glimmer.builders;
+  const config = new Config(options);
 
   /**
    * Transform the attributes names & values properly 
    */
   const transformAttrs = attrs => {
+
     return attrs.map(a => {
       let _key = a.key;
       let _valueType = a.value.type;
@@ -100,18 +138,21 @@ module.exports = function(fileInfo, api, options) {
       if (_valueType === "PathExpression") {
         _value = b.mustache(b.path(a.value.original));
       } else if (_valueType === "SubExpression") {
+        if (a.value.hash.pairs.length > 0) {
+          _value = b.mustache(a.value.path.original, a.value.params, a.value.hash)
+        } else {
+          const params = a.value.params.map(p => {
+            if(p.type === "SubExpression") {
+              return transformNestedSubExpression(p)
+            } else if(p.type === "StringLiteral") {
+              return  `"${p.original}"` ;
+            } else {
+              return p.original
+            }
+          }).join(" ");
 
-        const params = a.value.params.map(p => {
-          if(p.type === "SubExpression") {
-            return nestedSubEx(p)
-          } else if(p.type === "StringLiteral") {
-            return  `"${p.original}"` ;
-          } else {
-            return p.original
-          }
-        }).join(" ");
-
-        _value = b.mustache(b.path(a.value.path.original + " " + params));
+          _value = b.mustache(b.path(a.value.path.original + " " + params));
+        }
 
       } else if(_valueType === "BooleanLiteral") {
        _value = b.mustache(b.boolean(a.value.original))
@@ -123,7 +164,7 @@ module.exports = function(fileInfo, api, options) {
     });
   };
 
-const transformLinkToAttrs = params => {
+  const transformLinkToAttrs = params => {
     let attributes = [];
 
     if (params.length === 1) {
@@ -152,22 +193,32 @@ const transformLinkToAttrs = params => {
     return attributes;
   };
 
-const tranformValuelessDataParams = params => {
+  const tranformValuelessDataParams = params => {
     let valuelessDataParams = params.filter(param => param.original.startsWith('data-'));
     let valuelessDataAttributes = valuelessDataParams.map(param => b.attr(param.parts[0], b.mustache("true")));
     return valuelessDataAttributes;
   };
 
+  const transformNodeAttributes = node => {
+    let params = tranformValuelessDataParams(node.params);
+    let attributes = transformAttrs(node.hash.pairs);
+
+    return params.concat(attributes);
+  }
+
+  const shouldIgnoreMustacheStatement = (name) => {
+    return IGNORE_MUSTACHE_STATEMENTS.includes(name) || config.helpers.includes(name);
+  }
 
   glimmer.traverse(ast, {
 
     MustacheStatement(node) {
       // Don't change attribute statements
-      const isValidMustache = node.loc.source !== "(synthetic)" && !IGNORE_MUSTACHE_STATEMENTS.includes(node.path.original);
+      const isValidMustache = node.loc.source !== "(synthetic)" && !shouldIgnoreMustacheStatement(node.path.original);
       if (isValidMustache && node.hash.pairs.length > 0) {
         const tagName = node.path.original;
         const newTagName = transformTagName(tagName);
-        const attributes = transformAttrs(node.hash.pairs);
+        const attributes = transformNodeAttributes(node);
 
         return b.element(
           { name: newTagName, selfClosing: true }, 
@@ -188,12 +239,9 @@ const tranformValuelessDataParams = params => {
         if(tagName === 'link-to') {
           attributes = transformLinkToAttrs(node.params);
         } else {
-          attributes = transformAttrs(node.hash.pairs);
-
-          if (node.params) {
-            attributes = attributes.concat(tranformValuelessDataParams(node.params));
-          }
+          attributes = transformNodeAttributes(node);
         }
+
         const newTagName = transformTagName(tagName);
 
         return b.element(newTagName, {

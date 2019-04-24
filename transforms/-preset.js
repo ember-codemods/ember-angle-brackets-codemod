@@ -2,12 +2,14 @@
 
 const path = require('path');
 const fs = require('fs');
+const { getOptions } = require('codemod-cli');
 
 module.exports = function(type) {
   let transformPath = path.join(__dirname, type, 'transforms');
 
-  return function(file, api, options) {
+  return function(file, api) {
     let src = file.source;
+    let options = getOptions();
     let error;
 
     fs.readdirSync(transformPath)
