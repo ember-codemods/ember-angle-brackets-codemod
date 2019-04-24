@@ -50,6 +50,28 @@ $ npx ember-angle-brackets-codemod angle-brackets app/templates
 <Ui::Button @text="Click me" />
 ```
 
+## Advanced Usage
+
+To help the codemod disambiguate components and helpers, you can define a list of helpers from your application in a configuration file as follows:
+
+**config/anglebrackets-codemod-config.json**
+
+```js
+{
+  "helpers": [
+    "date-formatter", 
+    "info-pill"
+  ]
+}
+```
+
+And then execute the codemod as follows:
+
+```sh
+$ cd my-ember-app-or-addon
+$ npx ember-angle-brackets-codemod angle-brackets app/templates --config ./config/anglebrackets-codemod-config.json
+```
+
 ## AST Explorer playground
 
 1. Go to the [AST Explorer](https://astexplorer.net/#/gist/b128d5545d7ccc52400b922f3b5010b4/642c6a8d3cc021257110bcf6b1714d1065891aec)
