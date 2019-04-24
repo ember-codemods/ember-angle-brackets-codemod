@@ -32,7 +32,8 @@ const HTML_ATTRIBUTES = [
  */
 const IGNORE_MUSTACHE_STATEMENTS = [ 
   "hash",
-  "t"
+  "t",
+  "action"
 ];
 
 /**
