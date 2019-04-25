@@ -255,10 +255,6 @@ module.exports = function(fileInfo, api, options) {
 	  } else {
         _value = b.text(a.value.original || _EMPTY_STRING_ );
 	  }
-	  
-	//   if(_value.chars === "" ){
-	// 	_value.chars = _EMPTY_STRING_;
-	// }
 
       return b.attr(_key, _value);
     });
