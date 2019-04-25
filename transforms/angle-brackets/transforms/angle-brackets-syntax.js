@@ -3,6 +3,8 @@ const prettier = require("prettier");
 const path = require('path');
 const fs = require('fs');
 
+const _EMPTY_STRING_ = 'ANGLE_BRACKET_EMPTY_'+Date.now()
+
 class Config {
   constructor(options) {
     this.helpers = [];
@@ -214,6 +216,7 @@ module.exports = function(fileInfo, api, options) {
   const ast = glimmer.preprocess(fileInfo.source);
   const b = glimmer.builders;
   const config = new Config(options);
+  
 
   /**
    * Transform the attributes names & values properly 
@@ -248,10 +251,14 @@ module.exports = function(fileInfo, api, options) {
         }
 
       } else if(_valueType === "BooleanLiteral") {
-       _value = b.mustache(b.boolean(a.value.original))
-      } else {
-        _value = b.text(a.value.original);
-      }
+        _value = b.mustache(b.boolean(a.value.original))
+	  } else {
+        _value = b.text(a.value.original || _EMPTY_STRING_ );
+	  }
+	  
+	//   if(_value.chars === "" ){
+	// 	_value.chars = _EMPTY_STRING_;
+	// }
 
       return b.attr(_key, _value);
     });
@@ -348,10 +355,18 @@ module.exports = function(fileInfo, api, options) {
       if (!shouldIgnoreMustacheStatement(node.path.original)) {
         return transformNode(node);
       }
-    }
-
+	},
+	
+    ElementNode(node) {
+	  node.attributes.forEach(a => {
+		if (a.value && a.value.chars === "" ){
+			a.value = b.text(_EMPTY_STRING_)
+	    }
+	  })
+	}
   });
 
-  let uglySource = glimmer.print(ast);
+  let regex = new RegExp(_EMPTY_STRING_, 'gi');
+  let uglySource = glimmer.print(ast).replace(regex,"");
   return prettier.format(uglySource, { parser: "glimmer" });
 };
