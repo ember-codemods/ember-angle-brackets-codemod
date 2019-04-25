@@ -77,8 +77,10 @@ const IGNORE_MUSTACHE_STATEMENTS = [
   "get-meta",
   "get-attr",
   "index-of",
+  "array",
 
   //ember-moment
+  "moment",
   "moment-format",
   "moment-from-now",
   "moment-from",
@@ -301,49 +303,55 @@ module.exports = function(fileInfo, api, options) {
     return IGNORE_MUSTACHE_STATEMENTS.includes(name) || config.helpers.includes(name);
   }
 
-  glimmer.traverse(ast, {
+  const transformNode = node => {
+    const tagName = node.path.original;
+    const newTagName = transformTagName(tagName);
 
+    let attributes;
+    let children = node.program ? node.program.body : undefined;
+    let blockParams = node.program ? node.program.blockParams : undefined;
+
+    if(tagName === 'link-to') {
+      if (node.type === 'MustacheStatement') {
+        let params = node.params;
+        let textParam = params.shift(); //the first param becomes the block content
+
+        attributes = transformLinkToAttrs(params);
+        children = [b.text(textParam.value)];
+      } else {
+        attributes = transformLinkToAttrs(node.params);
+      }
+
+      let namesParams = transformAttrs(node.hash.pairs);
+      attributes = attributes.concat(namesParams);
+    } else {
+      attributes = transformNodeAttributes(node);
+    }
+
+    return b.element(newTagName, {
+      attrs: attributes,
+      children,
+      blockParams
+    });
+  }
+
+  glimmer.traverse(ast, {
     MustacheStatement(node) {
       // Don't change attribute statements
       const isValidMustache = node.loc.source !== "(synthetic)" && !shouldIgnoreMustacheStatement(node.path.original);
-      if (isValidMustache && node.hash.pairs.length > 0) {
-        const tagName = node.path.original;
-        const newTagName = transformTagName(tagName);
-        const attributes = transformNodeAttributes(node);
-
-        return b.element(
-          { name: newTagName, selfClosing: true }, 
-          { attrs: attributes }
-        );
+      if (isValidMustache && (node.hash.pairs.length > 0 || node.params.length > 0)) {
+        return transformNode(node);
       }
     },
 
     BlockStatement(node) {
       if (!shouldIgnoreMustacheStatement(node.path.original)) {
-        const tagName = node.path.original;
-
-        // Handling Angle Bracket Invocations For Built-in Components based on RFC-0459
-        // https://github.com/emberjs/rfcs/blob/32a25b31d67d67bc7581dd0bead559063b06f076/text/0459-angle-bracket-built-in-components.md
-        
-        let attributes = [];
-
-        if(tagName === 'link-to') {
-          attributes = transformLinkToAttrs(node.params);
-        } else {
-          attributes = transformNodeAttributes(node);
-        }
-
-        const newTagName = transformTagName(tagName);
-
-        return b.element(newTagName, {
-          attrs: attributes,
-          children: node.program.body,
-          blockParams: node.program.blockParams
-        });
+        return transformNode(node);
       }
     }
 
   });
+
   let uglySource = glimmer.print(ast);
   return prettier.format(uglySource, { parser: "glimmer" });
 };
