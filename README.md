@@ -64,8 +64,20 @@ To help the codemod disambiguate components and helpers, you can define a list o
   ]
 }
 ```
-The codemod will then ignore the above list of helpers and prevent them from being transformed into the new (angle-brackets) syntax.
-And then execute the codemod as follows:
+The codemod will then ignore the above list of helpers and prevent them from being transformed into the new angle-brackets syntax.
+
+You can also disable the conversion of the built-in components `{{link-to}}`, `{{input}}` and `{{textarea}}` as follows:
+
+**config/anglebrackets-codemod-config.json**
+
+```js
+{
+  "helpers": [],
+  "skipBuiltInComponents": true
+}
+```
+
+You can execute the codemod with custom configuration by specifying a `--config` command line option as follows:
 
 ```sh
 $ cd my-ember-app-or-addon
