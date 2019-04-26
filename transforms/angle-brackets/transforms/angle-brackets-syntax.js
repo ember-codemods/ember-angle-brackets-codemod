@@ -3,7 +3,7 @@ const prettier = require("prettier");
 const path = require('path');
 const fs = require('fs');
 
-const _EMPTY_STRING_ = 'ANGLE_BRACKET_EMPTY_'+Date.now()
+const _EMPTY_STRING_ = `ANGLE_BRACKET_EMPTY_${Date.now()}`;
 
 class Config {
   constructor(options) {
@@ -217,7 +217,6 @@ module.exports = function(fileInfo, api, options) {
   const b = glimmer.builders;
   const config = new Config(options);
   
-
   /**
    * Transform the attributes names & values properly 
    */
@@ -228,7 +227,7 @@ module.exports = function(fileInfo, api, options) {
       let _valueType = a.value.type;
       let _value;
       if (!isAttribute(a.key)) {
-        _key = "@" + _key;
+        _key = `@${_key}`;
       }
 
       if (_valueType === "PathExpression") {
@@ -241,20 +240,19 @@ module.exports = function(fileInfo, api, options) {
             if(p.type === "SubExpression") {
               return transformNestedSubExpression(p)
             } else if(p.type === "StringLiteral") {
-              return  `"${p.original}"` ;
+              return `"${p.original}"`;
             } else {
               return p.original
             }
           }).join(" ");
 
-          _value = b.mustache(b.path(a.value.path.original + " " + params));
+          _value = b.mustache(b.path(`${a.value.path.original} ${params}`));
         }
-
       } else if(_valueType === "BooleanLiteral") {
         _value = b.mustache(b.boolean(a.value.original))
-	  } else {
-        _value = b.text(a.value.original || _EMPTY_STRING_ );
-	  }
+      } else {
+        _value = b.text(a.value.original || _EMPTY_STRING_);
+      }
 
       return b.attr(_key, _value);
     });
@@ -351,15 +349,15 @@ module.exports = function(fileInfo, api, options) {
       if (!shouldIgnoreMustacheStatement(node.path.original)) {
         return transformNode(node);
       }
-	},
+    },
 	
     ElementNode(node) {
-	  node.attributes.forEach(a => {
-		if (a.value && a.value.chars === "" ){
-			a.value = b.text(_EMPTY_STRING_)
-	    }
-	  })
-	}
+      node.attributes.forEach(a => {
+        if (a.value && a.value.chars === "") {
+          a.value = b.text(_EMPTY_STRING_);
+        }
+      });
+    }
   });
 
   let attrEqualEmptyString = new RegExp(_EMPTY_STRING_, 'gi');
