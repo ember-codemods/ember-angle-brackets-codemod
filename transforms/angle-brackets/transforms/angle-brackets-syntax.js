@@ -291,7 +291,7 @@ module.exports = function(fileInfo, api, options) {
 
   const tranformValuelessDataParams = params => {
     let valuelessDataParams = params.filter(param => param.original.startsWith('data-'));
-    let valuelessDataAttributes = valuelessDataParams.map(param => b.attr(param.parts[0], b.mustache("true")));
+    let valuelessDataAttributes = valuelessDataParams.map(param => b.attr(param.parts[0], b.text(_EMPTY_STRING_)));
     return valuelessDataAttributes;
   };
 
@@ -362,7 +362,12 @@ module.exports = function(fileInfo, api, options) {
 	}
   });
 
-  let regex = new RegExp(_EMPTY_STRING_, 'gi');
-  let uglySource = glimmer.print(ast).replace(regex,"");
-  return prettier.format(uglySource, { parser: "glimmer" });
+  let attrEqualEmptyString = new RegExp(_EMPTY_STRING_, 'gi');
+  let dataEqualsNoValue = /(data-\S+)=""/gmi
+
+  // Haxx out valueless data-* and args with the empty string 
+
+  let uglySource = glimmer.print(ast).replace(attrEqualEmptyString,"");
+  let dataOk = uglySource.replace(dataEqualsNoValue, "$1");
+  return prettier.format(dataOk, { parser: "glimmer" });
 };
