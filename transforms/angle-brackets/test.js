@@ -684,6 +684,34 @@ test('unless', () => {
   `);
 });
 
+test('whitespace-control', () => {
+  let input = `
+    <div>
+      {{~both~}}
+    </div>
+    <div>
+      {{~left}}
+    </div>
+    <div>
+      {{right~}}
+    </div>
+  `;
+
+  expect(runTest('whitespace-control.hbs', input)).toMatchInlineSnapshot(`
+    "
+        <div>
+          {{~both~}}
+        </div>
+        <div>
+          {{~left}}
+        </div>
+        <div>
+          {{right~}}
+        </div>
+      "
+  `);
+});
+
 test('skip-default-helpers', () => {
   let input = `
     <div id="main-container">
