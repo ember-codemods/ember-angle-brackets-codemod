@@ -8,14 +8,17 @@ const _EMPTY_STRING_ = `ANGLE_BRACKET_EMPTY_${Date.now()}`;
 class Config {
   constructor(options) {
     this.helpers = [];
+    this.skipBuiltInComponents = false;
 
     if (options.config) {
       let filePath = path.join(process.cwd(), options.config);
-      let data = JSON.parse(fs.readFileSync(filePath));
+      let config = JSON.parse(fs.readFileSync(filePath));
 
-      if (data.helpers) {
-        this.helpers = data.helpers;
+      if (config.helpers) {
+        this.helpers = config.helpers;
       }
+
+      this.skipBuiltInComponents = !!config.skipBuiltInComponents;
     }
   }
 }
@@ -27,6 +30,12 @@ const HTML_ATTRIBUTES = [
   "class",
   "placeholder",
   "required"
+];
+
+const BUILT_IN_COMPONENTS = [
+  "link-to",
+  "input",
+  "textarea"
 ];
 
 /**
@@ -320,6 +329,11 @@ module.exports = function(fileInfo, api, options) {
 
   const transformNode = node => {
     const tagName = node.path.original;
+
+    if (config.skipBuiltInComponents && BUILT_IN_COMPONENTS.includes(tagName)) {
+      return;
+    }
+
     const newTagName = transformTagName(tagName);
 
     let attributes;
