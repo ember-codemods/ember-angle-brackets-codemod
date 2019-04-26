@@ -249,6 +249,8 @@ module.exports = function(fileInfo, api, options) {
 
       } else if(_valueType === "BooleanLiteral") {
        _value = b.mustache(b.boolean(a.value.original))
+	  } else if(_valueType === "NumberLiteral") {
+		_value = b.mustache(b.number(a.value.original))
       } else {
         _value = b.text(a.value.original);
       }
