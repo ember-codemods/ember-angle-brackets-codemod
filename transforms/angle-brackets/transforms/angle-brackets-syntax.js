@@ -300,11 +300,23 @@ module.exports = function(fileInfo, api, options) {
     let attributes = transformAttrs(node.hash.pairs);
 
     return params.concat(attributes);
-  }
+  };
 
   const shouldIgnoreMustacheStatement = (name) => {
     return IGNORE_MUSTACHE_STATEMENTS.includes(name) || config.helpers.includes(name);
-  }
+  };
+
+  const nodeHasPositionalParameters = node => {
+    if (node.params.length > 0) {
+      let firstParamType = node.params[0].type;
+
+      if (["StringLiteral", "NumberLiteral", "SubExpression"].includes(firstParamType)) {
+        return true;
+      }
+    }
+
+    return false;
+  };
 
   const transformNode = node => {
     const tagName = node.path.original;
@@ -328,6 +340,11 @@ module.exports = function(fileInfo, api, options) {
       let namesParams = transformAttrs(node.hash.pairs);
       attributes = attributes.concat(namesParams);
     } else {
+      if (nodeHasPositionalParameters(node)) {
+        console.warn(`WARNING: {{${node.path.original}}} was not converted as it has positional parameters which can't be automatically converted. Source: ${fileInfo.path}`);
+        return;
+      }
+
       attributes = transformNodeAttributes(node);
     }
 
@@ -336,7 +353,7 @@ module.exports = function(fileInfo, api, options) {
       children,
       blockParams
     });
-  }
+  };
 
   glimmer.traverse(ast, {
     MustacheStatement(node) {
