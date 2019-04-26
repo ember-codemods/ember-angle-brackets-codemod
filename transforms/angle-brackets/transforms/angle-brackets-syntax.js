@@ -3,6 +3,8 @@ const prettier = require("prettier");
 const path = require('path');
 const fs = require('fs');
 
+const _EMPTY_STRING_ = 'ANGLE_BRACKET_EMPTY_'+Date.now()
+
 class Config {
   constructor(options) {
     this.helpers = [];
@@ -214,6 +216,7 @@ module.exports = function(fileInfo, api, options) {
   const ast = glimmer.preprocess(fileInfo.source);
   const b = glimmer.builders;
   const config = new Config(options);
+  
 
   /**
    * Transform the attributes names & values properly 
@@ -248,10 +251,10 @@ module.exports = function(fileInfo, api, options) {
         }
 
       } else if(_valueType === "BooleanLiteral") {
-       _value = b.mustache(b.boolean(a.value.original))
-      } else {
-        _value = b.text(a.value.original);
-      }
+        _value = b.mustache(b.boolean(a.value.original))
+	  } else {
+        _value = b.text(a.value.original || _EMPTY_STRING_ );
+	  }
 
       return b.attr(_key, _value);
     });
@@ -288,7 +291,7 @@ module.exports = function(fileInfo, api, options) {
 
   const tranformValuelessDataParams = params => {
     let valuelessDataParams = params.filter(param => param.original.startsWith('data-'));
-    let valuelessDataAttributes = valuelessDataParams.map(param => b.attr(param.parts[0], b.mustache("true")));
+    let valuelessDataAttributes = valuelessDataParams.map(param => b.attr(param.parts[0], b.text(_EMPTY_STRING_)));
     return valuelessDataAttributes;
   };
 
@@ -348,10 +351,23 @@ module.exports = function(fileInfo, api, options) {
       if (!shouldIgnoreMustacheStatement(node.path.original)) {
         return transformNode(node);
       }
-    }
-
+	},
+	
+    ElementNode(node) {
+	  node.attributes.forEach(a => {
+		if (a.value && a.value.chars === "" ){
+			a.value = b.text(_EMPTY_STRING_)
+	    }
+	  })
+	}
   });
 
-  let uglySource = glimmer.print(ast);
-  return prettier.format(uglySource, { parser: "glimmer" });
+  let attrEqualEmptyString = new RegExp(_EMPTY_STRING_, 'gi');
+  let dataEqualsNoValue = /(data-\S+)=""/gmi
+
+  // Haxx out valueless data-* and args with the empty string 
+
+  let uglySource = glimmer.print(ast).replace(attrEqualEmptyString,"");
+  let dataOk = uglySource.replace(dataEqualsNoValue, "$1");
+  return prettier.format(dataOk, { parser: "glimmer" });
 };
