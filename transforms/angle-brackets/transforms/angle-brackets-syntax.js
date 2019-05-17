@@ -222,7 +222,10 @@ const transformNestedSubExpression = subExpression => {
  * @returns {undefined}
  */
 module.exports = function(fileInfo, api, options) {
-  const ast = glimmer.preprocess(fileInfo.source);
+  const ast = glimmer.preprocess(fileInfo.source, {
+    mode: 'codemod',
+    parseOptions: { ignoreStandalone: true },
+  });
   const b = glimmer.builders;
   const config = new Config(options);
   
