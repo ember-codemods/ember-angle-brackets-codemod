@@ -189,6 +189,8 @@ const transformNestedSubExpression = subExpression => {
   let positionalArgs = subExpression.params.map(param => {
     if (param.type === "SubExpression") {
       return transformNestedSubExpression(param);
+    } else if (param.type === "StringLiteral") {
+      return `"${param.original}"`;
     } else {
       return param.original;
     }
