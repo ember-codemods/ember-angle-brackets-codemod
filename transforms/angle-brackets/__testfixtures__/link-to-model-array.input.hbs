@@ -1,3 +1,6 @@
 {{#link-to "post.comment" post comment}}
   Comment by {{comment.author.name}} on {{comment.date}}
 {{/link-to}}
+{{#link-to this.dynamicPath post comment}}
+  Comment by {{comment.author.name}} on {{comment.date}}
+{{/link-to}}

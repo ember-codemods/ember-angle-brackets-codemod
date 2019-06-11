@@ -3,15 +3,13 @@
 </SomeComponent>
 <DeepComponent
   class={{concat foo (nice-helper ted (some-crazy bar (a d (d e f))))}}
- />
-
+/>
 <SomeComponent class={{concat foo (some-helper bar)}} />
 <SomeComponent class={{concat foo (some-helper bar quuz)}} />
 <SomeComponent
   @person={{hash name="Sophie" age=1}}
   @message={{t "welcome" count=1}}
- />
-
+/>
 <SomeComponent
   @people={{array
     (hash
@@ -23,4 +21,4 @@
     (hash name="Ben" age=4)
     (hash name="Sophie" age=1)
   }}
- />
+/>

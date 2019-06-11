@@ -1,3 +1,6 @@
 {{#link-to "posts" (query-params direction="desc" showArchived=false)}}
   Recent Posts
 {{/link-to}}
+{{#link-to this.dynamicPath (query-params direction="desc" showArchived=false)}}
+  Recent Posts
+{{/link-to}}
