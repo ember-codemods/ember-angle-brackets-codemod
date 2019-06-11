@@ -277,27 +277,33 @@ module.exports = function(fileInfo, api, options) {
   const transformLinkToAttrs = params => {
     let attributes = [];
 
+    let routeInputParam = params[0];
+    let routeOutputParam;
+
+    if (routeInputParam.type === "PathExpression") {
+      routeOutputParam = b.attr("@route", b.mustache(routeInputParam.original));
+    } else {
+      routeOutputParam = b.attr("@route", b.text(routeInputParam.value));
+    }
+
     if (params.length === 1) {
-      // @route param
-      attributes = [b.attr("@route", b.text(params[0].value))];
+      attributes = [routeOutputParam];
     } else if (params.length === 2) {
       // @route and @model param
-      let [route, model] = params;
-      let _routeParam = b.attr("@route", b.text(route.value));
+      let [_, model] = params;
 
       if (model.type === "SubExpression") {
         let _queryParam = b.attr("@query", b.mustache(b.path("hash"), [], model.hash));
-        attributes = [_routeParam, _queryParam];
+        attributes = [routeOutputParam, _queryParam];
       } else {
         let _modelParam = b.attr("@model", b.mustache(model.original));
-        attributes = [_routeParam, _modelParam];
+        attributes = [routeOutputParam, _modelParam];
       }
     } else if (params.length > 2) {
       // @route and @models params
-      let [route, ...models] = params;
-      let _routeParam = b.attr("@route", b.text(route.value));
+      let [_, ...models] = params;
       let _modelsParam = b.attr("@models", b.mustache(b.path("array"), models));
-      attributes = [_routeParam, _modelsParam];
+      attributes = [routeOutputParam, _modelsParam];
     }
 
     return attributes;
