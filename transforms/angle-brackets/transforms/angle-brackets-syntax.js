@@ -9,6 +9,7 @@ class Config {
   constructor(options) {
     this.helpers = [];
     this.skipBuiltInComponents = false;
+    this.skipPrettier = false;
 
     if (options.config) {
       let filePath = path.join(process.cwd(), options.config);
@@ -19,6 +20,7 @@ class Config {
       }
 
       this.skipBuiltInComponents = !!config.skipBuiltInComponents;
+      this.skipPrettier = !!config.skipPrettier;
     }
   }
 }
@@ -351,7 +353,7 @@ module.exports = function(fileInfo, api, options) {
     let children = node.program ? node.program.body : undefined;
     let blockParams = node.program ? node.program.blockParams : undefined;
 
-    if(tagName === 'link-to') {
+    if (tagName === 'link-to') {
       if (node.type === 'MustacheStatement') {
         let params = node.params;
         let textParam = params.shift(); //the first param becomes the block content
@@ -372,11 +374,16 @@ module.exports = function(fileInfo, api, options) {
 
       attributes = transformNodeAttributes(node);
     }
+    // console.log('selfClosing: ', node)
+    let selfClosing = node.type !== 'BlockStatement';
+    if ( newTagName === 'LinkTo') {
+      selfClosing = false;
+    }
 
-    return b.element(newTagName, {
+    return b.element({ name: newTagName, selfClosing }, {
       attrs: attributes,
       children,
-      blockParams
+      blockParams,
     });
   };
 
@@ -401,6 +408,7 @@ module.exports = function(fileInfo, api, options) {
           a.value = b.text(_EMPTY_STRING_);
         }
       });
+      // console.log(node.selfClosing, node.tag);
     }
   });
 
@@ -411,5 +419,5 @@ module.exports = function(fileInfo, api, options) {
 
   let uglySource = glimmer.print(ast).replace(attrEqualEmptyString,"");
   let dataOk = uglySource.replace(dataEqualsNoValue, "$1");
-  return prettier.format(dataOk, { parser: "glimmer" });
+  return config.skipPrettier ? dataOk : prettier.format(dataOk, { parser: "glimmer" });
 };

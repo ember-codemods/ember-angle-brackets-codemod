@@ -4,3 +4,20 @@
 {{link-to "Title" "some.route"}}
 {{textarea value=this.model.body}}
 {{input type="checkbox" name="email-opt-in" checked=this.model.emailPreference}}
+
+{{site-header user=this.user class=(if this.user.isAdmin "admin")}}
+{{#super-select selected=this.user.country as |s|}}
+  {{#each this.availableCountries as |country|}}
+    {{#s.option value=country}}{{country.name}}{{/s.option}}
+  {{/each}}
+{{/super-select}}
+
+{{#bs-button-group
+  value=buttonGroupValue
+  type="checkbox"
+  onChange=(action (mut buttonGroupValue)) as |bg|}}
+			{{#bg.button value=1}}1{{/bg.button}}
+  {{#bg.button value=2}}2{{/bg.button}}
+  			{{#bg.button value=3}}3{{/bg.button}}
+				{{#bg.button value=3}}3{{/bg.button}}
+{{/bs-button-group}}
