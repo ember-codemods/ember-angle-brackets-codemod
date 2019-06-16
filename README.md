@@ -87,6 +87,30 @@ You can also disable the final **Prettier** formatting and attempt to preserve w
   "skipPrettier": true
 }
 ```
+By disabling Prettier, oddly formatted `hbs` files go from
+
+#### From
+```hbs
+{{#bs-button-group
+  value=buttonGroupValue
+  type="checkbox"
+  onChange=(action (mut buttonGroupValue)) as |bg|}}
+			{{#bg.button value=1}}1{{/bg.button}}
+  {{#bg.button value=2}}2{{/bg.button}}
+  			{{#bg.button value=3}}3{{/bg.button}}
+				{{#bg.button value=3}}3{{/bg.button}}
+{{/bs-button-group}}
+```
+
+#### To
+```hbs
+<BsButtonGroup @value={{buttonGroupValue}} @type="checkbox" @onChange={{action (mut buttonGroupValue)}} as |bg|>
+			<bg.button @value={{1}}>1</bg.button>
+  <bg.button @value={{2}}>2</bg.button>
+  			<bg.button @value={{3}}>3</bg.button>
+				<bg.button @value={{3}}>3</bg.button>
+</BsButtonGroup>
+```
 
 You can execute the codemod with custom configuration by specifying a `--config` command line option as follows:
 
