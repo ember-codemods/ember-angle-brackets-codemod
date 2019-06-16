@@ -374,7 +374,7 @@ module.exports = function(fileInfo, api, options) {
 
       attributes = transformNodeAttributes(node);
     }
-    // console.log('selfClosing: ', node)
+
     let selfClosing = node.type !== 'BlockStatement';
     if ( newTagName === 'LinkTo') {
       selfClosing = false;
