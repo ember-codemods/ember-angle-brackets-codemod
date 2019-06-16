@@ -352,8 +352,12 @@ module.exports = function(fileInfo, api, options) {
     let attributes;
     let children = node.program ? node.program.body : undefined;
     let blockParams = node.program ? node.program.blockParams : undefined;
+    let selfClosing = node.type !== 'BlockStatement';
 
     if (tagName === 'link-to') {
+      
+      selfClosing = false;
+      
       if (node.type === 'MustacheStatement') {
         let params = node.params;
         let textParam = params.shift(); //the first param becomes the block content
@@ -373,11 +377,6 @@ module.exports = function(fileInfo, api, options) {
       }
 
       attributes = transformNodeAttributes(node);
-    }
-
-    let selfClosing = node.type !== 'BlockStatement';
-    if ( newTagName === 'LinkTo') {
-      selfClosing = false;
     }
 
     return b.element({ name: newTagName, selfClosing }, {
