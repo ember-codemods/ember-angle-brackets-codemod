@@ -408,7 +408,6 @@ module.exports = function(fileInfo, api, options) {
           a.value = b.text(_EMPTY_STRING_);
         }
       });
-      // console.log(node.selfClosing, node.tag);
     }
   });
 

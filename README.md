@@ -77,6 +77,17 @@ You can also disable the conversion of the built-in components `{{link-to}}`, `{
 }
 ```
 
+You can also disable the final **Prettier** formatting and attempt to preserve white space by adding `skipPrettier` as follows:
+
+**config/anglebrackets-codemod-config.json**
+
+```js
+{
+  "helpers": [],
+  "skipPrettier": true
+}
+```
+
 You can execute the codemod with custom configuration by specifying a `--config` command line option as follows:
 
 ```sh
