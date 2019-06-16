@@ -21,3 +21,9 @@
   			{{#bg.button value=3}}3{{/bg.button}}
 				{{#bg.button value=3}}3{{/bg.button}}
 {{/bs-button-group}}
+
+someFunction({
+  {{#unless installationIsAnonymous}}
+    console.log("hi");
+  {{/unless}}
+});

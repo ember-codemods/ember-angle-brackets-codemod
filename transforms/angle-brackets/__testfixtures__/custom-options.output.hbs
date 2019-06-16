@@ -18,3 +18,9 @@
   			<bg.button @value={{3}}>3</bg.button>
 				<bg.button @value={{3}}>3</bg.button>
 </BsButtonGroup>
+
+someFunction({
+  {{#unless installationIsAnonymous}}
+    console.log("hi");
+  {{/unless}}
+});
