@@ -87,6 +87,30 @@ You can also disable the final **Prettier** formatting and attempt to preserve w
   "skipPrettier": true
 }
 ```
+By disabling Prettier, oddly formatted `hbs` files will remain (somewhat) unchanged:
+
+#### From
+```hbs
+{{#bs-button-group
+  value=buttonGroupValue
+  type="checkbox"
+  onChange=(action (mut buttonGroupValue)) as |bg|}}
+			{{#bg.button value=1}}1{{/bg.button}}
+  {{#bg.button value=2}}2{{/bg.button}}
+  			{{#bg.button value=3}}3{{/bg.button}}
+				{{#bg.button value=3}}3{{/bg.button}}
+{{/bs-button-group}}
+```
+
+#### To
+```hbs
+<BsButtonGroup @value={{buttonGroupValue}} @type="checkbox" @onChange={{action (mut buttonGroupValue)}} as |bg|>
+			<bg.button @value={{1}}>1</bg.button>
+  <bg.button @value={{2}}>2</bg.button>
+  			<bg.button @value={{3}}>3</bg.button>
+				<bg.button @value={{3}}>3</bg.button>
+</BsButtonGroup>
+```
 
 You can execute the codemod with custom configuration by specifying a `--config` command line option as follows:
 
@@ -95,6 +119,7 @@ $ cd my-ember-app-or-addon
 $ npx ember-angle-brackets-codemod angle-brackets app/templates --config ./config/anglebrackets-codemod-config.json
 ```
 
+### Getting a list of helpers
 To get a list of helpers in your app you can do this in the Developer Console in your browser inside of your app:
 ```js
 var componentLikeHelpers = Object.keys(require.entries)
