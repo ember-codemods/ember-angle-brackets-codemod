@@ -1,9 +1,19 @@
 <LinkTo @route="posts" @query={{hash direction="desc" showArchived=false}}>
   Recent Posts
 </LinkTo>
+<LinkTo @route="posts" data-test-foo>
+  Recent Posts
+</LinkTo>
 <LinkTo
   @route={{this.dynamicPath}}
   @query={{hash direction="desc" showArchived=false}}
+>
+  Recent Posts
+</LinkTo>
+<LinkTo
+  @route={{this.dynamicPath}}
+  @query={{hash direction="desc" showArchived=false}}
+  data-test-foo
 >
   Recent Posts
 </LinkTo>
