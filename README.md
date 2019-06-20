@@ -52,6 +52,8 @@ $ npx ember-angle-brackets-codemod angle-brackets app/templates
 
 ## Advanced Usage
 
+### Skipping helpers
+
 To help the codemod disambiguate components and helpers, you can define a list of helpers from your application in a configuration file as follows:
 
 **config/anglebrackets-codemod-config.json**
@@ -94,6 +96,20 @@ var componentLikeHelpers = Object.keys(require.entries)
     }).filter(name=>!name.includes('/')).uniq();
 
 copy(JSON.stringify(componentLikeHelpers))
+```
+
+### Skipping some files
+
+If there are files that don't convert well, you can skip them by specifying an optional `skipFilesThatMatchRegex` configuration setting. For example, with the configuration below, all files that contain `"foo"` or `"bar"` will be skipped:
+
+**config/anglebrackets-codemod-config.json**
+
+```js
+{
+  "helpers": [],
+  "skipBuiltInComponents": true,
+  "skipFilesThatMatchRegex": "foo|bar"
+}
 ```
 
 ## AST Explorer playground
