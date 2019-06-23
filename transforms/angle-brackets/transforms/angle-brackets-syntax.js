@@ -257,7 +257,7 @@ module.exports = function(fileInfo, api, options) {
   const b = glimmer.builders;
 
   /**
-   * Transform the attributes names & values properly 
+   * Transform the attributes names & values properly
    */
   const transformAttrs = attrs => {
 
@@ -299,38 +299,44 @@ module.exports = function(fileInfo, api, options) {
     });
   };
 
+  const isQueryParam = param => {
+    return (param && param.type === "SubExpression" && param.path && param.path.original === 'query-params');
+  };
+
   const transformLinkToAttrs = params => {
     let attributes = [];
     let dataAttributes = getDataAttributesFromParams(params);
     params = getNonDataAttributesFromParams(params);
 
-    let routeInputParam = params[0];
-    let routeOutputParam;
+    let firstParamInput = params[0];
+    let firstParamOutput;
 
-    if (routeInputParam.type === "PathExpression") {
-      routeOutputParam = b.attr("@route", b.mustache(routeInputParam.original));
+    if (isQueryParam(firstParamInput)) {
+      firstParamOutput = b.attr("@query", b.mustache(b.path("hash"), [], firstParamInput.hash));
+    } else if (firstParamInput.type === "PathExpression") {
+      firstParamOutput = b.attr("@route", b.mustache(firstParamInput.original));
     } else {
-      routeOutputParam = b.attr("@route", b.text(routeInputParam.value));
+      firstParamOutput = b.attr("@route", b.text(firstParamInput.value));
     }
 
     if (params.length === 1) {
-      attributes = [routeOutputParam];
+      attributes = [firstParamOutput];
     } else if (params.length === 2) {
       // @route and @model param
-      let [_, model] = params;
+      let [_, secondParamInput] = params;
 
-      if (model.type === "SubExpression") {
-        let _queryParam = b.attr("@query", b.mustache(b.path("hash"), [], model.hash));
-        attributes = [routeOutputParam, _queryParam];
+      if (secondParamInput.type === "SubExpression") {
+        let _queryParam = b.attr("@query", b.mustache(b.path("hash"), [], secondParamInput.hash));
+        attributes = [firstParamOutput, _queryParam];
       } else {
-        let _modelParam = b.attr("@model", b.mustache(model.original));
-        attributes = [routeOutputParam, _modelParam];
+        let _modelParam = b.attr("@model", b.mustache(secondParamInput.original));
+        attributes = [firstParamOutput, _modelParam];
       }
     } else if (params.length > 2) {
       // @route and @models params
       let [_, ...models] = params;
       let _modelsParam = b.attr("@models", b.mustache(b.path("array"), models));
-      attributes = [routeOutputParam, _modelsParam];
+      attributes = [firstParamOutput, _modelsParam];
     }
 
     return attributes.concat(dataAttributes);
@@ -429,7 +435,7 @@ module.exports = function(fileInfo, api, options) {
         return transformNode(node);
       }
     },
-	
+
     ElementNode(node) {
       node.attributes.forEach(a => {
         if (a.value && a.value.chars === "") {
@@ -442,7 +448,7 @@ module.exports = function(fileInfo, api, options) {
   let attrEqualEmptyString = new RegExp(_EMPTY_STRING_, 'gi');
   let dataEqualsNoValue = /(data-\S+)=""/gmi
 
-  // Haxx out valueless data-* and args with the empty string 
+  // Haxx out valueless data-* and args with the empty string
 
   let uglySource = glimmer.print(ast).replace(attrEqualEmptyString,"");
   let dataOk = uglySource.replace(dataEqualsNoValue, "$1");
