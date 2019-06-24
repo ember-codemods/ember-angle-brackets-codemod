@@ -77,7 +77,7 @@ You can also disable the conversion of the built-in components `{{link-to}}`, `{
 }
 ```
 
-You can also disable the final **Prettier** formatting and attempt to preserve white space by adding `skipPrettier` as follows:
+You can also disable the final **Prettier** formatting by adding `skipPrettier` as follows:
 
 **config/anglebrackets-codemod-config.json**
 
