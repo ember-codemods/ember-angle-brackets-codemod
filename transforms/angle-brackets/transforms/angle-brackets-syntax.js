@@ -159,6 +159,10 @@ const isAttribute = key => {
   return HTML_ATTRIBUTES.includes(key) || key.startsWith('data-');
 }
 
+const isNestedComponentTagName = tagName => {
+  return tagName && tagName.includes && tagName.includes('/');
+}
+
 /**
  *  Returns a capitalized tagname for angle brackets syntax
  *  {{my-component}} => MyComponent
@@ -177,7 +181,7 @@ const transformTagName = tagName => {
     return tagName;
   }
 
-  if (tagName.includes('/')) {
+  if (isNestedComponentTagName(tagName)) {
     return transformNestedTagName(tagName);
   }
 
@@ -425,7 +429,10 @@ module.exports = function(fileInfo, api, options) {
     MustacheStatement(node) {
       // Don't change attribute statements
       const isValidMustache = node.loc.source !== "(synthetic)" && !shouldIgnoreMustacheStatement(node.path.original);
-      if (isValidMustache && (node.hash.pairs.length > 0 || node.params.length > 0)) {
+      const tagName = node.path.original;
+      const isNestedComponent = isNestedComponentTagName(tagName);
+
+      if (isValidMustache && (node.hash.pairs.length > 0 || node.params.length > 0 || isNestedComponent)) {
         return transformNode(node);
       }
     },
