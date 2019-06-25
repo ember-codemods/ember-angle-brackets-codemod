@@ -1,4 +1,5 @@
 <SiteHeader @user={{this.user}} class={{if this.user.isAdmin "admin"}} />
+<SiteHeader @user={{null}} @address={{undefined}} />
 <SuperSelect @selected={{this.user.country}} as |s|>
   {{#each this.availableCountries as |country|}}
     <s.option @value={{country}}>
