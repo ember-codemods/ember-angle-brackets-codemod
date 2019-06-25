@@ -402,7 +402,12 @@ module.exports = function(fileInfo, api, options) {
         let textParam = params.shift(); //the first param becomes the block content
 
         attributes = transformLinkToAttrs(params);
-        children = [b.text(textParam.value)];
+
+        if (textParam.type === "PathExpression") {
+          children = [b.mustache(b.path(textParam.original))];
+        } else {
+          children = [b.text(textParam.value)];
+        }
       } else {
         attributes = transformLinkToAttrs(node.params);
       }
