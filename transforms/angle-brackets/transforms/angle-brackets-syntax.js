@@ -307,6 +307,14 @@ module.exports = function(fileInfo, api, options) {
     return (param && param.type === "SubExpression" && param.path && param.path.original === 'query-params');
   };
 
+  const transformLinkToTextParam = textParam => {
+    if (textParam.type.includes('Literal')) {
+      return b.text(textParam.value);
+    } else {
+      return b.mustache(textParam.original);
+    }
+  };
+
   const transformLinkToAttrs = params => {
     let attributes = [];
     let dataAttributes = getDataAttributesFromParams(params);
@@ -402,7 +410,7 @@ module.exports = function(fileInfo, api, options) {
         let textParam = params.shift(); //the first param becomes the block content
 
         attributes = transformLinkToAttrs(params);
-        children = [b.text(textParam.value)];
+        children = [transformLinkToTextParam(textParam)];
       } else {
         attributes = transformLinkToAttrs(node.params);
       }
