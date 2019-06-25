@@ -1,4 +1,5 @@
 {{site-header user=this.user class=(if this.user.isAdmin "admin")}}
+{{site-header user=null address=undefined}}
 
 {{#super-select selected=this.user.country as |s|}}
   {{#each this.availableCountries as |country|}}

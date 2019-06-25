@@ -295,7 +295,12 @@ module.exports = function(fileInfo, api, options) {
         _value = b.mustache(b.boolean(a.value.original));
       } else if(_valueType === "NumberLiteral") {
         _value = b.mustache(b.number(a.value.original));
+      } else if(_valueType === "NullLiteral") {
+        _value = b.mustache('null');
+      } else if(_valueType === "UndefinedLiteral") {
+        _value = b.mustache('undefined');
       } else {
+
         _value = b.text(a.value.original || _EMPTY_STRING_);
       }
 
