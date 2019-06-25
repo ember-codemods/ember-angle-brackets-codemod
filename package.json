@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@glimmer/syntax": "^0.41.0",
-    "codemod-cli": "^0.2.10",
+    "codemod-cli": "^1.0.0",
     "prettier": "^1.18.2"
   },
   "repository": {
@@ -31,8 +31,8 @@
   },
   "homepage": "https://github.com/rajasegar/ember-angle-brackets-codemod#readme",
   "devDependencies": {
-    "coveralls": "^3.0.3",
-    "jest": "^24.7.1"
+    "coveralls": "^3.0.4",
+    "jest": "^24.8.0"
   },
   "jest": {
     "collectCoverageFrom": [
