@@ -81,6 +81,7 @@ const IGNORE_MUSTACHE_STATEMENTS = [
   "debugger",
   "else",
   "let",
+  "with",
   "log",
   "loc",
   "hash",
