@@ -390,6 +390,10 @@ module.exports = function(fileInfo, api, options) {
 
       if (["StringLiteral", "NumberLiteral", "SubExpression"].includes(firstParamType)) {
         return true;
+      } else if (firstParamType === "PathExpression") {
+        if (!isAttribute(node.params[0].original)) {
+          return true;
+        }
       }
     }
 
