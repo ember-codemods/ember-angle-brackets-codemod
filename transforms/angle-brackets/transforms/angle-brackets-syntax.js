@@ -12,7 +12,7 @@ class Config {
 
     if (options.config) {
       let filePath = path.join(process.cwd(), options.config);
-      let config = JSON.parse(fs.readFileSync(filePath));
+      let config = this.getConfig(filePath);
 
       if (config.helpers) {
         this.helpers = config.helpers;
@@ -23,6 +23,14 @@ class Config {
       }
 
       this.skipBuiltInComponents = !!config.skipBuiltInComponents;
+    }
+  }
+
+  getConfig(filePath) {
+    if (filePath.endsWith('.js')) {
+      return require(filePath);
+    } else {
+      return JSON.parse(fs.readFileSync(filePath));
     }
   }
 }

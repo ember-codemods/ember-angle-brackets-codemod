@@ -54,7 +54,7 @@ $ npx ember-angle-brackets-codemod angle-brackets app/templates
 
 ### Skipping helpers
 
-To help the codemod disambiguate components and helpers, you can define a list of helpers from your application in a configuration file as follows:
+To help the codemod disambiguate components and helpers, you can define a list of helpers from your application in a configuration file as follows (`.json` and `.js` are supported):
 
 **config/anglebrackets-codemod-config.json**
 
@@ -66,6 +66,18 @@ To help the codemod disambiguate components and helpers, you can define a list o
   ]
 }
 ```
+
+**config/anglebrackets-codemod-config.js**
+
+```js
+module.exports = {
+  "helpers": [
+    "date-formatter", 
+    "info-pill"
+  ]
+}
+```
+
 The codemod will then ignore the above list of helpers and prevent them from being transformed into the new angle-brackets syntax.
 
 You can also disable the conversion of the built-in components `{{link-to}}`, `{{input}}` and `{{textarea}}` as follows:
