@@ -285,6 +285,10 @@ module.exports = function(fileInfo, api, options) {
               return transformNestedSubExpression(p)
             } else if(p.type === "StringLiteral") {
               return `"${p.original}"`;
+            } else if(p.type === 'NullLiteral') {
+              return 'null';
+            } else if(p.type === 'UndefinedLiteral') {
+              return 'undefined';
             } else {
               return p.original
             }
