@@ -20,3 +20,10 @@
 <LinkTo @query={{hash direction="desc" showArchived=false}}>
   Recent Posts
 </LinkTo>
+<LinkTo
+  @route="apps.app.users.segments.segment"
+  @model="all-users"
+  @query={{hash searchTerm=searchTerm}}
+>
+  Users
+</LinkTo>

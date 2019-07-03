@@ -13,3 +13,9 @@
 {{#link-to (query-params direction="desc" showArchived=false)}}
   Recent Posts
 {{/link-to}}
+{{link-to
+  'Users'
+  'apps.app.users.segments.segment'
+  'all-users'
+  (query-params searchTerm=searchTerm)
+}}
