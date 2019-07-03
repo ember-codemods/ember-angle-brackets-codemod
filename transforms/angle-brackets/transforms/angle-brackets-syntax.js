@@ -325,6 +325,17 @@ module.exports = function(fileInfo, api, options) {
     }
   };
 
+  const transformModelParams = modelParam => {
+    let type = modelParam.type;
+    if (type === 'StringLiteral') {
+      return b.text(modelParam.value);
+    } else if (type === 'NumberLiteral') {
+      return b.mustache(b.number(modelParam.original));
+    } else {
+      return b.mustache(modelParam.original);
+    }
+  };
+
   const transformLinkToAttrs = params => {
     let attributes = [];
     let dataAttributes = getDataAttributesFromParams(params);
@@ -362,7 +373,7 @@ module.exports = function(fileInfo, api, options) {
       let _qpParam;
 
       if (hasQueryParamHelper) {
-        _modelsParam = b.attr("@model", b.string(models[0].original));
+        _modelsParam = b.attr("@model", transformModelParams(models[0]));
         _qpParam = b.attr("@query", b.mustache(b.path("hash"), [], models[1].hash))
       } else {
       	_modelsParam = b.attr("@models", b.mustache(b.path("array"), models));
