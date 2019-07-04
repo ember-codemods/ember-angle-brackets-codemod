@@ -362,7 +362,7 @@ module.exports = function(fileInfo, api, options) {
         let _queryParam = b.attr("@query", b.mustache(b.path("hash"), [], secondParamInput.hash));
         attributes = [firstParamOutput, _queryParam];
       } else {
-        let _modelParam = b.attr("@model", b.mustache(secondParamInput.original));
+        let _modelParam = b.attr("@model", transformModelParams(secondParamInput));
         attributes = [firstParamOutput, _modelParam];
       }
     } else if (params.length > 2) {
