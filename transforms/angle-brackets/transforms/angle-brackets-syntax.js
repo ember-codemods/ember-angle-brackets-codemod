@@ -325,6 +325,17 @@ module.exports = function(fileInfo, api, options) {
     }
   };
 
+  const transformModelParams = modelParam => {
+    let type = modelParam.type;
+    if (type === 'StringLiteral') {
+      return b.text(modelParam.value);
+    } else if (type === 'NumberLiteral') {
+      return b.mustache(b.number(modelParam.original));
+    } else {
+      return b.mustache(modelParam.original);
+    }
+  };
+
   const transformLinkToAttrs = params => {
     let attributes = [];
     let dataAttributes = getDataAttributesFromParams(params);
@@ -357,8 +368,20 @@ module.exports = function(fileInfo, api, options) {
     } else if (params.length > 2) {
       // @route and @models params
       let [_, ...models] = params;
-      let _modelsParam = b.attr("@models", b.mustache(b.path("array"), models));
+      let hasQueryParamHelper = isQueryParam(models[models.length-1])
+      let _modelsParam;
+      let _qpParam;
+
+      if (hasQueryParamHelper) {
+        _modelsParam = b.attr("@model", transformModelParams(models[0]));
+        _qpParam = b.attr("@query", b.mustache(b.path("hash"), [], models[1].hash))
+      } else {
+      	_modelsParam = b.attr("@models", b.mustache(b.path("array"), models));
+      }
       attributes = [firstParamOutput, _modelsParam];
+      if( _qpParam ) {
+      	attributes.push(_qpParam)
+      }
     }
 
     return attributes.concat(dataAttributes);
