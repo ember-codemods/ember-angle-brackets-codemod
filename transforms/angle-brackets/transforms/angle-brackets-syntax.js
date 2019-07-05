@@ -401,11 +401,11 @@ module.exports = function(fileInfo, api, options) {
   };
 
   const getDataAttributesFromParams = params => {
-    return params.filter(param => param.original && param.original.startsWith('data-'));
+    return params.filter(param => param.original && `${param.original}`.startsWith('data-'));
   };
 
   const getNonDataAttributesFromParams = params => {
-    return params.filter(p => !(p.original && p.original.startsWith('data-')));
+    return params.filter(p => !(p.original && `${p.original}`.startsWith('data-')));
   };
 
   const shouldIgnoreMustacheStatement = (name) => {
