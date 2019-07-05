@@ -1,7 +1,7 @@
-const glimmer = require('@glimmer/syntax');
+const glimmer = require("@glimmer/syntax");
 const prettier = require("prettier");
-const path = require('path');
-const fs = require('fs');
+const path = require("path");
+const fs = require("fs");
 
 const _EMPTY_STRING_ = `ANGLE_BRACKET_EMPTY_${Date.now()}`;
 
@@ -30,17 +30,9 @@ class Config {
 /**
  * List of HTML attributes for which @ should not be appended
  */
-const HTML_ATTRIBUTES = [
-  "class",
-  "placeholder",
-  "required"
-];
+const HTML_ATTRIBUTES = ["class", "placeholder", "required"];
 
-const BUILT_IN_COMPONENTS = [
-  "link-to",
-  "input",
-  "textarea"
-];
+const BUILT_IN_COMPONENTS = ["link-to", "input", "textarea"];
 
 /**
  * Ignore the following list of MustacheStatements from transform
@@ -157,12 +149,12 @@ const IGNORE_MUSTACHE_STATEMENTS = [
 ];
 
 const isAttribute = key => {
-  return HTML_ATTRIBUTES.includes(key) || key.startsWith('data-');
-}
+  return HTML_ATTRIBUTES.includes(key) || key.startsWith("data-");
+};
 
 const isNestedComponentTagName = tagName => {
-  return tagName && tagName.includes && (tagName.includes('/') || tagName.includes('-'));
-}
+  return tagName && tagName.includes && (tagName.includes("/") || tagName.includes("-"));
+};
 
 /**
  *  Returns a capitalized tagname for angle brackets syntax
@@ -178,7 +170,7 @@ const capitalizedTagName = tagname => {
 };
 
 const transformTagName = tagName => {
-  if (tagName.includes('.')) {
+  if (tagName.includes(".")) {
     return tagName;
   }
 
@@ -186,12 +178,12 @@ const transformTagName = tagName => {
     return transformNestedTagName(tagName);
   }
 
-  return capitalizedTagName(tagName)
+  return capitalizedTagName(tagName);
 };
 
 const transformNestedTagName = tagName => {
-  const paths = tagName.split('/');
-  return paths.map(name => capitalizedTagName(name)).join('::');
+  const paths = tagName.split("/");
+  return paths.map(name => capitalizedTagName(name)).join("::");
 };
 
 const transformNestedSubExpression = subExpression => {
@@ -212,7 +204,7 @@ const transformNestedSubExpression = subExpression => {
         let nestedValue = transformNestedSubExpression(pair.value);
         return `${pair.key}=${nestedValue}`;
       } else {
-        if(pair.value.type === "StringLiteral") {
+        if (pair.value.type === "StringLiteral") {
           return `${pair.key}="${pair.value.original}"`;
         }
         return `${pair.key}=${pair.value.original}`;
@@ -222,23 +214,28 @@ const transformNestedSubExpression = subExpression => {
 
   let args = positionalArgs.concat(namedArgs);
   return `(${subExpression.path.original} ${args.join(" ")})`;
-}
+};
 
 const shouldSkipFile = (fileInfo, config) => {
   let source = fileInfo.source;
 
-  if (source.includes("~")) { //skip files with `~` until https://github.com/ember-codemods/ember-angle-brackets-codemod/issues/46 is resolved
-    console.warn(`WARNING: ${fileInfo.path} was not converted as it contains a "~" (https://github.com/ember-codemods/ember-angle-brackets-codemod/issues/46)`);
+  if (source.includes("~")) {
+    //skip files with `~` until https://github.com/ember-codemods/ember-angle-brackets-codemod/issues/46 is resolved
+    console.warn(
+      `WARNING: ${fileInfo.path} was not converted as it contains a "~" (https://github.com/ember-codemods/ember-angle-brackets-codemod/issues/46)`
+    );
     return true;
   }
 
   if (config.skipFilesThatMatchRegex && config.skipFilesThatMatchRegex.test(source)) {
-    console.warn(`WARNING: ${fileInfo.path} was not skipped as its content matches the "skipFilesThatMatchRegex" config setting: ${config.skipFilesThatMatchRegex}`);
+    console.warn(
+      `WARNING: ${fileInfo.path} was not skipped as its content matches the "skipFilesThatMatchRegex" config setting: ${config.skipFilesThatMatchRegex}`
+    );
     return true;
   }
 
   return false;
-}
+};
 
 /**
  * exports
@@ -256,8 +253,8 @@ module.exports = function(fileInfo, api, options) {
   }
 
   const ast = glimmer.preprocess(fileInfo.source, {
-    mode: 'codemod',
-    parseOptions: { ignoreStandalone: true },
+    mode: "codemod",
+    parseOptions: { ignoreStandalone: true }
   });
   const b = glimmer.builders;
 
@@ -265,7 +262,6 @@ module.exports = function(fileInfo, api, options) {
    * Transform the attributes names & values properly
    */
   const transformAttrs = attrs => {
-
     return attrs.map(a => {
       let _key = a.key;
       let _valueType = a.value.type;
@@ -278,34 +274,35 @@ module.exports = function(fileInfo, api, options) {
         _value = b.mustache(b.path(a.value.original));
       } else if (_valueType === "SubExpression") {
         if (a.value.hash.pairs.length > 0) {
-          _value = b.mustache(a.value.path.original, a.value.params, a.value.hash)
+          _value = b.mustache(a.value.path.original, a.value.params, a.value.hash);
         } else {
-          const params = a.value.params.map(p => {
-            if(p.type === "SubExpression") {
-              return transformNestedSubExpression(p)
-            } else if(p.type === "StringLiteral") {
-              return `"${p.original}"`;
-            } else if(p.type === 'NullLiteral') {
-              return 'null';
-            } else if(p.type === 'UndefinedLiteral') {
-              return 'undefined';
-            } else {
-              return p.original
-            }
-          }).join(" ");
+          const params = a.value.params
+            .map(p => {
+              if (p.type === "SubExpression") {
+                return transformNestedSubExpression(p);
+              } else if (p.type === "StringLiteral") {
+                return `"${p.original}"`;
+              } else if (p.type === "NullLiteral") {
+                return "null";
+              } else if (p.type === "UndefinedLiteral") {
+                return "undefined";
+              } else {
+                return p.original;
+              }
+            })
+            .join(" ");
 
           _value = b.mustache(b.path(`${a.value.path.original} ${params}`));
         }
-      } else if(_valueType === "BooleanLiteral") {
+      } else if (_valueType === "BooleanLiteral") {
         _value = b.mustache(b.boolean(a.value.original));
-      } else if(_valueType === "NumberLiteral") {
+      } else if (_valueType === "NumberLiteral") {
         _value = b.mustache(b.number(a.value.original));
-      } else if(_valueType === "NullLiteral") {
-        _value = b.mustache('null');
-      } else if(_valueType === "UndefinedLiteral") {
-        _value = b.mustache('undefined');
+      } else if (_valueType === "NullLiteral") {
+        _value = b.mustache("null");
+      } else if (_valueType === "UndefinedLiteral") {
+        _value = b.mustache("undefined");
       } else {
-
         _value = b.text(a.value.original || _EMPTY_STRING_);
       }
 
@@ -314,11 +311,16 @@ module.exports = function(fileInfo, api, options) {
   };
 
   const isQueryParam = param => {
-    return (param && param.type === "SubExpression" && param.path && param.path.original === 'query-params');
+    return (
+      param &&
+      param.type === "SubExpression" &&
+      param.path &&
+      param.path.original === "query-params"
+    );
   };
 
   const transformLinkToTextParam = textParam => {
-    if (textParam.type.includes('Literal')) {
+    if (textParam.type.includes("Literal")) {
       return b.text(textParam.value);
     } else {
       return b.mustache(textParam.original);
@@ -327,9 +329,9 @@ module.exports = function(fileInfo, api, options) {
 
   const transformModelParams = modelParam => {
     let type = modelParam.type;
-    if (type === 'StringLiteral') {
+    if (type === "StringLiteral") {
       return b.text(modelParam.value);
-    } else if (type === 'NumberLiteral') {
+    } else if (type === "NumberLiteral") {
       return b.mustache(b.number(modelParam.original));
     } else {
       return b.mustache(modelParam.original);
@@ -356,8 +358,8 @@ module.exports = function(fileInfo, api, options) {
       attributes = [firstParamOutput];
     } else if (params.length === 2) {
       // @route and @model param
-      let [_, secondParamInput] = params;
 
+      let [_, secondParamInput] = params;
       if (secondParamInput.type === "SubExpression") {
         let _queryParam = b.attr("@query", b.mustache(b.path("hash"), [], secondParamInput.hash));
         attributes = [firstParamOutput, _queryParam];
@@ -368,19 +370,19 @@ module.exports = function(fileInfo, api, options) {
     } else if (params.length > 2) {
       // @route and @models params
       let [_, ...models] = params;
-      let hasQueryParamHelper = isQueryParam(models[models.length-1])
+      let hasQueryParamHelper = isQueryParam(models[models.length - 1]);
       let _modelsParam;
       let _qpParam;
 
       if (hasQueryParamHelper) {
         _modelsParam = b.attr("@model", transformModelParams(models[0]));
-        _qpParam = b.attr("@query", b.mustache(b.path("hash"), [], models[1].hash))
+        _qpParam = b.attr("@query", b.mustache(b.path("hash"), [], models[1].hash));
       } else {
-      	_modelsParam = b.attr("@models", b.mustache(b.path("array"), models));
+        _modelsParam = b.attr("@models", b.mustache(b.path("array"), models));
       }
       attributes = [firstParamOutput, _modelsParam];
-      if( _qpParam ) {
-      	attributes.push(_qpParam)
+      if (_qpParam) {
+        attributes.push(_qpParam);
       }
     }
 
@@ -389,7 +391,9 @@ module.exports = function(fileInfo, api, options) {
 
   const tranformValuelessDataParams = params => {
     let dataAttributes = getDataAttributesFromParams(params);
-    let valuelessDataAttributes = dataAttributes.map(param => b.attr(param.parts[0], b.text(_EMPTY_STRING_)));
+    let valuelessDataAttributes = dataAttributes.map(param =>
+      b.attr(param.parts[0], b.text(_EMPTY_STRING_))
+    );
     return valuelessDataAttributes;
   };
 
@@ -401,14 +405,14 @@ module.exports = function(fileInfo, api, options) {
   };
 
   const getDataAttributesFromParams = params => {
-    return params.filter(param => param.original && `${param.original}`.startsWith('data-'));
+    return params.filter(param => param.original && `${param.original}`.startsWith("data-"));
   };
 
   const getNonDataAttributesFromParams = params => {
-    return params.filter(p => !(p.original && `${p.original}`.startsWith('data-')));
+    return params.filter(p => !(p.original && `${p.original}`.startsWith("data-")));
   };
 
-  const shouldIgnoreMustacheStatement = (name) => {
+  const shouldIgnoreMustacheStatement = name => {
     return IGNORE_MUSTACHE_STATEMENTS.includes(name) || config.helpers.includes(name);
   };
 
@@ -441,8 +445,8 @@ module.exports = function(fileInfo, api, options) {
     let children = node.program ? node.program.body : undefined;
     let blockParams = node.program ? node.program.blockParams : undefined;
 
-    if(tagName === 'link-to') {
-      if (node.type === 'MustacheStatement') {
+    if (tagName === "link-to") {
+      if (node.type === "MustacheStatement") {
         let params = node.params;
         let textParam = params.shift(); //the first param becomes the block content
 
@@ -456,7 +460,9 @@ module.exports = function(fileInfo, api, options) {
       attributes = attributes.concat(namesParams);
     } else {
       if (nodeHasPositionalParameters(node)) {
-        console.warn(`WARNING: {{${node.path.original}}} was not converted as it has positional parameters which can't be automatically converted. Source: ${fileInfo.path}`);
+        console.warn(
+          `WARNING: {{${node.path.original}}} was not converted as it has positional parameters which can't be automatically converted. Source: ${fileInfo.path}`
+        );
         return;
       }
 
@@ -473,11 +479,15 @@ module.exports = function(fileInfo, api, options) {
   glimmer.traverse(ast, {
     MustacheStatement(node) {
       // Don't change attribute statements
-      const isValidMustache = node.loc.source !== "(synthetic)" && !shouldIgnoreMustacheStatement(node.path.original);
+      const isValidMustache =
+        node.loc.source !== "(synthetic)" && !shouldIgnoreMustacheStatement(node.path.original);
       const tagName = node.path.original;
       const isNestedComponent = isNestedComponentTagName(tagName);
 
-      if (isValidMustache && (node.hash.pairs.length > 0 || node.params.length > 0 || isNestedComponent)) {
+      if (
+        isValidMustache &&
+        (node.hash.pairs.length > 0 || node.params.length > 0 || isNestedComponent)
+      ) {
         return transformNode(node);
       }
     },
@@ -497,12 +507,12 @@ module.exports = function(fileInfo, api, options) {
     }
   });
 
-  let attrEqualEmptyString = new RegExp(_EMPTY_STRING_, 'gi');
-  let dataEqualsNoValue = /(data-\S+)=""/gmi
+  let attrEqualEmptyString = new RegExp(_EMPTY_STRING_, "gi");
+  let dataEqualsNoValue = /(data-\S+)=""/gim;
 
   // Haxx out valueless data-* and args with the empty string
 
-  let uglySource = glimmer.print(ast).replace(attrEqualEmptyString,"");
+  let uglySource = glimmer.print(ast).replace(attrEqualEmptyString, "");
   let dataOk = uglySource.replace(dataEqualsNoValue, "$1");
   return prettier.format(dataOk, { parser: "glimmer" });
 };
