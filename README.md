@@ -1,10 +1,10 @@
 # ember-angle-brackets-codemod
 
-[![Build Status](https://travis-ci.org/rajasegar/ember-angle-brackets-codemod.svg?branch=master)](https://travis-ci.org/rajasegar/ember-angle-brackets-codemod) 
-[![Coverage Status](https://coveralls.io/repos/github/rajasegar/ember-angle-brackets-codemod/badge.svg?branch=master)](https://coveralls.io/github/rajasegar/ember-angle-brackets-codemod?branch=master)
+[![Build Status](https://travis-ci.org/ember-codemods/ember-angle-brackets-codemod.svg?branch=master)](https://travis-ci.org/ember-codemods/ember-angle-brackets-codemod) 
+[![Coverage Status](https://coveralls.io/repos/github/ember-codemods/ember-angle-brackets-codemod/badge.svg?branch=master)](https://coveralls.io/github/ember-codemods/ember-angle-brackets-codemod?branch=master)
 [![npm version](http://img.shields.io/npm/v/ember-angle-brackets-codemod.svg?style=flat)](https://npmjs.org/package/ember-angle-brackets-codemod "View this project on npm")
-[![dependencies Status](https://david-dm.org/rajasegar/ember-angle-brackets-codemod/status.svg)](https://david-dm.org/rajasegar/ember-angle-brackets-codemod)
-[![devDependencies Status](https://david-dm.org/rajasegar/ember-angle-brackets-codemod/dev-status.svg)](https://david-dm.org/rajasegar/ember-angle-brackets-codemod?type=dev)
+[![dependencies Status](https://david-dm.org/ember-codemods/ember-angle-brackets-codemod/status.svg)](https://david-dm.org/ember-codemods/ember-angle-brackets-codemod)
+[![devDependencies Status](https://david-dm.org/ember-codemods/ember-angle-brackets-codemod/dev-status.svg)](https://david-dm.org/ember-codemods/ember-angle-brackets-codemod?type=dev)
 
 A [jscodeshift](https://github.com/facebook/jscodeshift) Codemod to convert curly braces syntax to angle brackets syntax for templates
 in an Ember.js app

@@ -227,8 +227,8 @@ const transformNestedSubExpression = subExpression => {
 const shouldSkipFile = (fileInfo, config) => {
   let source = fileInfo.source;
 
-  if (source.includes("~")) { //skip files with `~` until https://github.com/rajasegar/ember-angle-brackets-codemod/issues/46 is resolved
-    console.warn(`WARNING: ${fileInfo.path} was not converted as it contains a "~" (https://github.com/rajasegar/ember-angle-brackets-codemod/issues/46)`);
+  if (source.includes("~")) { //skip files with `~` until https://github.com/ember-codemods/ember-angle-brackets-codemod/issues/46 is resolved
+    console.warn(`WARNING: ${fileInfo.path} was not converted as it contains a "~" (https://github.com/ember-codemods/ember-angle-brackets-codemod/issues/46)`);
     return true;
   }
 
