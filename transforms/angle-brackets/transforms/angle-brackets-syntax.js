@@ -309,6 +309,12 @@ module.exports = function(fileInfo, api, options) {
         _value = b.text(a.value.original || _EMPTY_STRING_);
       }
 
+      //Check if properties match popular/reserved words and have 0 args
+      if ( _value.path && _value.path.original && IGNORE_MUSTACHE_STATEMENTS.includes(_value.path.original) && _value.hash.pairs.length === 0) {
+        _value = b.mustache(`this.${_value.path.original}`);
+      }
+
+
       return b.attr(_key, _value);
     });
   };
