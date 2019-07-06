@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rajasegar/ember-angle-brackets-codemod.git"
+    "url": "git+https://github.com/ember-codemods/ember-angle-brackets-codemod.git"
   },
   "keywords": [
     "codemod-cli",
@@ -24,12 +24,12 @@
     "codemods",
     "ember-addon"
   ],
-  "author": "Rajasegar Chandran <rajasegar.c@gmail.com>",
+  "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/rajasegar/ember-angle-brackets-codemod/issues"
+    "url": "https://github.com/ember-codemods/ember-angle-brackets-codemod/issues"
   },
-  "homepage": "https://github.com/rajasegar/ember-angle-brackets-codemod#readme",
+  "homepage": "https://github.com/ember-codemods/ember-angle-brackets-codemod#readme",
   "devDependencies": {
     "coveralls": "^3.0.4",
     "jest": "^24.8.0"
