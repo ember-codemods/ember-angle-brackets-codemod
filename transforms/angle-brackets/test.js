@@ -14,9 +14,11 @@ test('action-params', () => {
   `;
 
   expect(runTest('action-params.hbs', input)).toMatchInlineSnapshot(`
-    "<BsButton @onClick={{action \\"submit\\"}}>
-      Button
-    </BsButton>"
+    "
+        <BsButton @onClick={{action \\"submit\\"}}>
+          Button
+        </BsButton>
+      "
   `);
 });
 
@@ -34,21 +36,13 @@ test('actions', () => {
   `;
 
   expect(runTest('actions.hbs', input)).toMatchInlineSnapshot(`
-    "<BsButtonGroup
-      @value={{buttonGroupValue}}
-      @type=\\"checkbox\\"
-      @onChange={{action (mut buttonGroupValue)}} as |bg|
-    >
-      <bg.button @value={{1}}>
-        1
-      </bg.button>
-      <bg.button @value={{2}}>
-        2
-      </bg.button>
-      <bg.button @value={{3}}>
-        3
-      </bg.button>
-    </BsButtonGroup>"
+    "
+        <BsButtonGroup @value={{buttonGroupValue}} @type=\\"checkbox\\" @onChange={{action (mut buttonGroupValue)}} as |bg|>
+          <bg.button @value={{1}}>1</bg.button>
+          <bg.button @value={{2}}>2</bg.button>
+          <bg.button @value={{3}}>3</bg.button>
+        </BsButtonGroup>
+      "
   `);
 });
 
@@ -57,9 +51,11 @@ test('boolean-values', () => {
     {{my-component prop1=true prop2=false}}
   `;
 
-  expect(runTest('true-values.hbs', input)).toMatchInlineSnapshot(
-    `"<MyComponent @prop1={{true}} @prop2={{false}} />"`
-  );
+  expect(runTest('true-values.hbs', input)).toMatchInlineSnapshot(`
+    "
+        <MyComponent @prop1={{true}} @prop2={{false}} />
+      "
+  `);
 });
 
 test('curly', () => {
@@ -69,12 +65,10 @@ test('curly', () => {
   `;
 
   expect(runTest('curly.hbs', input)).toMatchInlineSnapshot(`
-    "<div>
-      {{foo}}
-    </div>
-    <div>
-      {{{bar}}}
-    </div>"
+    "
+        <div>{{foo}}</div>
+        <div>{{{bar}}}</div>
+      "
   `);
 });
 
@@ -109,24 +103,31 @@ test('data-attributes', () => {
   `;
 
   expect(runTest('data-attributes.hbs', input)).toMatchInlineSnapshot(`
-    "<XFoo data-foo={{true}} />
-    <XFoo data-test-selector={{true}} />
-    <XFoo data-test-selector={{post.id}} />
-    <XFoo @label=\\"hi\\" data-test-selector={{true}} />
-    <XFoo data-test-foo />
-    <XFoo data-foo={{true}}>
-      block
-    </XFoo>
-    <XFoo data-test-selector={{true}}>
-      block
-    </XFoo>
-    <XFoo data-test-selector={{post.id}}>
-      block
-    </XFoo>
-    <Common::AccordionComponent data-test-accordion as |accordion|>
-      block
-    </Common::AccordionComponent>
-    <XFoo data-foo @name=\\"Sophie\\" />"
+    "
+        <XFoo data-foo={{true}} />
+        <XFoo data-test-selector={{true}} />
+        <XFoo data-test-selector={{post.id}} />
+        <XFoo @label=\\"hi\\" data-test-selector={{true}} />
+        <XFoo data-test-foo />
+        
+        <XFoo data-foo={{true}}>
+          block
+        </XFoo>
+        
+        <XFoo data-test-selector={{true}}>
+          block
+        </XFoo>
+        
+        <XFoo data-test-selector={{post.id}}>
+          block
+        </XFoo>
+        
+        <Common::AccordionComponent data-test-accordion as |accordion|>
+          block
+        </Common::AccordionComponent>
+        
+        <XFoo data-foo @name=\\"Sophie\\" />
+      "
   `);
 });
 
@@ -162,31 +163,17 @@ test('deeply-nested-sub', () => {
   `;
 
   expect(runTest('deeply-nested-sub.hbs', input)).toMatchInlineSnapshot(`
-    "<SomeComponent class={{concat foo (some-helper ted (some-dude bar (a b c)))}}>
-      help
-    </SomeComponent>
-    <SomeComponent class={{concat foo (some-helper ted (some-dude bar (a b c)))}} />
-    <DeepComponent
-      class={{concat foo (nice-helper ted (some-crazy bar (a d (d e f))))}}
-    />
-    <SomeComponent class={{concat foo (some-helper bar)}} />
-    <SomeComponent class={{concat foo (some-helper bar quuz)}} />
-    <SomeComponent
-      @person={{hash name=\\"Sophie\\" age=1}}
-      @message={{t \\"welcome\\" count=1}}
-    />
-    <SomeComponent
-      @people={{array
-        (hash
-          name=\\"Alex\\"
-          age=5
-          nested=(hash oldest=true amount=(format-currency 350 sign=\\"£\\"))
-          disabled=(eq foo \\"bar\\")
-        )
-        (hash name=\\"Ben\\" age=4)
-        (hash name=\\"Sophie\\" age=1)
-      }}
-    />"
+    "
+        <SomeComponent class={{concat foo (some-helper ted (some-dude bar (a b c)))}}>
+          help
+        </SomeComponent>
+        <SomeComponent class={{concat foo (some-helper ted (some-dude bar (a b c)))}} />
+        <DeepComponent class={{concat foo (nice-helper ted (some-crazy bar (a d (d e f))))}} />
+        <SomeComponent class={{concat foo (some-helper bar)}} />
+        <SomeComponent class={{concat foo (some-helper bar quuz)}} />
+        <SomeComponent @person={{hash name=\\"Sophie\\" age=1}} @message={{t \\"welcome\\" count=1}} />
+        <SomeComponent @people={{array (hash name=\\"Alex\\" age=5 nested=(hash oldest=true amount=(format-currency 350 sign=\\"£\\")) disabled=(eq foo \\"bar\\")) (hash name=\\"Ben\\" age=4) (hash name=\\"Sophie\\" age=1)}} />
+      "
   `);
 });
 
@@ -200,11 +187,13 @@ test('each-in', () => {
   `;
 
   expect(runTest('each-in.hbs', input)).toMatchInlineSnapshot(`
-    "{{#each-in this.people as |name person|}}
-      Hello,{{name}}! You are{{person.age}}years old.
-    {{else}}
-      Sorry, nobody is here.
-    {{/each-in}}"
+    "
+        {{#each-in this.people as |name person|}}
+          Hello, {{name}}! You are {{person.age}} years old.
+        {{else}}
+          Sorry, nobody is here.
+        {{/each-in}}
+      "
   `);
 });
 
@@ -215,10 +204,10 @@ test('entities', () => {
   `;
 
   expect(runTest('entities.hbs', input)).toMatchInlineSnapshot(`
-    "&lt; &gt; &times;
-    <Foo data-a=\\"&quot;Foo&nbsp;&amp;&nbsp;Bar&quot;\\">
-      &nbsp;Some text &gt;
-    </Foo>"
+    "
+        &lt; &gt; &times;
+        <Foo data-a=\\"&quot;Foo&nbsp;&amp;&nbsp;Bar&quot;\\">&nbsp;Some text &gt;</Foo>
+      "
   `);
 });
 
@@ -247,29 +236,28 @@ test('html-tags', () => {
   `;
 
   expect(runTest('html-tags.hbs', input)).toMatchInlineSnapshot(`
-    "<input
-      type=\\"text\\"
-      value={{userValue}}
-      oninput={{action \\"change\\" value=\\"target.value\\"}}
-      class=\\"{{if invalid \\"invalid-input\\"}}\\"
-    />
-    <textarea
-      value={{userValue}}
-      oninput={{action \\"change\\" value=\\"target.value\\"}}
-      class=\\"{{if invalid \\"invalid-input\\"}}\\"
-    >
-      HI
-    </textarea>
-    <textarea
-      value={{userValue}}
-      oninput={{action (action \\"change\\") value=\\"target.value\\"}}
-      class=\\"{{if invalid \\"invalid-input\\"}}\\"
-    >
-      HI
-    </textarea>
-    <div onclick={{action \\"clickMe\\"}}></div>
-    <div data-foo=\\"{{if someThing yas nah}}\\"></div>
-    <div {{on \\"click\\" this.foo}}></div>"
+    "
+        <input 
+          type='text'
+          value={{userValue}}
+          oninput={{action 'change' value='target.value'}}
+          class=\\"{{if invalid 'invalid-input'}}\\"/>
+        
+        <textarea 
+          value={{userValue}}
+          oninput={{action 'change' value='target.value'}}
+          class=\\"{{if invalid 'invalid-input'}}\\">HI</textarea>
+        
+        <textarea 
+          value={{userValue}}
+          oninput={{action (action 'change') value='target.value'}}
+          class=\\"{{if invalid 'invalid-input'}}\\">HI</textarea>
+        
+        <div onclick={{action \\"clickMe\\"}}></div>
+        
+        <div data-foo=\\"{{if someThing yas nah}}\\"></div>
+        <div {{on 'click' this.foo}}></div>
+      "
   `);
 });
 
@@ -283,11 +271,13 @@ test('if', () => {
   `;
 
   expect(runTest('if.hbs', input)).toMatchInlineSnapshot(`
-    "{{#if (eq a b)}}
-      <MyComponent1 @prop1=\\"hello\\" />
-    {{else}}
-      <MyComponent2 @prop2=\\"world\\" />
-    {{/if}}"
+    "
+        {{#if (eq a b)}}
+          <MyComponent1 @prop1=\\"hello\\" />
+        {{else}}
+          <MyComponent2 @prop2=\\"world\\" />
+        {{/if}}
+      "
   `);
 });
 
@@ -297,11 +287,9 @@ test('input-helper', () => {
   `;
 
   expect(runTest('input-helper.hbs', input)).toMatchInlineSnapshot(`
-    "<Input
-      @type=\\"checkbox\\"
-      @name=\\"email-opt-in\\"
-      @checked={{this.model.emailPreference}}
-    />"
+    "
+        <Input @type=\\"checkbox\\" @name=\\"email-opt-in\\" @checked={{this.model.emailPreference}} />
+      "
   `);
 });
 
@@ -319,18 +307,17 @@ test('let', () => {
   `;
 
   expect(runTest('let.hbs', input)).toMatchInlineSnapshot(`
-    "{{#let
-      (capitalize this.person.firstName)
-      (capitalize this.person.lastName) as |firstName lastName|
-    }}
-      Welcome back
-      {{concat firstName \\" \\" lastName}}
-      Account Details:
-          First Name:
-      {{firstName}}
-      Last Name:
-      {{lastName}}
-    {{/let}}"
+    "
+        {{#let (capitalize this.person.firstName) (capitalize this.person.lastName)
+          as |firstName lastName|
+        }}
+          Welcome back {{concat firstName ' ' lastName}}
+        
+          Account Details:
+          First Name: {{firstName}}
+          Last Name: {{lastName}}
+        {{/let}}
+      "
   `);
 });
 
@@ -341,12 +328,10 @@ test('link-to', () => {
   `;
 
   expect(runTest('link-to.hbs', input)).toMatchInlineSnapshot(`
-    "<LinkTo @route=\\"about\\">
-      About Us
-    </LinkTo>
-    <LinkTo @route={{this.dynamicRoute}}>
-      About Us
-    </LinkTo>"
+    "
+        <LinkTo @route=\\"about\\">About Us</LinkTo>
+        <LinkTo @route={{this.dynamicRoute}}>About Us</LinkTo>
+      "
   `);
 });
 
@@ -378,34 +363,12 @@ test('link-to-inline', () => {
   `;
 
   expect(runTest('link-to-inline.hbs', input)).toMatchInlineSnapshot(`
-    "<LinkTo @route=\\"some.route\\">
-      Title
-    </LinkTo>
-    <LinkTo
-      @route=\\"apps.segments\\"
-      class=\\"tabs__discrete-tab\\"
-      @activeClass=\\"o__selected\\"
-      @current-when=\\"apps.segments\\"
-      data-test-segment-link=\\"segments\\"
-    >
-      Segments
-    </LinkTo>
-    <LinkTo
-      @route={{this.dynamicPath}}
-      class=\\"tabs__discrete-tab\\"
-      @activeClass=\\"o__selected\\"
-      @current-when=\\"apps.segments\\"
-      data-test-segment-link=\\"segments\\"
-    >
-      Segments
-    </LinkTo>
-    <LinkTo
-      @route=\\"apps.app.companies.segments.segment\\"
-      @model={{segment}}
-      class=\\"t__em-link\\"
-    >
-      {{segment.name}}
-    </LinkTo>"
+    "
+        <LinkTo @route=\\"some.route\\">Title</LinkTo>
+        <LinkTo @route=\\"apps.segments\\" class=\\"tabs__discrete-tab\\" @activeClass=\\"o__selected\\" @current-when=\\"apps.segments\\" data-test-segment-link=\\"segments\\">Segments</LinkTo>
+        <LinkTo @route={{this.dynamicPath}} class=\\"tabs__discrete-tab\\" @activeClass=\\"o__selected\\" @current-when=\\"apps.segments\\" data-test-segment-link=\\"segments\\">Segments</LinkTo>
+        <LinkTo @route=\\"apps.app.companies.segments.segment\\" @model={{segment}} class=\\"t__em-link\\">{{segment.name}}</LinkTo>
+      "
   `);
 });
 
@@ -417,21 +380,11 @@ test('link-to-model', () => {
   `;
 
   expect(runTest('link-to-model.hbs', input)).toMatchInlineSnapshot(`
-    "<LinkTo @route=\\"post\\" @model={{post}}>
-      Read
-      {{post.title}}
-      ...
-    </LinkTo>
-    <LinkTo @route=\\"post\\" @model=\\"string-id\\">
-      Read
-      {{post.title}}
-      ...
-    </LinkTo>
-    <LinkTo @route=\\"post\\" @model={{557}}>
-      Read
-      {{post.title}}
-      ...
-    </LinkTo>"
+    "
+        <LinkTo @route=\\"post\\" @model={{post}}>Read {{post.title}}...</LinkTo>
+        <LinkTo @route=\\"post\\" @model=\\"string-id\\">Read {{post.title}}...</LinkTo>
+        <LinkTo @route=\\"post\\" @model={{557}}>Read {{post.title}}...</LinkTo>
+      "
   `);
 });
 
@@ -446,18 +399,14 @@ test('link-to-model-array', () => {
   `;
 
   expect(runTest('link-to-model-array.hbs', input)).toMatchInlineSnapshot(`
-    "<LinkTo @route=\\"post.comment\\" @models={{array post comment}}>
-      Comment by
-      {{comment.author.name}}
-      on
-      {{comment.date}}
-    </LinkTo>
-    <LinkTo @route={{this.dynamicPath}} @models={{array post comment}}>
-      Comment by
-      {{comment.author.name}}
-      on
-      {{comment.date}}
-    </LinkTo>"
+    "
+        <LinkTo @route=\\"post.comment\\" @models={{array post comment}}>
+          Comment by {{comment.author.name}} on {{comment.date}}
+        </LinkTo>
+        <LinkTo @route={{this.dynamicPath}} @models={{array post comment}}>
+          Comment by {{comment.author.name}} on {{comment.date}}
+        </LinkTo>
+      "
   `);
 });
 
@@ -487,35 +436,24 @@ test('link-to-query-param', () => {
   `;
 
   expect(runTest('link-to-query-param.hbs', input)).toMatchInlineSnapshot(`
-    "<LinkTo @route=\\"posts\\" @query={{hash direction=\\"desc\\" showArchived=false}}>
-      Recent Posts
-    </LinkTo>
-    <LinkTo @route=\\"posts\\" data-test-foo>
-      Recent Posts
-    </LinkTo>
-    <LinkTo
-      @route={{this.dynamicPath}}
-      @query={{hash direction=\\"desc\\" showArchived=false}}
-    >
-      Recent Posts
-    </LinkTo>
-    <LinkTo
-      @route={{this.dynamicPath}}
-      @query={{hash direction=\\"desc\\" showArchived=false}}
-      data-test-foo
-    >
-      Recent Posts
-    </LinkTo>
-    <LinkTo @query={{hash direction=\\"desc\\" showArchived=false}}>
-      Recent Posts
-    </LinkTo>
-    <LinkTo
-      @route=\\"apps.app.users.segments.segment\\"
-      @model=\\"all-users\\"
-      @query={{hash searchTerm=searchTerm}}
-    >
-      Users
-    </LinkTo>"
+    "
+        <LinkTo @route=\\"posts\\" @query={{hash direction=\\"desc\\" showArchived=false}}>
+          Recent Posts
+        </LinkTo>
+        <LinkTo @route=\\"posts\\" data-test-foo>
+          Recent Posts
+        </LinkTo>
+        <LinkTo @route={{this.dynamicPath}} @query={{hash direction=\\"desc\\" showArchived=false}}>
+          Recent Posts
+        </LinkTo>
+        <LinkTo @route={{this.dynamicPath}} @query={{hash direction=\\"desc\\" showArchived=false}} data-test-foo>
+          Recent Posts
+        </LinkTo>
+        <LinkTo @query={{hash direction=\\"desc\\" showArchived=false}}>
+          Recent Posts
+        </LinkTo>
+        <LinkTo @route=\\"apps.app.users.segments.segment\\" @model=\\"all-users\\" @query={{hash searchTerm=searchTerm}}>Users</LinkTo>
+      "
   `);
 });
 
@@ -532,16 +470,16 @@ test('nested', () => {
   `;
 
   expect(runTest('nested.hbs', input)).toMatchInlineSnapshot(`
-    "<Ui::SiteHeader @user={{this.user}} class={{if this.user.isAdmin \\"admin\\"}} />
-    <Ui::Button @text=\\"Click me\\" />
-    <SomePath::AnotherPath::SuperSelect @selected={{this.user.country}} as |s|>
-      {{#each this.availableCountries as |country|}}
-        <s.option @value={{country}}>
-          {{country.name}}
-        </s.option>
-      {{/each}}
-    </SomePath::AnotherPath::SuperSelect>
-    <XFoo::XBar />"
+    "
+        <Ui::SiteHeader @user={{this.user}} class={{if this.user.isAdmin \\"admin\\"}} />
+        <Ui::Button @text=\\"Click me\\" />
+        <SomePath::AnotherPath::SuperSelect @selected={{this.user.country}} as |s|>
+          {{#each this.availableCountries as |country|}}
+            <s.option @value={{country}}>{{country.name}}</s.option>
+          {{/each}}
+        </SomePath::AnotherPath::SuperSelect>
+        <XFoo::XBar />
+      "
   `);
 });
 
@@ -550,9 +488,11 @@ test('null-subexp', () => {
     {{some-component selected=(is-equal this.bar null)}}
   `;
 
-  expect(runTest('null-subexp.hbs', input)).toMatchInlineSnapshot(
-    `"<SomeComponent @selected={{is-equal this.bar null}} />"`
-  );
+  expect(runTest('null-subexp.hbs', input)).toMatchInlineSnapshot(`
+    "
+        <SomeComponent @selected={{is-equal this.bar null}} />
+      "
+  `);
 });
 
 test('positional-params', () => {
@@ -569,15 +509,17 @@ test('positional-params', () => {
   `;
 
   expect(runTest('positional-params.hbs', input)).toMatchInlineSnapshot(`
-    "{{some-component \\"foo\\"}}
-    {{#some-component \\"foo\\"}}
-      hi
-    {{/some-component}}
-    {{#some-component foo}}
-      hi
-    {{/some-component}}
-    {{some-component 123}}
-    {{some-component (some-helper 987)}}"
+    "
+        {{some-component \\"foo\\"}}
+        {{#some-component \\"foo\\"}}
+          hi
+        {{/some-component}}
+        {{#some-component foo}}
+          hi
+        {{/some-component}}
+        {{some-component 123}}
+        {{some-component (some-helper 987)}}
+      "
   `);
 });
 
@@ -597,17 +539,19 @@ test('sample', () => {
   `;
 
   expect(runTest('sample.hbs', input)).toMatchInlineSnapshot(`
-    "<SiteHeader @user={{this.user}} class={{if this.user.isAdmin \\"admin\\"}} />
-    <SiteHeader @user={{null}} @address={{undefined}} />
-    <SuperSelect @selected={{this.user.country}} as |s|>
-      {{#each this.availableCountries as |country|}}
-        <s.option @value={{country}}>
-          {{country.name}}
-        </s.option>
-      {{/each}}
-    </SuperSelect>
-    <Foo::Bar @tagName=\\"\\" />
-    <Foo @tagName=\\"div\\" @a=\\"\\" @b=\\"\\" />"
+    "
+        <SiteHeader @user={{this.user}} class={{if this.user.isAdmin \\"admin\\"}} />
+        <SiteHeader @user={{null}} @address={{undefined}} />
+
+        <SuperSelect @selected={{this.user.country}} as |s|>
+          {{#each this.availableCountries as |country|}}
+            <s.option @value={{country}}>{{country.name}}</s.option>
+          {{/each}}
+        </SuperSelect>
+
+        <Foo::Bar @tagName=\\"\\" />
+        <Foo @tagName=\\"div\\" @a=\\"\\" @b=\\"\\" />
+      "
   `);
 });
 
@@ -624,16 +568,16 @@ test('sample2', () => {
   `;
 
   expect(runTest('sample2.hbs', input)).toMatchInlineSnapshot(`
-    "<MyCard as |card|>
-      <card.title @title=\\"My Card Title\\" />
-      <card.content>
-        <p>
-          hello
-        </p>
-      </card.content>
-      <card.foo-bar />
-      {{card.foo}}
-    </MyCard>"
+    "
+        <MyCard as |card|>
+          <card.title @title=\\"My Card Title\\" />
+          <card.content>
+            <p>hello</p>
+          </card.content>
+          <card.foo-bar />
+          {{card.foo}}
+        </MyCard>
+      "
   `);
 });
 
@@ -642,9 +586,11 @@ test('t-helper', () => {
     {{t "some.string" param="string" another=1}}
   `;
 
-  expect(runTest('t-helper.hbs', input)).toMatchInlineSnapshot(
-    `"{{t \\"some.string\\" param=\\"string\\" another=1}}"`
-  );
+  expect(runTest('t-helper.hbs', input)).toMatchInlineSnapshot(`
+    "
+        {{t \\"some.string\\" param=\\"string\\" another=1}}
+      "
+  `);
 });
 
 test('tag-name', () => {
@@ -652,7 +598,11 @@ test('tag-name', () => {
     {{foo/bar name=""}}
   `;
 
-  expect(runTest('tag-name.hbs', input)).toMatchInlineSnapshot(`"<Foo::Bar @name=\\"\\" />"`);
+  expect(runTest('tag-name.hbs', input)).toMatchInlineSnapshot(`
+    "
+        <Foo::Bar @name=\\"\\" />
+      "
+  `);
 });
 
 test('textarea', () => {
@@ -660,9 +610,11 @@ test('textarea', () => {
     {{textarea value=this.model.body}}
   `;
 
-  expect(runTest('textarea.hbs', input)).toMatchInlineSnapshot(
-    `"<Textarea @value={{this.model.body}} />"`
-  );
+  expect(runTest('textarea.hbs', input)).toMatchInlineSnapshot(`
+    "
+        <Textarea @value={{this.model.body}} />
+      "
+  `);
 });
 
 test('tilde', () => {
@@ -686,9 +638,11 @@ test('undefined-subexp', () => {
     {{some-component selected=(is-equal this.bar undefined)}}
   `;
 
-  expect(runTest('undefined-subexp.hbs', input)).toMatchInlineSnapshot(
-    `"<SomeComponent @selected={{is-equal this.bar undefined}} />"`
-  );
+  expect(runTest('undefined-subexp.hbs', input)).toMatchInlineSnapshot(`
+    "
+        <SomeComponent @selected={{is-equal this.bar undefined}} />
+      "
+  `);
 });
 
 test('unless', () => {
@@ -699,9 +653,11 @@ test('unless', () => {
   `;
 
   expect(runTest('unless.hbs', input)).toMatchInlineSnapshot(`
-    "{{#unless this.hasPaid}}
-      You owe: \${{this.total}}
-    {{/unless}}"
+    "
+        {{#unless this.hasPaid}}
+          You owe: \${{this.total}}
+        {{/unless}}
+      "
   `);
 });
 
@@ -740,37 +696,34 @@ test('skip-default-helpers', () => {
   };
 
   expect(runTest('skip-default-helpers.hbs', input, options)).toMatchInlineSnapshot(`
-    "<div id=\\"main-container\\">
-      {{liquid-outlet}}
-    </div>
-    <button {{action \\"toggle\\" \\"showA\\"}}>
-      Toggle A/B
-    </button>
-    <button {{action \\"toggle\\" \\"showOne\\"}}>
-      Toggle One/Two
-    </button>
-    {{#liquid-if showOne class=\\"nested-explode-transition-scenario\\"}}
-      <div class=\\"child\\">
-        {{#liquid-if showA use=\\"toLeft\\"}}
-          <div class=\\"child-one-a\\">
-            One: A
+    "
+        <div id=\\"main-container\\">
+          {{liquid-outlet}}
+        </div>
+        <button {{action \\"toggle\\" \\"showA\\"}}>
+          Toggle A/B</button>
+        <button {{action \\"toggle\\" \\"showOne\\"}}>
+          Toggle One/Two
+        </button>
+        {{#liquid-if showOne class=\\"nested-explode-transition-scenario\\"}}
+          <div class=\\"child\\">
+            {{#liquid-if showA use=\\"toLeft\\"}}
+              <div class=\\"child-one-a\\">One: A</div>
+            {{else}}
+              <div class=\\"child-one-b\\">One: B</div>
+            {{/liquid-if}}
           </div>
         {{else}}
-          <div class=\\"child-one-b\\">
-            One: B
+          <div class=\\"child child-two\\">
+            Two
           </div>
         {{/liquid-if}}
-      </div>
-    {{else}}
-      <div class=\\"child child-two\\">
-        Two
-      </div>
-    {{/liquid-if}}
-    {{moment \\"12-25-1995\\" \\"MM-DD-YYYY\\"}}
-    {{moment-from \\"1995-12-25\\" \\"2995-12-25\\" hideAffix=true}}
-    <SomeComponent @foo={{true}} />
-    {{some-helper1 foo=true}}
-    {{some-helper2 foo=true}}"
+        {{moment '12-25-1995' 'MM-DD-YYYY'}}
+        {{moment-from '1995-12-25' '2995-12-25' hideAffix=true}}
+        <SomeComponent @foo={{true}} />
+        {{some-helper1 foo=true}}
+        {{some-helper2 foo=true}}
+      "
   `);
 });
 
@@ -805,37 +758,34 @@ test('skip-default-helpers (no-config)', () => {
   `;
 
   expect(runTest('skip-default-helpers.hbs', input)).toMatchInlineSnapshot(`
-    "<div id=\\"main-container\\">
-      {{liquid-outlet}}
-    </div>
-    <button {{action \\"toggle\\" \\"showA\\"}}>
-      Toggle A/B
-    </button>
-    <button {{action \\"toggle\\" \\"showOne\\"}}>
-      Toggle One/Two
-    </button>
-    {{#liquid-if showOne class=\\"nested-explode-transition-scenario\\"}}
-      <div class=\\"child\\">
-        {{#liquid-if showA use=\\"toLeft\\"}}
-          <div class=\\"child-one-a\\">
-            One: A
+    "
+        <div id=\\"main-container\\">
+          {{liquid-outlet}}
+        </div>
+        <button {{action \\"toggle\\" \\"showA\\"}}>
+          Toggle A/B</button>
+        <button {{action \\"toggle\\" \\"showOne\\"}}>
+          Toggle One/Two
+        </button>
+        {{#liquid-if showOne class=\\"nested-explode-transition-scenario\\"}}
+          <div class=\\"child\\">
+            {{#liquid-if showA use=\\"toLeft\\"}}
+              <div class=\\"child-one-a\\">One: A</div>
+            {{else}}
+              <div class=\\"child-one-b\\">One: B</div>
+            {{/liquid-if}}
           </div>
         {{else}}
-          <div class=\\"child-one-b\\">
-            One: B
+          <div class=\\"child child-two\\">
+            Two
           </div>
         {{/liquid-if}}
-      </div>
-    {{else}}
-      <div class=\\"child child-two\\">
-        Two
-      </div>
-    {{/liquid-if}}
-    {{moment \\"12-25-1995\\" \\"MM-DD-YYYY\\"}}
-    {{moment-from \\"1995-12-25\\" \\"2995-12-25\\" hideAffix=true}}
-    <SomeComponent @foo={{true}} />
-    <SomeHelper1 @foo={{true}} />
-    <SomeHelper2 @foo={{true}} />"
+        {{moment '12-25-1995' 'MM-DD-YYYY'}}
+        {{moment-from '1995-12-25' '2995-12-25' hideAffix=true}}
+        <SomeComponent @foo={{true}} />
+        <SomeHelper1 @foo={{true}} />
+        <SomeHelper2 @foo={{true}} />
+      "
   `);
 });
 
@@ -855,11 +805,13 @@ test('custom-options', () => {
   };
 
   expect(runTest('custom-options.hbs', input, options)).toMatchInlineSnapshot(`
-    "<SomeComponent @foo={{true}} />
-    {{some-helper1 foo=true}}
-    {{some-helper2 foo=true}}
-    {{link-to \\"Title\\" \\"some.route\\"}}
-    {{textarea value=this.model.body}}
-    {{input type=\\"checkbox\\" name=\\"email-opt-in\\" checked=this.model.emailPreference}}"
+    "
+        <SomeComponent @foo={{true}} />
+        {{some-helper1 foo=true}}
+        {{some-helper2 foo=true}}
+        {{link-to \\"Title\\" \\"some.route\\"}}
+        {{textarea value=this.model.body}}
+        {{input type=\\"checkbox\\" name=\\"email-opt-in\\" checked=this.model.emailPreference}}
+      "
   `);
 });
