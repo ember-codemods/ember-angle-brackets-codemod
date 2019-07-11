@@ -138,7 +138,7 @@ set of tests instead of running the whole test suite.
 
 We are making use of both these features to start our tests in this particular fashion.
 For more details on node debug, visit the [official](https://nodejs.org/en/docs/guides/debugging-getting-started/) 
-Node.js debugging guide, and for jest documentation on tests, [here](https://jestjs.io/docs/en/cli)
+Node.js debugging guide, and for jest documentation on tests, please refer [here](https://jestjs.io/docs/en/cli).
 
 ```sh
 node --inspect-brk ./node_modules/.bin/codemod-cli -t '<fixture-name>'
