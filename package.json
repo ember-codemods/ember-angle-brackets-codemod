@@ -39,6 +39,9 @@
     "jest": "^24.8.0",
     "husky": "~3.0.1"
   },
+  "engines": {
+    "node": "^8 || >=10"
+  },
   "jest": {
     "collectCoverageFrom": [
       "transforms/angle-brackets/transforms/**/*.{js,jsx}"
