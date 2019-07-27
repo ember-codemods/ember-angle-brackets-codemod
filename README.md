@@ -1,5 +1,6 @@
 # ember-angle-brackets-codemod
 
+[![Ember Observer Score](https://emberobserver.com/badges/ember-angle-brackets-codemod.svg)](https://emberobserver.com/addons/ember-angle-brackets-codemod)
 [![Build Status](https://travis-ci.org/ember-codemods/ember-angle-brackets-codemod.svg?branch=master)](https://travis-ci.org/ember-codemods/ember-angle-brackets-codemod) 
 [![Coverage Status](https://coveralls.io/repos/github/ember-codemods/ember-angle-brackets-codemod/badge.svg?branch=master)](https://coveralls.io/github/ember-codemods/ember-angle-brackets-codemod?branch=master)
 [![npm version](http://img.shields.io/npm/v/ember-angle-brackets-codemod.svg?style=flat)](https://npmjs.org/package/ember-angle-brackets-codemod "View this project on npm")

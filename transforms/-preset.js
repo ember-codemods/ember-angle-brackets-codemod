@@ -12,23 +12,23 @@ module.exports = function(type) {
     let options = getOptions();
     let error;
 
-    fs.readdirSync(transformPath)
-      .forEach(fileName => {
-        let fix = require(path.join(transformPath, fileName));
-        if (typeof(src) === 'undefined') {
-          return;
-        }
-        try {
-          src = fix(Object.assign({},file, { source: src }), api, options);
-        } catch(e) {
-          error = new Error(`Transformation ${fileName} errored on file ${file.path}. Reason ${e}. Please report this in https://github.com/ember-codemods/ember-angle-brackets-codemod/issues\n\nStack trace:\n${e.stack}\n\nSource:\n${src}`);
-        }
-
-      });
+    fs.readdirSync(transformPath).forEach(fileName => {
+      let fix = require(path.join(transformPath, fileName));
+      if (typeof src === 'undefined') {
+        return;
+      }
+      try {
+        src = fix(Object.assign({}, file, { source: src }), api, options);
+      } catch (e) {
+        error = new Error(
+          `Transformation ${fileName} errored on file ${file.path}. Reason ${e}. Please report this in https://github.com/ember-codemods/ember-angle-brackets-codemod/issues\n\nStack trace:\n${e.stack}\n\nSource:\n${src}`
+        );
+      }
+    });
 
     if (error) {
       throw error;
     }
     return src;
   };
-}
+};
