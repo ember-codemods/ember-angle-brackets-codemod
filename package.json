@@ -10,7 +10,7 @@
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls"
   },
   "dependencies": {
-    "@glimmer/syntax": "^0.41.4",
+    "@glimmer/syntax": "^0.42.0",
     "codemod-cli": "^1.1.0",
     "prettier": "^1.18.2"
   },
