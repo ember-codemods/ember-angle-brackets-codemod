@@ -2,47 +2,47 @@
   "name": "ember-angle-brackets-codemod",
   "version": "1.4.12",
   "description": "Codemod to convert to Angle brackets syntax",
+  "keywords": [
+    "codemod-cli",
+    "codemods",
+    "ember",
+    "ember-addon"
+  ],
+  "homepage": "https://github.com/ember-codemods/ember-angle-brackets-codemod#readme",
+  "bugs": {
+    "url": "https://github.com/ember-codemods/ember-angle-brackets-codemod/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ember-codemods/ember-angle-brackets-codemod.git"
+  },
+  "license": "MIT",
+  "author": "",
   "main": "etr-transform.js",
   "bin": "./bin/cli.js",
   "scripts": {
-    "test": "codemod-cli test --coverage",
+    "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
     "deploy": "npm version patch && git push && git push --tags && npm publish",
-    "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls"
+    "test": "codemod-cli test --coverage"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "transforms/angle-brackets/transforms/**/*.{js,jsx}"
+    ]
   },
   "dependencies": {
     "@glimmer/syntax": "^0.42.0",
     "codemod-cli": "^2.0.0",
     "prettier": "^1.18.2"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ember-codemods/ember-angle-brackets-codemod.git"
-  },
-  "keywords": [
-    "codemod-cli",
-    "ember",
-    "codemods",
-    "ember-addon"
-  ],
-  "author": "",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ember-codemods/ember-angle-brackets-codemod/issues"
-  },
-  "homepage": "https://github.com/ember-codemods/ember-angle-brackets-codemod#readme",
   "devDependencies": {
+    "coveralls": "^3.0.5",
     "eslint": "^6.5.0",
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-prettier": "^3.1.0",
-    "coveralls": "^3.0.5",
     "jest": "^24.8.0"
   },
   "engines": {
     "node": "^8 || >=10"
-  },
-  "jest": {
-    "collectCoverageFrom": [
-      "transforms/angle-brackets/transforms/**/*.{js,jsx}"
-    ]
   }
 }
