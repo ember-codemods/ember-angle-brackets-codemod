@@ -6,7 +6,7 @@
     "codemod-cli",
     "codemods",
     "ember",
-    "ember-addon"
+    "ember-codemod"
   ],
   "homepage": "https://github.com/ember-codemods/ember-angle-brackets-codemod#readme",
   "bugs": {
