@@ -18,7 +18,6 @@
   },
   "license": "MIT",
   "author": "",
-  "main": "etr-transform.js",
   "bin": "./bin/cli.js",
   "scripts": {
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
