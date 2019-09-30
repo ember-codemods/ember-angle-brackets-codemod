@@ -35,6 +35,11 @@ test('actions', () => {
     {{/bs-button-group}}
   `;
 
+  /**
+   * NOTE: An issue has been opened in `ember-template-recast` (https://github.com/ember-template-lint/ember-template-recast/issues/82)
+   * regarding to create an API to allow a transform to customize the whitespace for newly created nodes.
+   *
+   */
   expect(runTest('actions.hbs', input)).toMatchInlineSnapshot(`
     "
         <BsButtonGroup @value={{buttonGroupValue}} @type=\\"checkbox\\" @onChange={{action (mut buttonGroupValue)}} as |bg|>
@@ -79,23 +84,23 @@ test('data-attributes', () => {
     {{x-foo data-test-selector=post.id}}
     {{x-foo label="hi" data-test-selector=true}}
     {{x-foo data-test-foo }}
-    
+
     {{#x-foo data-foo=true}}
       block
     {{/x-foo}}
-    
+
     {{#x-foo data-test-selector=true}}
       block
     {{/x-foo}}
-    
+
     {{#x-foo data-test-selector=post.id}}
       block
     {{/x-foo}}
-    
+
     {{#common/accordion-component data-test-accordion as |accordion|}}
       block
     {{/common/accordion-component}}
-    
+
     {{x-foo
       data-foo
       name="Sophie"
@@ -109,23 +114,23 @@ test('data-attributes', () => {
         <XFoo data-test-selector={{post.id}} />
         <XFoo @label=\\"hi\\" data-test-selector={{true}} />
         <XFoo data-test-foo />
-        
+
         <XFoo data-foo={{true}}>
           block
         </XFoo>
-        
+
         <XFoo data-test-selector={{true}}>
           block
         </XFoo>
-        
+
         <XFoo data-test-selector={{post.id}}>
           block
         </XFoo>
-        
+
         <Common::AccordionComponent data-test-accordion as |accordion|>
           block
         </Common::AccordionComponent>
-        
+
         <XFoo data-foo @name=\\"Sophie\\" />
       "
   `);
@@ -144,8 +149,8 @@ test('deeply-nested-sub', () => {
     {{some-component
       class=(concat foo (some-helper bar quuz))
     }}
-    {{some-component 
-      person=(hash name="Sophie" age=1) 
+    {{some-component
+      person=(hash name="Sophie" age=1)
       message=(t "welcome" count=1)
     }}
     {{some-component
@@ -162,6 +167,11 @@ test('deeply-nested-sub', () => {
     }}
   `;
 
+  /**
+   * NOTE: An issue has been opened in `ember-template-recast` (https://github.com/ember-template-lint/ember-template-recast/issues/82)
+   * regarding to create an API to allow a transform to customize the whitespace for newly created nodes.
+   *
+   */
   expect(runTest('deeply-nested-sub.hbs', input)).toMatchInlineSnapshot(`
     "
         <SomeComponent class={{concat foo (some-helper ted (some-dude bar (a b c)))}}>
@@ -213,48 +223,48 @@ test('entities', () => {
 
 test('html-tags', () => {
   let input = `
-    <input 
+    <input
       type='text'
       value={{userValue}}
       oninput={{action 'change' value='target.value'}}
       class="{{if invalid 'invalid-input'}}"/>
-    
-    <textarea 
+
+    <textarea
       value={{userValue}}
       oninput={{action 'change' value='target.value'}}
       class="{{if invalid 'invalid-input'}}">HI</textarea>
-    
-    <textarea 
+
+    <textarea
       value={{userValue}}
       oninput={{action (action 'change') value='target.value'}}
       class="{{if invalid 'invalid-input'}}">HI</textarea>
-    
+
     <div onclick={{action "clickMe"}}></div>
-    
+
     <div data-foo="{{if someThing yas nah}}"></div>
     <div {{on 'click' this.foo}}></div>
   `;
 
   expect(runTest('html-tags.hbs', input)).toMatchInlineSnapshot(`
     "
-        <input 
+        <input
           type='text'
           value={{userValue}}
           oninput={{action 'change' value='target.value'}}
           class=\\"{{if invalid 'invalid-input'}}\\"/>
-        
-        <textarea 
+
+        <textarea
           value={{userValue}}
           oninput={{action 'change' value='target.value'}}
           class=\\"{{if invalid 'invalid-input'}}\\">HI</textarea>
-        
-        <textarea 
+
+        <textarea
           value={{userValue}}
           oninput={{action (action 'change') value='target.value'}}
           class=\\"{{if invalid 'invalid-input'}}\\">HI</textarea>
-        
+
         <div onclick={{action \\"clickMe\\"}}></div>
-        
+
         <div data-foo=\\"{{if someThing yas nah}}\\"></div>
         <div {{on 'click' this.foo}}></div>
       "
@@ -299,7 +309,7 @@ test('let', () => {
       as |firstName lastName|
     }}
       Welcome back {{concat firstName ' ' lastName}}
-    
+
       Account Details:
       First Name: {{firstName}}
       Last Name: {{lastName}}
@@ -312,7 +322,7 @@ test('let', () => {
           as |firstName lastName|
         }}
           Welcome back {{concat firstName ' ' lastName}}
-        
+
           Account Details:
           First Name: {{firstName}}
           Last Name: {{lastName}}
@@ -354,14 +364,19 @@ test('link-to-inline', () => {
       current-when='apps.segments'
       data-test-segment-link='segments'
     }}
-    {{link-to 
-      segment.name 
-      'apps.app.companies.segments.segment' 
-      segment 
+    {{link-to
+      segment.name
+      'apps.app.companies.segments.segment'
+      segment
       class="t__em-link"
     }}
   `;
 
+  /**
+   * NOTE: An issue has been opened in `ember-template-recast` (https://github.com/ember-template-lint/ember-template-recast/issues/82)
+   * regarding to create an API to allow a transform to customize the whitespace for newly created nodes.
+   *
+   */
   expect(runTest('link-to-inline.hbs', input)).toMatchInlineSnapshot(`
     "
         <LinkTo @route=\\"some.route\\">Title</LinkTo>
@@ -378,7 +393,11 @@ test('link-to-model', () => {
     {{#link-to "post" "string-id"}}Read {{post.title}}...{{/link-to}}
     {{#link-to "post" 557}}Read {{post.title}}...{{/link-to}}
   `;
-
+  /**
+   * NOTE: An issue has been opened in `ember-template-recast` (https://github.com/ember-template-lint/ember-template-recast/issues/82)
+   * regarding to create an API to allow a transform to customize the whitespace for newly created nodes.
+   *
+   */
   expect(runTest('link-to-model.hbs', input)).toMatchInlineSnapshot(`
     "
         <LinkTo @route=\\"post\\" @model={{post}}>Read {{post.title}}...</LinkTo>
@@ -434,7 +453,11 @@ test('link-to-query-param', () => {
       (query-params searchTerm=searchTerm)
     }}
   `;
-
+  /**
+   * NOTE: An issue has been opened in `ember-template-recast` (https://github.com/ember-template-lint/ember-template-recast/issues/82)
+   * regarding to create an API to allow a transform to customize the whitespace for newly created nodes.
+   *
+   */
   expect(runTest('link-to-query-param.hbs', input)).toMatchInlineSnapshot(`
     "
         <LinkTo @route=\\"posts\\" @query={{hash direction=\\"desc\\" showArchived=false}}>
