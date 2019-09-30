@@ -217,6 +217,11 @@ function shouldSkipFile(fileInfo, config) {
 }
 
 function transform(fileInfo, config) {
+  config.helpers = config.helpers || [];
+  config.skipBuiltInComponents =
+    'skipBuiltInComponents' in config ? config.skipBuiltInComponents : false;
+  config.skipFilesThatMatchRegex = config.skipFilesThatMatchRegex || null;
+
   if (shouldSkipFile(fileInfo, config)) {
     return fileInfo.source;
   }
@@ -490,11 +495,7 @@ function transform(fileInfo, config) {
 }
 
 function getOptions() {
-  let options = {
-    helpers: [],
-    skipBuiltInComponents: false,
-    skipFilesThatMatchRegex: null,
-  };
+  let options = {};
 
   let cliOptions = getCLIOptions();
   if (cliOptions.config) {
