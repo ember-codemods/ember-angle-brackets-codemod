@@ -402,7 +402,7 @@ test('textarea', () => {
 test('tilde', () => {
   let input = `
     {{#if foo~}}
-      bar
+      {{some-component}}
     {{/if}}
   `;
 

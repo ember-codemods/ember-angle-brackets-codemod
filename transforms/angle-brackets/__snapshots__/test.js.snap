@@ -701,11 +701,11 @@ exports[`textarea 1`] = `
 
 exports[`tilde 1`] = `
 "{{#if foo~}}
-  bar
+  {{some-component}}
 {{/if}}
 ~~~~~~~~
 {{#if foo~}}
-  bar
+  {{some-component}}
 {{/if}}"
 `;
 
