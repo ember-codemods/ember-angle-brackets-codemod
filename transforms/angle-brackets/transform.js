@@ -254,10 +254,9 @@ function transformToAngleBracket(env, fileInfo, config) {
       }
 
       if (_valueType === 'PathExpression') {
-        _value = b.mustache(b.path(a.value));
+        _value = b.mustache(a.value);
       } else if (_valueType === 'SubExpression') {
         if (a.value.hash.pairs.length > 0) {
-          // _value = b.mustache(a.value.path.original, a.value.params, a.value.hash);
           a.value.type = 'MustacheStatement';
           _value = a.value;
         } else {
@@ -487,14 +486,6 @@ function transformToAngleBracket(env, fileInfo, config) {
       if (!shouldIgnoreMustacheStatement(node.path.original)) {
         return transformNode(node);
       }
-    },
-
-    ElementNode(node) {
-      node.attributes.forEach(a => {
-        if (a.value && a.value.chars === '' && a.value.chars === _EMPTY_STRING_) {
-          a.value = b.text(_EMPTY_STRING_);
-        }
-      });
     },
   };
 }
