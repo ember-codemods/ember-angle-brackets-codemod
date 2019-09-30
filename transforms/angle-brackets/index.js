@@ -1,4 +1,4 @@
-const { getOptions } = require('codemod-cli');
+const { getOptions: getCLIOptions } = require('codemod-cli');
 const glimmer = require('@glimmer/syntax');
 const prettier = require('prettier');
 const path = require('path');
@@ -511,11 +511,14 @@ function transform(fileInfo, config) {
   return prettier.format(dataOk, { parser: 'glimmer' });
 }
 
+function getOptions() {
+  let options = getCLIOptions();
+  return new Config(options);
+}
+
 module.exports = function(file) {
   try {
-    let options = getOptions();
-    let config = new Config(options);
-    return transform(file, config);
+    return transform(file, getOptions());
   } catch (e) {
     throw new Error(
       `Transformation errored on file ${file.path}. Reason ${e}. Please report this in https://github.com/ember-codemods/ember-angle-brackets-codemod/issues\n\nStack trace:\n${e.stack}`
