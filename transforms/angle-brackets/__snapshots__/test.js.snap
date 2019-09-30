@@ -1,0 +1,721 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`action-params 1`] = `
+"{{#bs-button onClick=(action \\"submit\\")}}
+  Button
+{{/bs-button}}
+~~~~~~~~
+<BsButton @onClick={{action \\"submit\\"}}>
+  Button
+</BsButton>"
+`;
+
+exports[`actions 1`] = `
+"{{#bs-button-group
+  value=buttonGroupValue
+  type=\\"checkbox\\"
+  onChange=(action (mut buttonGroupValue)) as |bg|
+}}
+  {{#bg.button value=1}}1{{/bg.button}}
+  {{#bg.button value=2}}2{{/bg.button}}
+  {{#bg.button value=3}}3{{/bg.button}}
+{{/bs-button-group}}
+~~~~~~~~
+<BsButtonGroup
+  @value={{buttonGroupValue}}
+  @type=\\"checkbox\\"
+  @onChange={{action (mut buttonGroupValue)}} as |bg|
+>
+  <bg.button @value={{1}}>
+    1
+  </bg.button>
+  <bg.button @value={{2}}>
+    2
+  </bg.button>
+  <bg.button @value={{3}}>
+    3
+  </bg.button>
+</BsButtonGroup>"
+`;
+
+exports[`boolean-values 1`] = `
+"{{my-component prop1=true prop2=false}}
+~~~~~~~~
+<MyComponent @prop1={{true}} @prop2={{false}} />"
+`;
+
+exports[`curly 1`] = `
+"<div>{{foo}}</div>
+<div>{{{bar}}}</div>
+~~~~~~~~
+<div>
+  {{foo}}
+</div>
+<div>
+  {{{bar}}}
+</div>"
+`;
+
+exports[`custom-options 1`] = `
+"{{some-component foo=true}}
+{{some-helper1 foo=true}}
+{{some-helper2 foo=true}}
+{{link-to \\"Title\\" \\"some.route\\"}}
+{{textarea value=this.model.body}}
+{{input type=\\"checkbox\\" name=\\"email-opt-in\\" checked=this.model.emailPreference}}
+~~~~~~~~
+<SomeComponent @foo={{true}} />
+{{some-helper1 foo=true}}
+{{some-helper2 foo=true}}
+{{link-to \\"Title\\" \\"some.route\\"}}
+{{textarea value=this.model.body}}
+{{input type=\\"checkbox\\" name=\\"email-opt-in\\" checked=this.model.emailPreference}}"
+`;
+
+exports[`data-attributes 1`] = `
+"{{x-foo data-foo=true}}
+{{x-foo data-test-selector=true}}
+{{x-foo data-test-selector=post.id}}
+{{x-foo label=\\"hi\\" data-test-selector=true}}
+{{x-foo data-test-foo }}
+
+{{#x-foo data-foo=true}}
+  block
+{{/x-foo}}
+
+{{#x-foo data-test-selector=true}}
+  block
+{{/x-foo}}
+
+{{#x-foo data-test-selector=post.id}}
+  block
+{{/x-foo}}
+
+{{#common/accordion-component data-test-accordion as |accordion|}}
+  block
+{{/common/accordion-component}}
+
+{{x-foo
+  data-foo
+  name=\\"Sophie\\"
+}}
+~~~~~~~~
+<XFoo data-foo={{true}} />
+<XFoo data-test-selector={{true}} />
+<XFoo data-test-selector={{post.id}} />
+<XFoo @label=\\"hi\\" data-test-selector={{true}} />
+<XFoo data-test-foo />
+<XFoo data-foo={{true}}>
+  block
+</XFoo>
+<XFoo data-test-selector={{true}}>
+  block
+</XFoo>
+<XFoo data-test-selector={{post.id}}>
+  block
+</XFoo>
+<Common::AccordionComponent data-test-accordion as |accordion|>
+  block
+</Common::AccordionComponent>
+<XFoo data-foo @name=\\"Sophie\\" />"
+`;
+
+exports[`deeply-nested-sub 1`] = `
+"{{#some-component class=(concat foo (some-helper ted (some-dude bar (a b c)))) }} 
+  help 
+{{/some-component}}
+{{deep-component class=(concat foo (nice-helper ted (some-crazy bar (a d (d e f)))))}}
+{{some-component
+  class=(concat foo (some-helper bar))
+}}
+{{some-component
+  class=(concat foo (some-helper bar quuz))
+}}
+{{some-component person=(hash name=\\"Sophie\\" age=1) message=(t \\"welcome\\" count=1)}}
+{{some-component
+  people=(array
+    (hash
+      name=\\"Alex\\"
+      age=5
+      nested=(hash oldest=true amount=(format-currency 350 sign=\\"£\\"))
+      disabled=(eq foo \\"bar\\")
+    )
+    (hash name=\\"Ben\\" age=4)
+    (hash name=\\"Sophie\\" age=1)
+  )
+}}
+~~~~~~~~
+<SomeComponent class={{concat foo (some-helper ted (some-dude bar (a b c)))}}>
+  help
+</SomeComponent>
+<DeepComponent
+  class={{concat foo (nice-helper ted (some-crazy bar (a d (d e f))))}}
+/>
+<SomeComponent class={{concat foo (some-helper bar)}} />
+<SomeComponent class={{concat foo (some-helper bar quuz)}} />
+<SomeComponent
+  @person={{hash name=\\"Sophie\\" age=1}}
+  @message={{t \\"welcome\\" count=1}}
+/>
+<SomeComponent
+  @people={{array
+    (hash
+      name=\\"Alex\\"
+      age=5
+      nested=(hash oldest=true amount=(format-currency 350 sign=\\"£\\"))
+      disabled=(eq foo \\"bar\\")
+    )
+    (hash name=\\"Ben\\" age=4)
+    (hash name=\\"Sophie\\" age=1)
+  }}
+/>"
+`;
+
+exports[`each-in 1`] = `
+"{{#each-in this.people as |name person|}}
+  Hello, {{name}}! You are {{person.age}} years old.
+{{else}}
+  Sorry, nobody is here.
+{{/each-in}}
+~~~~~~~~
+{{#each-in this.people as |name person|}}
+  Hello,{{name}}! You are{{person.age}}years old.
+{{else}}
+  Sorry, nobody is here.
+{{/each-in}}"
+`;
+
+exports[`entities 1`] = `
+"&lt; &gt; &times;
+{{#foo data-a=\\"&quot;Foo&nbsp;&amp;&nbsp;Bar&quot;\\"}}&nbsp;Some text &gt;{{/foo}}
+~~~~~~~~
+&lt; &gt; &times;
+<Foo data-a=\\"&quot;Foo&nbsp;&amp;&nbsp;Bar&quot;\\">
+  &nbsp;Some text &gt;
+</Foo>"
+`;
+
+exports[`html-tags 1`] = `
+"<input 
+  type='text'
+  value={{userValue}}
+  oninput={{action 'change' value='target.value'}}
+  class=\\"{{if invalid 'invalid-input'}}\\"/>
+
+<textarea 
+  value={{userValue}}
+  oninput={{action 'change' value='target.value'}}
+  class=\\"{{if invalid 'invalid-input'}}\\">HI</textarea>
+
+<textarea 
+  value={{userValue}}
+  oninput={{action (action 'change') value='target.value'}}
+  class=\\"{{if invalid 'invalid-input'}}\\">HI</textarea>
+
+<div onclick={{action \\"clickMe\\"}}></div>
+
+<div data-foo=\\"{{if someThing yas nah}}\\"></div>
+<div {{on 'click' this.foo}}></div>
+~~~~~~~~
+<input
+  type=\\"text\\"
+  value={{userValue}}
+  oninput={{action \\"change\\" value=\\"target.value\\"}}
+  class=\\"{{if invalid \\"invalid-input\\"}}\\"
+/>
+<textarea
+  value={{userValue}}
+  oninput={{action \\"change\\" value=\\"target.value\\"}}
+  class=\\"{{if invalid \\"invalid-input\\"}}\\"
+>
+  HI
+</textarea>
+<textarea
+  value={{userValue}}
+  oninput={{action (action \\"change\\") value=\\"target.value\\"}}
+  class=\\"{{if invalid \\"invalid-input\\"}}\\"
+>
+  HI
+</textarea>
+<div onclick={{action \\"clickMe\\"}}></div>
+<div data-foo=\\"{{if someThing yas nah}}\\"></div>
+<div {{on \\"click\\" this.foo}}></div>"
+`;
+
+exports[`if 1`] = `
+"{{#if (eq a b)}}
+  {{my-component1 prop1=\\"hello\\"}}
+{{else}}
+  {{my-component2 prop2=\\"world\\"}}
+{{/if}}
+~~~~~~~~
+{{#if (eq a b)}}
+  <MyComponent1 @prop1=\\"hello\\" />
+{{else}}
+  <MyComponent2 @prop2=\\"world\\" />
+{{/if}}"
+`;
+
+exports[`input-helper 1`] = `
+"{{input type=\\"checkbox\\" name=\\"email-opt-in\\" checked=this.model.emailPreference}}
+~~~~~~~~
+<Input
+  @type=\\"checkbox\\"
+  @name=\\"email-opt-in\\"
+  @checked={{this.model.emailPreference}}
+/>"
+`;
+
+exports[`let 1`] = `
+"{{#let (capitalize this.person.firstName) (capitalize this.person.lastName)
+  as |firstName lastName|
+}}
+  Welcome back {{concat firstName ' ' lastName}}
+
+  Account Details:
+  First Name: {{firstName}}
+  Last Name: {{lastName}}
+{{/let}}
+~~~~~~~~
+{{#let
+  (capitalize this.person.firstName)
+  (capitalize this.person.lastName) as |firstName lastName|
+}}
+  Welcome back
+  {{concat firstName \\" \\" lastName}}
+  Account Details:
+  First Name:
+  {{firstName}}
+  Last Name:
+  {{lastName}}
+{{/let}}"
+`;
+
+exports[`link-to 1`] = `
+"{{#link-to \\"about\\"}}About Us{{/link-to}}
+{{#link-to this.dynamicRoute}}About Us{{/link-to}}
+~~~~~~~~
+<LinkTo @route=\\"about\\">
+  About Us
+</LinkTo>
+<LinkTo @route={{this.dynamicRoute}}>
+  About Us
+</LinkTo>"
+`;
+
+exports[`link-to-inline 1`] = `
+"{{link-to 'Title' 'some.route'}}
+{{link-to
+  'Segments'
+  'apps.segments'
+  class='tabs__discrete-tab'
+  activeClass='o__selected'
+  current-when='apps.segments'
+  data-test-segment-link='segments'
+}}
+{{link-to
+  'Segments'
+  this.dynamicPath
+  class='tabs__discrete-tab'
+  activeClass='o__selected'
+  current-when='apps.segments'
+  data-test-segment-link='segments'
+}}
+{{link-to 
+  segment.name 
+  'apps.app.companies.segments.segment' 
+  segment 
+  class=\\"t__em-link\\"
+}}
+~~~~~~~~
+<LinkTo @route=\\"some.route\\">
+  Title
+</LinkTo>
+<LinkTo
+  @route=\\"apps.segments\\"
+  class=\\"tabs__discrete-tab\\"
+  @activeClass=\\"o__selected\\"
+  @current-when=\\"apps.segments\\"
+  data-test-segment-link=\\"segments\\"
+>
+  Segments
+</LinkTo>
+<LinkTo
+  @route={{this.dynamicPath}}
+  class=\\"tabs__discrete-tab\\"
+  @activeClass=\\"o__selected\\"
+  @current-when=\\"apps.segments\\"
+  data-test-segment-link=\\"segments\\"
+>
+  Segments
+</LinkTo>
+<LinkTo
+  @route=\\"apps.app.companies.segments.segment\\"
+  @model={{segment}}
+  class=\\"t__em-link\\"
+>
+  {{segment.name}}
+</LinkTo>"
+`;
+
+exports[`link-to-model 1`] = `
+"{{#link-to \\"post\\" post}}Read {{post.title}}...{{/link-to}}
+{{#link-to \\"post\\" \\"string-id\\"}}Read {{post.title}}...{{/link-to}}
+{{#link-to \\"post\\" 557}}Read {{post.title}}...{{/link-to}}
+~~~~~~~~
+<LinkTo @route=\\"post\\" @model={{post}}>
+  Read
+  {{post.title}}
+  ...
+</LinkTo>
+<LinkTo @route=\\"post\\" @model=\\"string-id\\">
+  Read
+  {{post.title}}
+  ...
+</LinkTo>
+<LinkTo @route=\\"post\\" @model={{557}}>
+  Read
+  {{post.title}}
+  ...
+</LinkTo>"
+`;
+
+exports[`link-to-model-array 1`] = `
+"{{#link-to \\"post.comment\\" post comment}}
+  Comment by {{comment.author.name}} on {{comment.date}}
+{{/link-to}}
+{{#link-to this.dynamicPath post comment}}
+  Comment by {{comment.author.name}} on {{comment.date}}
+{{/link-to}}
+~~~~~~~~
+<LinkTo @route=\\"post.comment\\" @models={{array post comment}}>
+  Comment by
+  {{comment.author.name}}
+  on
+  {{comment.date}}
+</LinkTo>
+<LinkTo @route={{this.dynamicPath}} @models={{array post comment}}>
+  Comment by
+  {{comment.author.name}}
+  on
+  {{comment.date}}
+</LinkTo>"
+`;
+
+exports[`link-to-query-param 1`] = `
+"{{#link-to \\"posts\\" (query-params direction=\\"desc\\" showArchived=false)}}
+  Recent Posts
+{{/link-to}}
+{{#link-to data-test-foo \\"posts\\"}}
+  Recent Posts
+{{/link-to}}
+{{#link-to this.dynamicPath (query-params direction=\\"desc\\" showArchived=false)}}
+  Recent Posts
+{{/link-to}}
+{{#link-to data-test-foo this.dynamicPath (query-params direction=\\"desc\\" showArchived=false)}}
+  Recent Posts
+{{/link-to}}
+{{#link-to (query-params direction=\\"desc\\" showArchived=false)}}
+  Recent Posts
+{{/link-to}}
+{{link-to
+  'Users'
+  'apps.app.users.segments.segment'
+  'all-users'
+  (query-params searchTerm=searchTerm)
+}}
+~~~~~~~~
+<LinkTo @route=\\"posts\\" @query={{hash direction=\\"desc\\" showArchived=false}}>
+  Recent Posts
+</LinkTo>
+<LinkTo @route=\\"posts\\" data-test-foo>
+  Recent Posts
+</LinkTo>
+<LinkTo
+  @route={{this.dynamicPath}}
+  @query={{hash direction=\\"desc\\" showArchived=false}}
+>
+  Recent Posts
+</LinkTo>
+<LinkTo
+  @route={{this.dynamicPath}}
+  @query={{hash direction=\\"desc\\" showArchived=false}}
+  data-test-foo
+>
+  Recent Posts
+</LinkTo>
+<LinkTo @query={{hash direction=\\"desc\\" showArchived=false}}>
+  Recent Posts
+</LinkTo>
+<LinkTo
+  @route=\\"apps.app.users.segments.segment\\"
+  @model=\\"all-users\\"
+  @query={{hash searchTerm=searchTerm}}
+>
+  Users
+</LinkTo>"
+`;
+
+exports[`nested 1`] = `
+"{{ui/site-header user=this.user class=(if this.user.isAdmin \\"admin\\")}}
+{{ui/button text=\\"Click me\\"}}
+{{#some-path/another-path/super-select selected=this.user.country as |s|}}
+  {{#each this.availableCountries as |country|}}
+    {{#s.option value=country}}{{country.name}}{{/s.option}}
+  {{/each}}
+{{/some-path/another-path/super-select}}
+{{x-foo/x-bar}}
+~~~~~~~~
+<Ui::SiteHeader @user={{this.user}} class={{if this.user.isAdmin \\"admin\\"}} />
+<Ui::Button @text=\\"Click me\\" />
+<SomePath::AnotherPath::SuperSelect @selected={{this.user.country}} as |s|>
+  {{#each this.availableCountries as |country|}}
+    <s.option @value={{country}}>
+      {{country.name}}
+    </s.option>
+  {{/each}}
+</SomePath::AnotherPath::SuperSelect>
+<XFoo::XBar />"
+`;
+
+exports[`null-subexp 1`] = `
+"{{some-component selected=(is-equal this.bar null)}}
+~~~~~~~~
+<SomeComponent @selected={{is-equal this.bar null}} />"
+`;
+
+exports[`positional-params 1`] = `
+"{{some-component \\"foo\\"}}
+{{#some-component \\"foo\\"}}
+  hi
+{{/some-component}}
+{{#some-component foo}}
+  hi
+{{/some-component}}
+{{some-component 123}}
+{{some-component (some-helper 987)}}
+~~~~~~~~
+{{some-component \\"foo\\"}}
+{{#some-component \\"foo\\"}}
+  hi
+{{/some-component}}
+{{#some-component foo}}
+  hi
+{{/some-component}}
+{{some-component 123}}
+{{some-component (some-helper 987)}}"
+`;
+
+exports[`sample 1`] = `
+"{{site-header user=this.user class=(if this.user.isAdmin \\"admin\\")}}
+{{site-header user=null address=undefined}}
+
+{{#super-select selected=this.user.country as |s|}}
+  {{#each this.availableCountries as |country|}}
+    {{#s.option value=country}}{{country.name}}{{/s.option}}
+  {{/each}}
+{{/super-select}}
+
+{{foo/bar tagName=''}}
+{{foo tagName='div' a=\\"\\" b=''}}
+~~~~~~~~
+<SiteHeader @user={{this.user}} class={{if this.user.isAdmin \\"admin\\"}} />
+<SiteHeader @user={{null}} @address={{undefined}} />
+<SuperSelect @selected={{this.user.country}} as |s|>
+  {{#each this.availableCountries as |country|}}
+    <s.option @value={{country}}>
+      {{country.name}}
+    </s.option>
+  {{/each}}
+</SuperSelect>
+<Foo::Bar @tagName=\\"\\" />
+<Foo @tagName=\\"div\\" @a=\\"\\" @b=\\"\\" />"
+`;
+
+exports[`sample2 1`] = `
+"{{#my-card as |card|}}
+  {{card.title title=\\"My Card Title\\"}}
+  {{#card.content}}
+    <p>hello</p>
+  {{/card.content}}
+  {{card.foo-bar}}
+  {{card.foo}}
+{{/my-card}}
+~~~~~~~~
+<MyCard as |card|>
+  <card.title @title=\\"My Card Title\\" />
+  <card.content>
+    <p>
+      hello
+    </p>
+  </card.content>
+  <card.foo-bar />
+  {{card.foo}}
+</MyCard>"
+`;
+
+exports[`skip-default-helpers (no-config) 1`] = `
+"<div id=\\"main-container\\">
+  {{liquid-outlet}}
+</div>
+<button {{action \\"toggle\\" \\"showA\\"}}>
+  Toggle A/B</button>
+<button {{action \\"toggle\\" \\"showOne\\"}}>
+  Toggle One/Two
+</button>
+{{#liquid-if showOne class=\\"nested-explode-transition-scenario\\"}}
+  <div class=\\"child\\">
+    {{#liquid-if showA use=\\"toLeft\\"}}
+      <div class=\\"child-one-a\\">One: A</div>
+    {{else}}
+      <div class=\\"child-one-b\\">One: B</div>
+    {{/liquid-if}}
+  </div>
+{{else}}
+  <div class=\\"child child-two\\">
+    Two
+  </div>
+{{/liquid-if}}
+{{moment '12-25-1995' 'MM-DD-YYYY'}}
+{{moment-from '1995-12-25' '2995-12-25' hideAffix=true}}
+{{some-component foo=true}}
+{{some-helper1 foo=true}}
+{{some-helper2 foo=true}}
+~~~~~~~~
+<div id=\\"main-container\\">
+  {{liquid-outlet}}
+</div>
+<button {{action \\"toggle\\" \\"showA\\"}}>
+  Toggle A/B
+</button>
+<button {{action \\"toggle\\" \\"showOne\\"}}>
+  Toggle One/Two
+</button>
+{{#liquid-if showOne class=\\"nested-explode-transition-scenario\\"}}
+  <div class=\\"child\\">
+    {{#liquid-if showA use=\\"toLeft\\"}}
+      <div class=\\"child-one-a\\">
+        One: A
+      </div>
+    {{else}}
+      <div class=\\"child-one-b\\">
+        One: B
+      </div>
+    {{/liquid-if}}
+  </div>
+{{else}}
+  <div class=\\"child child-two\\">
+    Two
+  </div>
+{{/liquid-if}}
+{{moment \\"12-25-1995\\" \\"MM-DD-YYYY\\"}}
+{{moment-from \\"1995-12-25\\" \\"2995-12-25\\" hideAffix=true}}
+<SomeComponent @foo={{true}} />
+<SomeHelper1 @foo={{true}} />
+<SomeHelper2 @foo={{true}} />"
+`;
+
+exports[`skip-default-helpers 1`] = `
+"<div id=\\"main-container\\">
+  {{liquid-outlet}}
+</div>
+<button {{action \\"toggle\\" \\"showA\\"}}>
+  Toggle A/B</button>
+<button {{action \\"toggle\\" \\"showOne\\"}}>
+  Toggle One/Two
+</button>
+{{#liquid-if showOne class=\\"nested-explode-transition-scenario\\"}}
+  <div class=\\"child\\">
+    {{#liquid-if showA use=\\"toLeft\\"}}
+      <div class=\\"child-one-a\\">One: A</div>
+    {{else}}
+      <div class=\\"child-one-b\\">One: B</div>
+    {{/liquid-if}}
+  </div>
+{{else}}
+  <div class=\\"child child-two\\">
+    Two
+  </div>
+{{/liquid-if}}
+{{moment '12-25-1995' 'MM-DD-YYYY'}}
+{{moment-from '1995-12-25' '2995-12-25' hideAffix=true}}
+{{some-component foo=true}}
+{{some-helper1 foo=true}}
+{{some-helper2 foo=true}}
+~~~~~~~~
+<div id=\\"main-container\\">
+  {{liquid-outlet}}
+</div>
+<button {{action \\"toggle\\" \\"showA\\"}}>
+  Toggle A/B
+</button>
+<button {{action \\"toggle\\" \\"showOne\\"}}>
+  Toggle One/Two
+</button>
+{{#liquid-if showOne class=\\"nested-explode-transition-scenario\\"}}
+  <div class=\\"child\\">
+    {{#liquid-if showA use=\\"toLeft\\"}}
+      <div class=\\"child-one-a\\">
+        One: A
+      </div>
+    {{else}}
+      <div class=\\"child-one-b\\">
+        One: B
+      </div>
+    {{/liquid-if}}
+  </div>
+{{else}}
+  <div class=\\"child child-two\\">
+    Two
+  </div>
+{{/liquid-if}}
+{{moment \\"12-25-1995\\" \\"MM-DD-YYYY\\"}}
+{{moment-from \\"1995-12-25\\" \\"2995-12-25\\" hideAffix=true}}
+<SomeComponent @foo={{true}} />
+{{some-helper1 foo=true}}
+{{some-helper2 foo=true}}"
+`;
+
+exports[`t-helper 1`] = `
+"{{t \\"some.string\\" param=\\"string\\" another=1}}
+~~~~~~~~
+{{t \\"some.string\\" param=\\"string\\" another=1}}"
+`;
+
+exports[`tag-name 1`] = `
+"{{foo/bar name=\\"\\"}}
+~~~~~~~~
+<Foo::Bar @name=\\"\\" />"
+`;
+
+exports[`textarea 1`] = `
+"{{textarea value=this.model.body}}
+~~~~~~~~
+<Textarea @value={{this.model.body}} />"
+`;
+
+exports[`tilde 1`] = `
+"{{#if foo~}}
+  bar
+{{/if}}
+~~~~~~~~
+{{#if foo~}}
+  bar
+{{/if}}"
+`;
+
+exports[`undefined-subexp 1`] = `
+"{{some-component selected=(is-equal this.bar undefined)}}
+~~~~~~~~
+<SomeComponent @selected={{is-equal this.bar undefined}} />"
+`;
+
+exports[`unless 1`] = `
+"{{#unless this.hasPaid}}
+  You owe: \${{this.total}}
+{{/unless}}
+~~~~~~~~
+{{#unless this.hasPaid}}
+  You owe: \${{this.total}}
+{{/unless}}"
+`;
