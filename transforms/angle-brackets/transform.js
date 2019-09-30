@@ -1,5 +1,4 @@
-const glimmer = require('@glimmer/syntax');
-const prettier = require('prettier');
+const recast = require('ember-template-recast');
 
 const _EMPTY_STRING_ = `ANGLE_BRACKET_EMPTY_${Date.now()}`;
 
@@ -227,12 +226,20 @@ module.exports = function transform(fileInfo, config) {
     return fileInfo.source;
   }
 
-  const ast = glimmer.preprocess(fileInfo.source, {
-    mode: 'codemod',
-    parseOptions: { ignoreStandalone: true },
-  });
+  let { code: toAngleBracket } = recast.transform(fileInfo.source, env =>
+    transformToAngleBracket(env, fileInfo, config)
+  );
 
-  const b = glimmer.builders;
+  let attrEqualEmptyString = new RegExp(_EMPTY_STRING_, 'gi');
+  let dataEqualsNoValue = /(data-\S+)=""/gim;
+
+  toAngleBracket = toAngleBracket.replace(attrEqualEmptyString, '');
+  toAngleBracket = toAngleBracket.replace(dataEqualsNoValue, '$1');
+  return toAngleBracket;
+};
+
+function transformToAngleBracket(env, fileInfo, config) {
+  let { builders: b } = env.syntax;
 
   /**
    * Transform the attributes names & values properly
@@ -247,10 +254,11 @@ module.exports = function transform(fileInfo, config) {
       }
 
       if (_valueType === 'PathExpression') {
-        _value = b.mustache(b.path(a.value.original));
+        _value = b.mustache(a.value);
       } else if (_valueType === 'SubExpression') {
         if (a.value.hash.pairs.length > 0) {
-          _value = b.mustache(a.value.path.original, a.value.params, a.value.hash);
+          a.value.type = 'MustacheStatement';
+          _value = a.value;
         } else {
           const params = a.value.params
             .map(p => {
@@ -281,7 +289,6 @@ module.exports = function transform(fileInfo, config) {
       } else {
         _value = b.text(a.value.original || _EMPTY_STRING_);
       }
-
       return b.attr(_key, _value);
     });
   }
@@ -411,6 +418,7 @@ module.exports = function transform(fileInfo, config) {
   }
 
   function transformNode(node) {
+    let selfClosing = node.type !== 'BlockStatement';
     const tagName = node.path.original;
 
     if (config.skipBuiltInComponents && BUILT_IN_COMPONENTS.includes(tagName)) {
@@ -424,8 +432,10 @@ module.exports = function transform(fileInfo, config) {
     let blockParams = node.program ? node.program.blockParams : undefined;
 
     if (tagName === 'link-to') {
+      selfClosing = false;
+
       if (node.type === 'MustacheStatement') {
-        let params = node.params;
+        let params = node.params.slice();
         let textParam = params.shift(); //the first param becomes the block content
 
         attributes = transformLinkToAttrs(params);
@@ -443,18 +453,20 @@ module.exports = function transform(fileInfo, config) {
         );
         return;
       }
-
       attributes = transformNodeAttributes(node);
     }
 
-    return b.element(newTagName, {
-      attrs: attributes,
-      children,
-      blockParams,
-    });
+    return b.element(
+      { name: newTagName, selfClosing },
+      {
+        attrs: attributes,
+        children,
+        blockParams,
+      }
+    );
   }
 
-  glimmer.traverse(ast, {
+  return {
     MustacheStatement(node) {
       // Don't change attribute statements
       const isValidMustache =
@@ -475,22 +487,5 @@ module.exports = function transform(fileInfo, config) {
         return transformNode(node);
       }
     },
-
-    ElementNode(node) {
-      node.attributes.forEach(a => {
-        if (a.value && a.value.chars === '') {
-          a.value = b.text(_EMPTY_STRING_);
-        }
-      });
-    },
-  });
-
-  let attrEqualEmptyString = new RegExp(_EMPTY_STRING_, 'gi');
-  let dataEqualsNoValue = /(data-\S+)=""/gim;
-
-  // Haxx out valueless data-* and args with the empty string
-
-  let uglySource = glimmer.print(ast).replace(attrEqualEmptyString, '');
-  let dataOk = uglySource.replace(dataEqualsNoValue, '$1');
-  return prettier.format(dataOk, { parser: 'glimmer' });
-};
+  };
+}
