@@ -15,90 +15,87 @@ const BUILT_IN_COMPONENTS = ['link-to', 'input', 'textarea'];
  * Politely lifted from https://github.com/lifeart/ember-ast-hot-load/blob/master/lib/ast-transform.js#L26
  */
 const IGNORE_MUSTACHE_STATEMENTS = [
+  // Ember.js
+  'action',
+  'array',
+  'component',
+  'concat',
+  'debugger',
+  'each',
+  'each-in',
+  'else',
+  'get',
+  'hash',
+  'if',
+  'if-unless',
+  'in-element',
+  '-in-element',
+  'let',
+  'loc',
+  'log',
+  'mut',
+  'outlet',
+  'partial',
+  'query-params',
+  'readonly',
+  'unbound',
+  'unless',
+  'with',
+  'yield',
+
+  // Glimmer VM
   'identity', // glimmer blocks
   'render-inverse', // glimmer blocks
   '-get-dynamic-var', // glimmer internal helper
-  '-lf-get-outlet-state', // dunno
-  'action',
-  'component',
+
+  // ember-ast-hot-load
   'hot-content',
   'hot-placeholder',
-  'if',
-  'if-unless',
-  'each',
-  'each-in',
+
+  // ember-route-helpers
+  'transition-to',
+
+  // ember-intl
   'format-date',
   'format-message',
   'format-relative',
   'format-time',
   'format-money',
   'format-number',
-  'unless',
-  'in-element',
-  'query-params',
-  '-in-element',
-  '-class',
-  '-html-safe',
-  '-input-type',
-  '-normalize-class',
-  'concat',
-  'get',
-  'mut',
-  'readonly',
-  'unbound',
-  'debugger',
-  'else',
-  'let',
-  'with',
-  'log',
-  'loc',
-  'hash',
-  'partial',
-  'yield',
   't',
-  't-for',
-  'transition-to',
-  'get-meta',
-  'get-attr',
-  'index-of',
-  'array',
 
-  //ember-moment
+  // ember-moment
+  'is-after',
+  'is-before',
+  'is-between',
+  'is-same',
+  'is-same-or-after',
+  'is-same-or-before',
   'moment',
-  'moment-format',
-  'moment-from-now',
-  'moment-from',
-  'moment-to',
-  'moment-to-now',
-  'moment-duration',
   'moment-calendar',
   'moment-diff',
-
-  'outlet',
-
-  'is-before',
-  'is-after',
-  'is-same',
-  'is-same-or-before',
-  'is-same-or-after',
-  'is-between',
+  'moment-duration',
+  'moment-format',
+  'moment-from',
+  'moment-from-now',
+  'moment-to',
+  'moment-to-now',
   'now',
   'unix',
 
-  //cp-validations
+  // ember-cp-validations
   'v-get',
 
-  //route-action
+  // ember-route-action-helper
   'route-action',
 
-  // composable-helpers
+  // ember-composable-helpers
   'map-by',
   'sort-by',
   'filter-by',
   'reject-by',
   'find-by',
   'object-at',
-  'hasBlock',
   'has-block',
   'has-next',
   'has-previous',
@@ -108,7 +105,7 @@ const IGNORE_MUSTACHE_STATEMENTS = [
   'is-empty',
   'is-equal',
 
-  // liquid
+  // liquid-fire
   'liquid-unless',
   'liquid-container',
   'liquid-outlet',
@@ -120,8 +117,19 @@ const IGNORE_MUSTACHE_STATEMENTS = [
   'liquid-child',
   'liquid-if',
 
-  //app-version
+  // ember-app-version
   'app-version',
+
+  // Unknown
+  '-lf-get-outlet-state', // dunno
+  '-class',
+  '-html-safe',
+  '-input-type',
+  '-normalize-class',
+  't-for',
+  'get-meta',
+  'get-attr',
+  'index-of',
 ];
 
 function isAttribute(key) {
