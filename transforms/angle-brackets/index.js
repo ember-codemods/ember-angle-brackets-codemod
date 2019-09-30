@@ -238,14 +238,6 @@ const shouldSkipFile = (fileInfo, config) => {
   return false;
 };
 
-/**
- * exports
- *
- * @param fileInfo
- * @param api
- * @param options
- * @returns {undefined}
- */
 function transform(fileInfo, api, config) {
   if (shouldSkipFile(fileInfo, config)) {
     return fileInfo.source;
