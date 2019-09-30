@@ -48,10 +48,6 @@ const IGNORE_MUSTACHE_STATEMENTS = [
   'render-inverse', // glimmer blocks
   '-get-dynamic-var', // glimmer internal helper
 
-  // ember-ast-hot-load
-  'hot-content',
-  'hot-placeholder',
-
   // ember-route-helpers
   'transition-to',
 
