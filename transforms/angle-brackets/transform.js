@@ -50,6 +50,9 @@ const IGNORE_MUSTACHE_STATEMENTS = [
 
   // ember-route-helpers
   'transition-to',
+  'replace-with',
+  'transition-to-external',
+  'replace-with-external',
 
   // ember-intl
   'format-date',
