@@ -6,28 +6,6 @@ const fs = require('fs');
 
 const _EMPTY_STRING_ = `ANGLE_BRACKET_EMPTY_${Date.now()}`;
 
-class Config {
-  constructor(options) {
-    this.helpers = [];
-    this.skipBuiltInComponents = false;
-
-    if (options.config) {
-      let filePath = path.join(process.cwd(), options.config);
-      let config = JSON.parse(fs.readFileSync(filePath));
-
-      if (config.helpers) {
-        this.helpers = config.helpers;
-      }
-
-      if (config.skipFilesThatMatchRegex) {
-        this.skipFilesThatMatchRegex = new RegExp(config.skipFilesThatMatchRegex);
-      }
-
-      this.skipBuiltInComponents = !!config.skipBuiltInComponents;
-    }
-  }
-}
-
 /**
  * List of HTML attributes for which @ should not be appended
  */
@@ -512,8 +490,29 @@ function transform(fileInfo, config) {
 }
 
 function getOptions() {
-  let options = getCLIOptions();
-  return new Config(options);
+  let options = {
+    helpers: [],
+    skipBuiltInComponents: false,
+    skipFilesThatMatchRegex: null,
+  };
+
+  let cliOptions = getCLIOptions();
+  if (cliOptions.config) {
+    let filePath = path.join(process.cwd(), cliOptions.config);
+    let config = JSON.parse(fs.readFileSync(filePath));
+
+    if (config.helpers) {
+      options.helpers = config.helpers;
+    }
+
+    if (config.skipFilesThatMatchRegex) {
+      options.skipFilesThatMatchRegex = new RegExp(config.skipFilesThatMatchRegex);
+    }
+
+    options.skipBuiltInComponents = !!config.skipBuiltInComponents;
+  }
+
+  return options;
 }
 
 module.exports = function(file) {
