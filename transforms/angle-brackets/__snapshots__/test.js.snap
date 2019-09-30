@@ -121,9 +121,10 @@ exports[`data-attributes 1`] = `
 `;
 
 exports[`deeply-nested-sub 1`] = `
-"{{#some-component class=(concat foo (some-helper ted (some-dude bar (a b c)))) }} 
-  help 
+"{{#some-component class=(concat foo (some-helper ted (some-dude bar (a b c)))) }}
+  help
 {{/some-component}}
+{{some-component class=(concat foo (some-helper ted (some-dude bar (a b c)))) }}
 {{deep-component class=(concat foo (nice-helper ted (some-crazy bar (a d (d e f)))))}}
 {{some-component
   class=(concat foo (some-helper bar))
@@ -131,7 +132,10 @@ exports[`deeply-nested-sub 1`] = `
 {{some-component
   class=(concat foo (some-helper bar quuz))
 }}
-{{some-component person=(hash name=\\"Sophie\\" age=1) message=(t \\"welcome\\" count=1)}}
+{{some-component 
+  person=(hash name=\\"Sophie\\" age=1) 
+  message=(t \\"welcome\\" count=1)
+}}
 {{some-component
   people=(array
     (hash
@@ -148,6 +152,7 @@ exports[`deeply-nested-sub 1`] = `
 <SomeComponent class={{concat foo (some-helper ted (some-dude bar (a b c)))}}>
   help
 </SomeComponent>
+<SomeComponent class={{concat foo (some-helper ted (some-dude bar (a b c)))}} />
 <DeepComponent
   class={{concat foo (nice-helper ted (some-crazy bar (a d (d e f))))}}
 />

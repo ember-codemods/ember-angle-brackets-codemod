@@ -97,9 +97,10 @@ test('data-attributes', () => {
 
 test('deeply-nested-sub', () => {
   let input = `
-    {{#some-component class=(concat foo (some-helper ted (some-dude bar (a b c)))) }} 
-      help 
+    {{#some-component class=(concat foo (some-helper ted (some-dude bar (a b c)))) }}
+      help
     {{/some-component}}
+    {{some-component class=(concat foo (some-helper ted (some-dude bar (a b c)))) }}
     {{deep-component class=(concat foo (nice-helper ted (some-crazy bar (a d (d e f)))))}}
     {{some-component
       class=(concat foo (some-helper bar))
@@ -107,7 +108,10 @@ test('deeply-nested-sub', () => {
     {{some-component
       class=(concat foo (some-helper bar quuz))
     }}
-    {{some-component person=(hash name="Sophie" age=1) message=(t "welcome" count=1)}}
+    {{some-component 
+      person=(hash name="Sophie" age=1) 
+      message=(t "welcome" count=1)
+    }}
     {{some-component
       people=(array
         (hash
