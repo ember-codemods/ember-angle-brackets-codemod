@@ -149,28 +149,28 @@ const IGNORE_MUSTACHE_STATEMENTS = [
   'app-version',
 ];
 
-const isAttribute = key => {
+function isAttribute(key) {
   return HTML_ATTRIBUTES.includes(key) || key.startsWith('data-');
-};
+}
 
-const isNestedComponentTagName = tagName => {
+function isNestedComponentTagName(tagName) {
   return tagName && tagName.includes && (tagName.includes('/') || tagName.includes('-'));
-};
+}
 
 /**
  *  Returns a capitalized tagname for angle brackets syntax
  *  {{my-component}} => MyComponent
  */
-const capitalizedTagName = tagname => {
+function capitalizedTagName(tagname) {
   return tagname
     .split('-')
     .map(s => {
       return s[0].toUpperCase() + s.slice(1);
     })
     .join('');
-};
+}
 
-const transformTagName = tagName => {
+function transformTagName(tagName) {
   if (tagName.includes('.')) {
     return tagName;
   }
@@ -180,14 +180,14 @@ const transformTagName = tagName => {
   }
 
   return capitalizedTagName(tagName);
-};
+}
 
-const transformNestedTagName = tagName => {
+function transformNestedTagName(tagName) {
   const paths = tagName.split('/');
   return paths.map(name => capitalizedTagName(name)).join('::');
-};
+}
 
-const transformNestedSubExpression = subExpression => {
+function transformNestedSubExpression(subExpression) {
   let positionalArgs = subExpression.params.map(param => {
     if (param.type === 'SubExpression') {
       return transformNestedSubExpression(param);
@@ -215,9 +215,9 @@ const transformNestedSubExpression = subExpression => {
 
   let args = positionalArgs.concat(namedArgs);
   return `(${subExpression.path.original} ${args.join(' ')})`;
-};
+}
 
-const shouldSkipFile = (fileInfo, config) => {
+function shouldSkipFile(fileInfo, config) {
   let source = fileInfo.source;
 
   if (source.includes('~')) {
@@ -236,7 +236,7 @@ const shouldSkipFile = (fileInfo, config) => {
   }
 
   return false;
-};
+}
 
 function transform(fileInfo, config) {
   if (shouldSkipFile(fileInfo, config)) {
@@ -247,12 +247,13 @@ function transform(fileInfo, config) {
     mode: 'codemod',
     parseOptions: { ignoreStandalone: true },
   });
+
   const b = glimmer.builders;
 
   /**
    * Transform the attributes names & values properly
    */
-  const transformAttrs = attrs => {
+  function transformAttrs(attrs) {
     return attrs.map(a => {
       let _key = a.key;
       let _valueType = a.value.type;
@@ -299,26 +300,26 @@ function transform(fileInfo, config) {
 
       return b.attr(_key, _value);
     });
-  };
+  }
 
-  const isQueryParam = param => {
+  function isQueryParam(param) {
     return (
       param &&
       param.type === 'SubExpression' &&
       param.path &&
       param.path.original === 'query-params'
     );
-  };
+  }
 
-  const transformLinkToTextParam = textParam => {
+  function transformLinkToTextParam(textParam) {
     if (textParam.type.includes('Literal')) {
       return b.text(textParam.value);
     } else {
       return b.mustache(textParam.original);
     }
-  };
+  }
 
-  const transformModelParams = modelParam => {
+  function transformModelParams(modelParam) {
     let type = modelParam.type;
     if (type === 'StringLiteral') {
       return b.text(modelParam.value);
@@ -327,9 +328,9 @@ function transform(fileInfo, config) {
     } else {
       return b.mustache(modelParam.original);
     }
-  };
+  }
 
-  const transformLinkToAttrs = params => {
+  function transformLinkToAttrs(params) {
     let attributes = [];
     let dataAttributes = getDataAttributesFromParams(params);
     params = getNonDataAttributesFromParams(params);
@@ -380,36 +381,36 @@ function transform(fileInfo, config) {
     }
 
     return attributes.concat(dataAttributes);
-  };
+  }
 
-  const tranformValuelessDataParams = params => {
+  function tranformValuelessDataParams(params) {
     let dataAttributes = getDataAttributesFromParams(params);
     let valuelessDataAttributes = dataAttributes.map(param =>
       b.attr(param.parts[0], b.text(_EMPTY_STRING_))
     );
     return valuelessDataAttributes;
-  };
+  }
 
-  const transformNodeAttributes = node => {
+  function transformNodeAttributes(node) {
     let params = tranformValuelessDataParams(node.params);
     let attributes = transformAttrs(node.hash.pairs);
 
     return params.concat(attributes);
-  };
+  }
 
-  const getDataAttributesFromParams = params => {
+  function getDataAttributesFromParams(params) {
     return params.filter(param => param.original && `${param.original}`.startsWith('data-'));
-  };
+  }
 
-  const getNonDataAttributesFromParams = params => {
+  function getNonDataAttributesFromParams(params) {
     return params.filter(p => !(p.original && `${p.original}`.startsWith('data-')));
-  };
+  }
 
-  const shouldIgnoreMustacheStatement = name => {
+  function shouldIgnoreMustacheStatement(name) {
     return IGNORE_MUSTACHE_STATEMENTS.includes(name) || config.helpers.includes(name);
-  };
+  }
 
-  const nodeHasPositionalParameters = node => {
+  function nodeHasPositionalParameters(node) {
     if (node.params.length > 0) {
       let firstParamType = node.params[0].type;
 
@@ -423,9 +424,9 @@ function transform(fileInfo, config) {
     }
 
     return false;
-  };
+  }
 
-  const transformNode = node => {
+  function transformNode(node) {
     const tagName = node.path.original;
 
     if (config.skipBuiltInComponents && BUILT_IN_COMPONENTS.includes(tagName)) {
@@ -467,7 +468,7 @@ function transform(fileInfo, config) {
       children,
       blockParams,
     });
-  };
+  }
 
   glimmer.traverse(ast, {
     MustacheStatement(node) {
