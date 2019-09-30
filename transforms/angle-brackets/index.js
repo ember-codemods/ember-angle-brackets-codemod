@@ -6,7 +6,7 @@ module.exports = function(file, api) {
   let src = file.source;
   let options = getOptions();
 
-  let fix = require('./transforms/angle-brackets-syntax');
+  let fix = require('./angle-brackets-syntax');
   if (typeof src === 'undefined') {
     return;
   }
