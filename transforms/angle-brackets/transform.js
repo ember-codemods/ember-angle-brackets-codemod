@@ -214,6 +214,7 @@ function shouldSkipFile(fileInfo, config) {
 }
 
 module.exports = function transform(fileInfo, config) {
+  config = config || {};
   config.helpers = config.helpers || [];
   config.skipBuiltInComponents =
     'skipBuiltInComponents' in config ? config.skipBuiltInComponents : false;
