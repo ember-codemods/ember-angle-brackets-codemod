@@ -246,9 +246,7 @@ const shouldSkipFile = (fileInfo, config) => {
  * @param options
  * @returns {undefined}
  */
-function transform(fileInfo, api, options) {
-  const config = new Config(options);
-
+function transform(fileInfo, api, config) {
   if (shouldSkipFile(fileInfo, config)) {
     return fileInfo.source;
   }
@@ -522,7 +520,9 @@ function transform(fileInfo, api, options) {
 
 module.exports = function(file, api) {
   try {
-    return transform(file, api, getOptions());
+    let options = getOptions();
+    let config = new Config(options);
+    return transform(file, api, config);
   } catch (e) {
     throw new Error(
       `Transformation errored on file ${file.path}. Reason ${e}. Please report this in https://github.com/ember-codemods/ember-angle-brackets-codemod/issues\n\nStack trace:\n${e.stack}`
