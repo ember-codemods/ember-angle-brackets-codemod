@@ -122,17 +122,6 @@ const IGNORE_MUSTACHE_STATEMENTS = [
 
   // ember-app-version
   'app-version',
-
-  // Unknown
-  '-lf-get-outlet-state', // dunno
-  '-class',
-  '-html-safe',
-  '-input-type',
-  '-normalize-class',
-  't-for',
-  'get-meta',
-  'get-attr',
-  'index-of',
 ];
 
 function isAttribute(key) {
