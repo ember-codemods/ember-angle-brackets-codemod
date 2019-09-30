@@ -113,6 +113,13 @@ const IGNORE_MUSTACHE_STATEMENTS = [
   'liquid-child',
   'liquid-if',
 
+  // ember-animated
+  'animated-beacon',
+  'animated-each',
+  'animated-if',
+  'animated-orphans',
+  'animated-value',
+
   // ember-app-version
   'app-version',
 
