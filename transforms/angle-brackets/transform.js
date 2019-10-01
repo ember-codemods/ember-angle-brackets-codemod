@@ -124,6 +124,11 @@ const IGNORE_MUSTACHE_STATEMENTS = [
 
   // ember-app-version
   'app-version',
+
+  // ember-font-awesome
+  'fa-icon',
+  'fa-list',
+  'fa-stack',
 ];
 
 function isAttribute(key) {
