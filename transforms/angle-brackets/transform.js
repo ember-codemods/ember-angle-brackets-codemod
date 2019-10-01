@@ -135,6 +135,9 @@ const IGNORE_MUSTACHE_STATEMENTS = [
 
   // ember-concurrency
   'perform',
+
+  // ember-maybe-in-element
+  'maybe-in-element',
 ];
 
 function isAttribute(key) {
