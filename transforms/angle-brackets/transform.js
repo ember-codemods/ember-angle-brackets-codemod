@@ -132,6 +132,9 @@ const IGNORE_MUSTACHE_STATEMENTS = [
 
   // ember-svg-jar
   'svg-jar',
+
+  // ember-concurrency
+  'perform',
 ];
 
 function isAttribute(key) {
