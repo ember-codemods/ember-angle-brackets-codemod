@@ -303,7 +303,9 @@ function transformToAngleBracket(env, fileInfo, config) {
   }
 
   function transformLinkToTextParam(textParam) {
-    if (textParam.type.includes('Literal')) {
+    if (textParam.type === 'SubExpression') {
+      return subExpressionToMustacheStatement(textParam);
+    } else if (textParam.type.includes('Literal')) {
       return b.text(textParam.value);
     } else {
       return b.mustache(textParam.original);
@@ -466,12 +468,16 @@ function transformToAngleBracket(env, fileInfo, config) {
     );
   }
 
+  function subExpressionToMustacheStatement(subExpression) {
+    return b.mustache(subExpression.path, subExpression.params, subExpression.hash);
+  }
+
   return {
     MustacheStatement(node) {
       // Don't change attribute statements
       const isValidMustache =
         node.loc.source !== '(synthetic)' && !shouldIgnoreMustacheStatement(node.path.original);
-      const tagName = node.path.original;
+      const tagName = node.path && node.path.original;
       const isNestedComponent = isNestedComponentTagName(tagName);
 
       if (
