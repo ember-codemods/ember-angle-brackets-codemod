@@ -294,6 +294,38 @@ test('if', () => {
   `);
 });
 
+test('nested-else-if', () => {
+  let input = `
+    {{#if a}}
+      {{my-component1 foo="bar"}}
+    {{else if b}}
+      {{my-component2 foo="bar"}}
+    {{else if c}}
+      {{my-component3 foo="bar"}}
+    {{else if d}}
+      {{my-component4 foo="bar"}}
+    {{else}}
+      {{my-component5 foo="bar"}}
+    {{/if}}
+  `;
+
+  expect(runTest('if.hbs', input)).toMatchInlineSnapshot(`
+    "
+        {{#if a}}
+          <MyComponent1 @foo=\\"bar\\" />
+        {{else if b}}
+          <MyComponent2 @foo=\\"bar\\" />
+        {{else if c}}
+          <MyComponent3 @foo=\\"bar\\" />
+        {{else if d}}
+          <MyComponent4 @foo=\\"bar\\" />
+        {{else}}
+          <MyComponent5 @foo=\\"bar\\" />
+        {{/if}}
+      "
+  `);
+});
+
 test('input-helper', () => {
   let input = `
     {{input type="checkbox" name="email-opt-in" checked=this.model.emailPreference}}
