@@ -129,6 +129,9 @@ const IGNORE_MUSTACHE_STATEMENTS = [
   'fa-icon',
   'fa-list',
   'fa-stack',
+
+  // ember-svg-jar
+  'svg-jar',
 ];
 
 function isAttribute(key) {
