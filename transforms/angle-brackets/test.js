@@ -604,6 +604,26 @@ test('sample2', () => {
   `);
 });
 
+test('splattributes', () => {
+  let input = `
+    {{#wrapper}}
+    <div ...attributes>
+      {{foo bar="baz"}}
+    </div>
+    {{/wrapper}}
+  `;
+
+  expect(runTest('splattributes.hbs', input)).toMatchInlineSnapshot(`
+    "
+        <Wrapper>
+        <div ...attributes>
+          <Foo @bar=\\"baz\\" />
+        </div>
+        </Wrapper>
+      "
+  `);
+});
+
 test('t-helper', () => {
   let input = `
     {{t "some.string" param="string" another=1}}
