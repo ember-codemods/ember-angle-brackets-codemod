@@ -142,7 +142,7 @@ function transformToAngleBracket(env, fileInfo, config) {
       let _key = a.key;
       let _valueType = a.value.type;
       let _value;
-      if (!isAttribute(_key) || (!isBuiltInComponent(tagName) && !isDataAttribute(_key))) {
+      if (!isAttribute(_key) || !isBuiltInComponent(tagName)) {
         _key = `@${_key}`;
       }
 
@@ -269,19 +269,13 @@ function transformToAngleBracket(env, fileInfo, config) {
     return attributes.concat(dataAttributes);
   }
 
-  function tranformValuelessDataParams(params) {
-    let dataAttributes = getDataAttributesFromParams(params);
-    let valuelessDataAttributes = dataAttributes.map(param =>
-      b.attr(param.parts[0], b.text(_EMPTY_STRING_))
-    );
-    return valuelessDataAttributes;
+  function hasValuelessDataParams(params) {
+    return getDataAttributesFromParams(params).length > 0;
   }
 
   function transformNodeAttributes(tagName, node) {
-    let params = tranformValuelessDataParams(node.params);
     let attributes = transformAttrs(tagName, node.hash.pairs);
-
-    return params.concat(attributes);
+    return node.params.concat(attributes);
   }
 
   function getDataAttributesFromParams(params) {
@@ -313,6 +307,9 @@ function transformToAngleBracket(env, fileInfo, config) {
   }
 
   function transformNode(node) {
+    if (hasValuelessDataParams(node.params)) {
+      return;
+    }
     let selfClosing = node.type !== 'BlockStatement';
     const tagName = node.path.original;
 
@@ -350,7 +347,6 @@ function transformToAngleBracket(env, fileInfo, config) {
       }
       attributes = transformNodeAttributes(tagName, node);
     }
-
     return b.element(
       { name: newTagName, selfClosing },
       {

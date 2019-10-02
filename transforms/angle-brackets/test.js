@@ -109,29 +109,32 @@ test('data-attributes', () => {
 
   expect(runTest('data-attributes.hbs', input)).toMatchInlineSnapshot(`
     "
-        <XFoo data-foo={{true}} />
-        <XFoo data-test-selector={{true}} />
-        <XFoo data-test-selector={{post.id}} />
-        <XFoo @label=\\"hi\\" data-test-selector={{true}} />
-        <XFoo data-test-foo />
+        <XFoo @data-foo={{true}} />
+        <XFoo @data-test-selector={{true}} />
+        <XFoo @data-test-selector={{post.id}} />
+        <XFoo @label=\\"hi\\" @data-test-selector={{true}} />
+        {{x-foo data-test-foo }}
 
-        <XFoo data-foo={{true}}>
+        <XFoo @data-foo={{true}}>
           block
         </XFoo>
 
-        <XFoo data-test-selector={{true}}>
+        <XFoo @data-test-selector={{true}}>
           block
         </XFoo>
 
-        <XFoo data-test-selector={{post.id}}>
+        <XFoo @data-test-selector={{post.id}}>
           block
         </XFoo>
 
-        <Common::AccordionComponent data-test-accordion as |accordion|>
+        {{#common/accordion-component data-test-accordion as |accordion|}}
           block
-        </Common::AccordionComponent>
+        {{/common/accordion-component}}
 
-        <XFoo data-foo @name=\\"Sophie\\" />
+        {{x-foo
+          data-foo
+          name=\\"Sophie\\"
+        }}
       "
   `);
 });
@@ -216,7 +219,7 @@ test('entities', () => {
   expect(runTest('entities.hbs', input)).toMatchInlineSnapshot(`
     "
         &lt; &gt; &times;
-        <Foo data-a=\\"&quot;Foo&nbsp;&amp;&nbsp;Bar&quot;\\">&nbsp;Some text &gt;</Foo>
+        <Foo @data-a=\\"&quot;Foo&nbsp;&amp;&nbsp;Bar&quot;\\">&nbsp;Some text &gt;</Foo>
       "
   `);
 });
@@ -465,15 +468,15 @@ test('link-to-query-param', () => {
         <LinkTo @route=\\"posts\\" @query={{hash direction=\\"desc\\" showArchived=false}}>
           Recent Posts
         </LinkTo>
-        <LinkTo @route=\\"posts\\" data-test-foo>
+        {{#link-to data-test-foo \\"posts\\"}}
           Recent Posts
-        </LinkTo>
+        {{/link-to}}
         <LinkTo @route={{this.dynamicPath}} @query={{hash direction=\\"desc\\" showArchived=false}}>
           Recent Posts
         </LinkTo>
-        <LinkTo @route={{this.dynamicPath}} @query={{hash direction=\\"desc\\" showArchived=false}} data-test-foo>
+        {{#link-to data-test-foo this.dynamicPath (query-params direction=\\"desc\\" showArchived=false)}}
           Recent Posts
-        </LinkTo>
+        {{/link-to}}
         <LinkTo @query={{hash direction=\\"desc\\" showArchived=false}}>
           Recent Posts
         </LinkTo>
@@ -899,7 +902,7 @@ test('preserve arguments', () => {
   expect(runTest('preserve-arguments.hbs', input)).toMatchInlineSnapshot(`
     "
         <FooBar @class=\\"baz\\" />
-        <FooBar data-baz @class=\\"baz\\" />
+        {{foo-bar data-baz class=\\"baz\\"}}
         <LinkTo @route=\\"flight\\" @model={{event.flight.id}} class=\\"btn btn-default btn-sm pull-right\\">{{t \\"show\\"}}</LinkTo>
       "
   `);
