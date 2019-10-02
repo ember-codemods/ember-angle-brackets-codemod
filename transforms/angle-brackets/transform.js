@@ -12,7 +12,15 @@ const HTML_ATTRIBUTES = ['class', 'placeholder', 'required'];
 const BUILT_IN_COMPONENTS = ['link-to', 'input', 'textarea'];
 
 function isAttribute(key) {
-  return HTML_ATTRIBUTES.includes(key) || key.startsWith('data-');
+  return HTML_ATTRIBUTES.includes(key) || isDataAttribute(key);
+}
+
+function isDataAttribute(key) {
+  return key.startsWith('data-');
+}
+
+function isBuiltInComponent(key) {
+  return BUILT_IN_COMPONENTS.includes(key);
 }
 
 function isNestedComponentTagName(tagName) {
@@ -129,12 +137,12 @@ function transformToAngleBracket(env, fileInfo, config) {
   /**
    * Transform the attributes names & values properly
    */
-  function transformAttrs(attrs) {
+  function transformAttrs(tagName, attrs) {
     return attrs.map(a => {
       let _key = a.key;
       let _valueType = a.value.type;
       let _value;
-      if (!isAttribute(a.key)) {
+      if (!isAttribute(_key) || (!isBuiltInComponent(tagName) && !isDataAttribute(_key))) {
         _key = `@${_key}`;
       }
 
@@ -269,9 +277,9 @@ function transformToAngleBracket(env, fileInfo, config) {
     return valuelessDataAttributes;
   }
 
-  function transformNodeAttributes(node) {
+  function transformNodeAttributes(tagName, node) {
     let params = tranformValuelessDataParams(node.params);
-    let attributes = transformAttrs(node.hash.pairs);
+    let attributes = transformAttrs(tagName, node.hash.pairs);
 
     return params.concat(attributes);
   }
@@ -308,7 +316,7 @@ function transformToAngleBracket(env, fileInfo, config) {
     let selfClosing = node.type !== 'BlockStatement';
     const tagName = node.path.original;
 
-    if (config.skipBuiltInComponents && BUILT_IN_COMPONENTS.includes(tagName)) {
+    if (config.skipBuiltInComponents && isBuiltInComponent(tagName)) {
       return;
     }
 
@@ -331,7 +339,7 @@ function transformToAngleBracket(env, fileInfo, config) {
         attributes = transformLinkToAttrs(node.params);
       }
 
-      let namesParams = transformAttrs(node.hash.pairs);
+      let namesParams = transformAttrs(tagName, node.hash.pairs);
       attributes = attributes.concat(namesParams);
     } else {
       if (nodeHasPositionalParameters(node)) {
@@ -340,7 +348,7 @@ function transformToAngleBracket(env, fileInfo, config) {
         );
         return;
       }
-      attributes = transformNodeAttributes(node);
+      attributes = transformNodeAttributes(tagName, node);
     }
 
     return b.element(

@@ -174,13 +174,13 @@ test('deeply-nested-sub', () => {
    */
   expect(runTest('deeply-nested-sub.hbs', input)).toMatchInlineSnapshot(`
     "
-        <SomeComponent class={{concat foo (some-helper ted (some-dude bar (a b c)))}}>
+        <SomeComponent @class={{concat foo (some-helper ted (some-dude bar (a b c)))}}>
           help
         </SomeComponent>
-        <SomeComponent class={{concat foo (some-helper ted (some-dude bar (a b c)))}} />
-        <DeepComponent class={{concat foo (nice-helper ted (some-crazy bar (a d (d e f))))}} />
-        <SomeComponent class={{concat foo (some-helper bar)}} />
-        <SomeComponent class={{concat foo (some-helper bar quuz)}} />
+        <SomeComponent @class={{concat foo (some-helper ted (some-dude bar (a b c)))}} />
+        <DeepComponent @class={{concat foo (nice-helper ted (some-crazy bar (a d (d e f))))}} />
+        <SomeComponent @class={{concat foo (some-helper bar)}} />
+        <SomeComponent @class={{concat foo (some-helper bar quuz)}} />
         <SomeComponent @person={{hash name=\\"Sophie\\" age=1}} @message={{t \\"welcome\\" count=1}} />
         <SomeComponent @people={{array (hash name=\\"Alex\\" age=5 nested=(hash oldest=true amount=(format-currency 350 sign=\\"£\\")) disabled=(eq foo \\"bar\\")) (hash name=\\"Ben\\" age=4) (hash name=\\"Sophie\\" age=1)}} />
       "
@@ -496,7 +496,7 @@ test('nested', () => {
 
   expect(runTest('nested.hbs', input)).toMatchInlineSnapshot(`
     "
-        <Ui::SiteHeader @user={{this.user}} class={{if this.user.isAdmin \\"admin\\"}} />
+        <Ui::SiteHeader @user={{this.user}} @class={{if this.user.isAdmin \\"admin\\"}} />
         <Ui::Button @text=\\"Click me\\" />
         <SomePath::AnotherPath::SuperSelect @selected={{this.user.country}} as |s|>
           {{#each this.availableCountries as |country|}}
@@ -565,7 +565,7 @@ test('sample', () => {
 
   expect(runTest('sample.hbs', input)).toMatchInlineSnapshot(`
     "
-        <SiteHeader @user={{this.user}} class={{if this.user.isAdmin \\"admin\\"}} />
+        <SiteHeader @user={{this.user}} @class={{if this.user.isAdmin \\"admin\\"}} />
         <SiteHeader @user={{null}} @address={{undefined}} />
 
         <SuperSelect @selected={{this.user.country}} as |s|>
@@ -885,6 +885,22 @@ test('custom-options', () => {
         {{link-to \\"Title\\" \\"some.route\\"}}
         {{textarea value=this.model.body}}
         {{input type=\\"checkbox\\" name=\\"email-opt-in\\" checked=this.model.emailPreference}}
+      "
+  `);
+});
+
+test('preserve arguments', () => {
+  let input = `
+    {{foo-bar class="baz"}}
+    {{foo-bar data-baz class="baz"}}
+    {{link-to (t "show") "flight" event.flight.id class="btn btn-default btn-sm pull-right"}}
+  `;
+
+  expect(runTest('preserve-arguments.hbs', input)).toMatchInlineSnapshot(`
+    "
+        <FooBar @class=\\"baz\\" />
+        <FooBar data-baz @class=\\"baz\\" />
+        <LinkTo @route=\\"flight\\" @model={{event.flight.id}} class=\\"btn btn-default btn-sm pull-right\\">{{t \\"show\\"}}</LinkTo>
       "
   `);
 });
