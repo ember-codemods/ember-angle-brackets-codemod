@@ -1,9 +1,15 @@
 #!/usr/bin/env node
 'use strict';
 
-require('codemod-cli').runTransform(
-  __dirname,
-  process.argv[2] /* transform name */,
-  process.argv.slice(3) /* paths or globs */,
-  'hbs'
-);
+const { gatherTelemetryForUrl } = require('ember-codemods-telemetry-helpers');
+
+(async () => {
+  await gatherTelemetryForUrl(process.argv[2]);
+
+  require('codemod-cli').runTransform(
+    __dirname,
+    'angle-brackets' /* transform name */,
+    process.argv.slice(2) /* paths or globs */,
+    'hbs'
+  );
+})();
