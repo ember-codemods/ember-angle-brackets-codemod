@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 'use strict';
+
 const { gatherTelemetryForUrl, analyzeEmberObject } = require('ember-codemods-telemetry-helpers');
 
 (async () => {
-  await gatherTelemetryForUrl(process.argv[2], analyzeEmberObject);
+  await gatherTelemetryForUrl('http://localhost:4200', analyzeEmberObject);
 
   require('codemod-cli').runTransform(
     __dirname,

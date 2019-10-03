@@ -62,3 +62,8 @@ typings/
 
 #editors
 .vscode
+
+
+tmp
+*.log
+test/**/yarn.lock

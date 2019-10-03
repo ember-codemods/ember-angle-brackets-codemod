@@ -21,8 +21,11 @@
   "bin": "./bin/cli.js",
   "scripts": {
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
+    "debug:telemetry": "node --inspect-brk ./bin/telemetry.js",
+    "debug:integration": "node --inspect-brk ./test/run-test.js",
     "deploy": "npm version patch && git push && git push --tags && npm publish",
     "lint": "eslint . --cache",
+    "test:integration": "node ./test/run-test.js",
     "test": "codemod-cli test --coverage"
   },
   "jest": {
@@ -45,7 +48,9 @@
     "coveralls": "^3.0.7",
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",
+    "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-prettier": "^3.1.1",
+    "execa": "^3.2.0",
     "jest": "^24.9.0",
     "prettier": "^1.19.1",
     "release-it": "^12.4.3",

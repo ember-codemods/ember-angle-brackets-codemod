@@ -1,7 +1,7 @@
 const recast = require('ember-template-recast');
 const logger = require('../../lib/logger');
 
-const IGNORE_MUSTACHE_STATEMENTS = require('./known-helpers');
+const KNOWN_HELPERS = require('./known-helpers');
 const _EMPTY_STRING_ = `ANGLE_BRACKET_EMPTY_${Date.now()}`;
 const { builders: b } = recast;
 
@@ -266,8 +266,9 @@ function getNonDataAttributesFromParams(params) {
   return params.filter(p => !(p.original && `${p.original}`.startsWith('data-')));
 }
 
-function shouldIgnoreMustacheStatement(name, config) {
-  return IGNORE_MUSTACHE_STATEMENTS.includes(name) || config.helpers.includes(name);
+function shouldIgnoreMustacheStatement(name, config, helpersFromTelemetry) {
+  let mergedHelpers = [...KNOWN_HELPERS, ...helpersFromTelemetry];
+  return mergedHelpers.includes(name) || config.helpers.includes(name);
 }
 
 function nodeHasPositionalParameters(node) {
@@ -348,7 +349,7 @@ function subExpressionToMustacheStatement(subExpression) {
   return b.mustache(subExpression.path, subExpression.params, subExpression.hash);
 }
 
-module.exports = function transform(fileInfo, config) {
+module.exports = function transform(fileInfo, config, helpersFromTelemetry = []) {
   config = config || {};
   config.helpers = config.helpers || [];
   config.skipBuiltInComponents =
@@ -359,8 +360,8 @@ module.exports = function transform(fileInfo, config) {
     return fileInfo.source;
   }
 
-  let { code: toAngleBracket } = recast.transform(fileInfo.source, env =>
-    transformToAngleBracket(env, fileInfo, config)
+  let { code: toAngleBracket } = recast.transform(fileInfo.source, () =>
+    transformToAngleBracket(fileInfo, config, helpersFromTelemetry)
   );
 
   let attrEqualEmptyString = new RegExp(_EMPTY_STRING_, 'gi');
@@ -371,7 +372,7 @@ module.exports = function transform(fileInfo, config) {
   return toAngleBracket;
 };
 
-function transformToAngleBracket(_, fileInfo, config) {
+function transformToAngleBracket(fileInfo, config, helpersFromTelemetry) {
   /**
    * Transform the attributes names & values properly
    */
@@ -380,7 +381,7 @@ function transformToAngleBracket(_, fileInfo, config) {
       // Don't change attribute statements
       const isValidMustache =
         node.loc.source !== '(synthetic)' &&
-        !shouldIgnoreMustacheStatement(node.path.original, config);
+        !shouldIgnoreMustacheStatement(node.path.original, config, helpersFromTelemetry);
       const tagName = node.path && node.path.original;
       const isNestedComponent = isNestedComponentTagName(tagName);
 
@@ -392,7 +393,7 @@ function transformToAngleBracket(_, fileInfo, config) {
       }
     },
     BlockStatement(node) {
-      if (!shouldIgnoreMustacheStatement(node.path.original, config)) {
+      if (!shouldIgnoreMustacheStatement(node.path.original, config, helpersFromTelemetry)) {
         return transformNode(node, fileInfo, config);
       }
     },
