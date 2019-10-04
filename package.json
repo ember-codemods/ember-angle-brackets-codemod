@@ -32,7 +32,8 @@
   },
   "dependencies": {
     "codemod-cli": "^2.0.0",
-    "ember-template-recast": "^3.2.6"
+    "ember-template-recast": "^3.2.6",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "coveralls": "^3.0.7",
