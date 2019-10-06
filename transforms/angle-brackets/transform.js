@@ -240,8 +240,19 @@ function transformToAngleBracket(env, fileInfo, config) {
       // eslint-disable-next-line no-unused-vars
       let [_, secondParamInput] = params;
       if (secondParamInput.type === 'SubExpression') {
-        let _queryParam = b.attr('@query', b.mustache(b.path('hash'), [], secondParamInput.hash));
-        attributes = [firstParamOutput, _queryParam];
+        let _queryParamOrModel;
+        if (isQueryParam(secondParamInput)) {
+          _queryParamOrModel = b.attr(
+            '@query',
+            b.mustache(b.path('hash'), [], secondParamInput.hash)
+          );
+        } else {
+          _queryParamOrModel = b.attr(
+            '@model',
+            b.mustache(secondParamInput.path, secondParamInput.params)
+          );
+        }
+        attributes = [firstParamOutput, _queryParamOrModel];
       } else {
         let _modelParam = b.attr('@model', transformModelParams(secondParamInput));
         attributes = [firstParamOutput, _modelParam];

@@ -374,6 +374,7 @@ test('link-to-inline', () => {
       class="t__em-link"
     }}
     {{link-to (t "show") "flight" event.flight.id class="btn btn-default btn-sm pull-right"}}
+    {{link-to (t "show") "user" (if linkActor event.actor.id event.user.id)}}
   `;
 
   /**
@@ -388,6 +389,7 @@ test('link-to-inline', () => {
         <LinkTo @route={{this.dynamicPath}} class=\\"tabs__discrete-tab\\" @activeClass=\\"o__selected\\" @current-when=\\"apps.segments\\" data-test-segment-link=\\"segments\\">Segments</LinkTo>
         <LinkTo @route=\\"apps.app.companies.segments.segment\\" @model={{segment}} class=\\"t__em-link\\">{{segment.name}}</LinkTo>
         <LinkTo @route=\\"flight\\" @model={{event.flight.id}} class=\\"btn btn-default btn-sm pull-right\\">{{t \\"show\\"}}</LinkTo>
+        <LinkTo @route=\\"user\\" @model={{if linkActor event.actor.id event.user.id}}>{{t \\"show\\"}}</LinkTo>
       "
   `);
 });
