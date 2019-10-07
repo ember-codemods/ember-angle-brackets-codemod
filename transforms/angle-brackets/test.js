@@ -338,12 +338,20 @@ test('link-to', () => {
   let input = `
     {{#link-to "about"}}About Us{{/link-to}}
     {{#link-to this.dynamicRoute}}About Us{{/link-to}}
+    {{#link-to "user" this.first this.second}}Show{{/link-to}}
+    {{#link-to "user" this.first this.second (query-params foo="baz")}}Show{{/link-to}}
+    {{#link-to "user" this.first}}Show{{/link-to}}
+    {{#link-to "user" this.first (query-params foo="baz")}}Show{{/link-to}}
   `;
 
   expect(runTest('link-to.hbs', input)).toMatchInlineSnapshot(`
     "
         <LinkTo @route=\\"about\\">About Us</LinkTo>
         <LinkTo @route={{this.dynamicRoute}}>About Us</LinkTo>
+        <LinkTo @route=\\"user\\" @models={{array this.first this.second}}>Show</LinkTo>
+        <LinkTo @route=\\"user\\" @models={{array this.first this.second}} @query={{hash foo=\\"baz\\"}}>Show</LinkTo>
+        <LinkTo @route=\\"user\\" @model={{this.first}}>Show</LinkTo>
+        <LinkTo @route=\\"user\\" @model={{this.first}} @query={{hash foo=\\"baz\\"}}>Show</LinkTo>
       "
   `);
 });
@@ -375,6 +383,10 @@ test('link-to-inline', () => {
     }}
     {{link-to (t "show") "flight" event.flight.id class="btn btn-default btn-sm pull-right"}}
     {{link-to (t "show") "user" (if linkActor event.actor.id event.user.id)}}
+    {{link-to "Show" "user" this.first this.second}}
+    {{link-to "Show" "user" this.first this.second (query-params foo="baz")}}
+    {{link-to "Show" "user" this.first}}
+    {{link-to "Show" "user" this.first (query-params foo="baz")}}
   `;
 
   /**
@@ -390,6 +402,10 @@ test('link-to-inline', () => {
         <LinkTo @route=\\"apps.app.companies.segments.segment\\" @model={{segment}} class=\\"t__em-link\\">{{segment.name}}</LinkTo>
         <LinkTo @route=\\"flight\\" @model={{event.flight.id}} class=\\"btn btn-default btn-sm pull-right\\">{{t \\"show\\"}}</LinkTo>
         <LinkTo @route=\\"user\\" @model={{if linkActor event.actor.id event.user.id}}>{{t \\"show\\"}}</LinkTo>
+        <LinkTo @route=\\"user\\" @models={{array this.first this.second}}>Show</LinkTo>
+        <LinkTo @route=\\"user\\" @models={{array this.first this.second}} @query={{hash foo=\\"baz\\"}}>Show</LinkTo>
+        <LinkTo @route=\\"user\\" @model={{this.first}}>Show</LinkTo>
+        <LinkTo @route=\\"user\\" @model={{this.first}} @query={{hash foo=\\"baz\\"}}>Show</LinkTo>
       "
   `);
 });
