@@ -266,8 +266,15 @@ function transformToAngleBracket(env, fileInfo, config) {
       let _qpParam;
 
       if (hasQueryParamHelper) {
-        _modelsParam = b.attr('@model', transformModelParams(models[0]));
-        _qpParam = b.attr('@query', b.mustache(b.path('hash'), [], models[1].hash));
+        if (models.length < 3) {
+          _modelsParam = b.attr('@model', transformModelParams(models[0]));
+        } else {
+          _modelsParam = b.attr(
+            '@models',
+            b.mustache(b.path('array'), models.slice().splice(0, 2))
+          );
+        }
+        _qpParam = b.attr('@query', b.mustache(b.path('hash'), [], models[models.length - 1].hash));
       } else {
         _modelsParam = b.attr('@models', b.mustache(b.path('array'), models));
       }
