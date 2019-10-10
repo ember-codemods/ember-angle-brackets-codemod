@@ -1826,10 +1826,10 @@ electron-to-chromium@^1.3.247:
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.269.tgz#3e00cc9266a0123fc2e7b4f290899e257200e6e3"
   integrity sha512-t2ZTfo07HxkxTOUbIwMmqHBSnJsC9heqJUm7LwQu2iSk0wNhG4H5cMREtb8XxeCrQABDZ6IqQKY3yZq+NfAqwg==
 
-ember-template-recast@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/ember-template-recast/-/ember-template-recast-3.2.0.tgz#9ec21e1d69e0543ef226ae70e96f4e7ea2cf1045"
-  integrity sha512-tJOV18rRpkA9qkd65vCM6bE0ODxwvZqvrxq2h2zH1XBlt5DXe1qW/63C7dvgyRfZSmuSbtu/tk2/qhn6J8LgzA==
+ember-template-recast@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/ember-template-recast/-/ember-template-recast-3.2.1.tgz#cb9b8cdf601ef1bdf8f30a0c9ad06992d6169256"
+  integrity sha512-d0sbmsC1C4tTEGTvNZr9HnIdnNBm5oaTzcUoBE5Jecg9H5JCTMjnJ1VIrxqG/RSHWIX/8JTHS+RW5KGtY4LWAw==
   dependencies:
     "@glimmer/syntax" "^0.42.0"
     async-promise-queue "^1.0.5"
