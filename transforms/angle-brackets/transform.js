@@ -228,6 +228,11 @@ function transformToAngleBracket(env, fileInfo, config) {
       firstParamOutput = b.attr('@query', b.mustache(b.path('hash'), [], firstParamInput.hash));
     } else if (firstParamInput.type === 'PathExpression') {
       firstParamOutput = b.attr('@route', b.mustache(firstParamInput.original));
+    } else if (firstParamInput.type === 'SubExpression') {
+      firstParamOutput = b.attr(
+        '@route',
+        b.mustache(firstParamInput.path, firstParamInput.params, firstParamInput.hash)
+      );
     } else {
       firstParamOutput = b.attr('@route', b.text(firstParamInput.value));
     }

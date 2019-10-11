@@ -957,3 +957,27 @@ test('preserve arguments', () => {
       "
   `);
 });
+
+test('handles link-to concat', () => {
+  let input = `
+    {{#link-to (concat someVariable ".detail") class="some-class"}}click{{/link-to}}
+  `;
+
+  expect(runTest('handles-link-to-concat.hbs', input)).toMatchInlineSnapshot(`
+    "
+        <LinkTo @route={{concat someVariable \\".detail\\"}} class=\\"some-class\\">click</LinkTo>
+      "
+  `);
+});
+
+test('handles link-to concat with hash', () => {
+  let input = `
+    {{#link-to (random-helper someVariable ".detail" do-the="thing") class="some-class"}}click{{/link-to}}
+  `;
+
+  expect(runTest('handles-link-to-concat.hbs', input)).toMatchInlineSnapshot(`
+    "
+        <LinkTo @route={{random-helper someVariable \\".detail\\" do-the=\\"thing\\"}} class=\\"some-class\\">click</LinkTo>
+      "
+  `);
+});
