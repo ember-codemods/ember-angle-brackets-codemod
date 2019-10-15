@@ -981,3 +981,23 @@ test('handles link-to concat with hash', () => {
       "
   `);
 });
+
+test('component-else', () => {
+  let input = `
+    {{#foo bar="baz"}}
+      42
+    {{else}}
+      123
+    {{/foo}}
+  `;
+
+  expect(runTest('component-else.hbs', input)).toMatchInlineSnapshot(`
+    "
+        {{#foo bar=\\"baz\\"}}
+          42
+        {{else}}
+          123
+        {{/foo}}
+      "
+  `);
+});
