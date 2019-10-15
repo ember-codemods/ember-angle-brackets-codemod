@@ -340,6 +340,10 @@ function transformToAngleBracket(env, fileInfo, config) {
       return;
     }
 
+    if (node.inverse) {
+      return;
+    }
+
     const newTagName = transformTagName(tagName);
 
     let attributes;
