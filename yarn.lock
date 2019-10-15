@@ -1826,10 +1826,10 @@ electron-to-chromium@^1.3.247:
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.269.tgz#3e00cc9266a0123fc2e7b4f290899e257200e6e3"
   integrity sha512-t2ZTfo07HxkxTOUbIwMmqHBSnJsC9heqJUm7LwQu2iSk0wNhG4H5cMREtb8XxeCrQABDZ6IqQKY3yZq+NfAqwg==
 
-ember-template-recast@^3.2.2:
-  version "3.2.2"
-  resolved "https://registry.yarnpkg.com/ember-template-recast/-/ember-template-recast-3.2.2.tgz#451662220152e13a297054c8e976fc3f21efe5ed"
-  integrity sha512-4TTvzHdotX7468OmJKtXA88AqBOEIg9LEFiOAdFdCa0NDY4HRyGifiBNZY7b+NF+cWRwBEQrHBHTotHBCzptuQ==
+ember-template-recast@^3.2.3:
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/ember-template-recast/-/ember-template-recast-3.2.3.tgz#051bea74e822f8e57c40e60f6fff570eee1287d2"
+  integrity sha512-MxxjWqcbzKKZlUyqL4Cbiav3WAaGuExgWmEWuFcQYKknsYaRSehWH+IOH0fzKouSCrvLoHKZH0LSy/y+heluxA==
   dependencies:
     "@glimmer/syntax" "^0.42.2"
     async-promise-queue "^1.0.5"
@@ -1838,7 +1838,7 @@ ember-template-recast@^3.2.2:
     globby "^10.0.1"
     ora "^4.0.2"
     tmp "^0.1.0"
-    workerpool "^5.0.0"
+    workerpool "^5.0.1"
 
 emoji-regex@^7.0.1:
   version "7.0.3"
@@ -5355,10 +5355,10 @@ wordwrap@~1.0.0:
   resolved "https://registry.yarnpkg.com/wordwrap/-/wordwrap-1.0.0.tgz#27584810891456a4171c8d0226441ade90cbcaeb"
   integrity sha1-J1hIEIkUVqQXHI0CJkQa3pDLyus=
 
-workerpool@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/workerpool/-/workerpool-5.0.0.tgz#5f6e882999172c4ed0acd09c3e25cc8f4516f30c"
-  integrity sha512-QGsdq7Bv7JBvJW5ngNB9dR8hu8T2Jd38blVKINdehHlipR1WUajiLNFBtSBC2R3zlCnTpNM1Q0o3ssnfcQt48w==
+workerpool@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/workerpool/-/workerpool-5.0.1.tgz#bbafa774066c0f43dfce947ec20403d7fb87b519"
+  integrity sha512-Q9CGaz2zLdFIyr+VKct6bYQAMzeGy7XWSw9pDGLfPuU56Cg+iWflqjFGUqMqv3iMuS8EaXQTgH0qxaPi6AuhAA==
 
 wrap-ansi@^5.1.0:
   version "5.1.0"
