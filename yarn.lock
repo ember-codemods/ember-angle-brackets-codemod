@@ -1826,10 +1826,10 @@ electron-to-chromium@^1.3.247:
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.269.tgz#3e00cc9266a0123fc2e7b4f290899e257200e6e3"
   integrity sha512-t2ZTfo07HxkxTOUbIwMmqHBSnJsC9heqJUm7LwQu2iSk0wNhG4H5cMREtb8XxeCrQABDZ6IqQKY3yZq+NfAqwg==
 
-ember-template-recast@^3.2.3:
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/ember-template-recast/-/ember-template-recast-3.2.3.tgz#051bea74e822f8e57c40e60f6fff570eee1287d2"
-  integrity sha512-MxxjWqcbzKKZlUyqL4Cbiav3WAaGuExgWmEWuFcQYKknsYaRSehWH+IOH0fzKouSCrvLoHKZH0LSy/y+heluxA==
+ember-template-recast@^3.2.4:
+  version "3.2.4"
+  resolved "https://registry.yarnpkg.com/ember-template-recast/-/ember-template-recast-3.2.4.tgz#eeeb240b4c09bd90dbd8978dba844d50fc4498a9"
+  integrity sha512-M8Ehl8Q0lqPhzYocqlEbjku8c0MDg2SBya536mW6lgU2WBy2tUpZWH2ky+oX0IXdzZKGAeZCBbU7/mfKmxAY7Q==
   dependencies:
     "@glimmer/syntax" "^0.42.2"
     async-promise-queue "^1.0.5"
@@ -1837,6 +1837,7 @@ ember-template-recast@^3.2.3:
     commander "^3.0.0"
     globby "^10.0.1"
     ora "^4.0.2"
+    slash "^3.0.0"
     tmp "^0.1.0"
     workerpool "^5.0.1"
 
