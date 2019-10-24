@@ -384,7 +384,8 @@ function transformToAngleBracket(_, fileInfo, config) {
     MustacheStatement(node) {
       // Don't change attribute statements
       const isValidMustache =
-        node.loc.source !== '(synthetic)' && !shouldIgnoreMustacheStatement(node.path.original, config);
+        node.loc.source !== '(synthetic)' &&
+        !shouldIgnoreMustacheStatement(node.path.original, config);
       const tagName = node.path && node.path.original;
       const isNestedComponent = isNestedComponentTagName(tagName);
 
