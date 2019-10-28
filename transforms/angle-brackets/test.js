@@ -1012,7 +1012,7 @@ test('hyphens with nested usage', () => {
     {{shared/-documents-modal/email-client}}
   `;
 
-  expect(runTest('component-else.hbs', input)).toMatchInlineSnapshot(`
+  expect(runTest('hyphens-everywhere.hbs', input)).toMatchInlineSnapshot(`
     "
         <Shared::DocumentsModal::-EmailClient />
         <Shared::-DocumentsModal::-EmailClient />
