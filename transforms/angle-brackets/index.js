@@ -28,20 +28,31 @@ function getOptions() {
   return options;
 }
 
-function helperName(name) {
-  let helpersPath = '/helpers/';
-  return name.substring(name.lastIndexOf(helpersPath) + helpersPath.length, name.length);
+function helperNames(helperPaths) {
+  return [
+    ...new Set(
+      helperPaths
+        .filter(name => name.includes('/helpers/') || name.includes('/helper'))
+        .filter(name => !name.includes('/-'))
+        .map(name => {
+          let path = name.split('/helpers/');
+          return path.pop();
+        })
+        .filter(name => !name.includes('/'))
+    ),
+  ];
 }
 
 function getHelperData(telemetry) {
-  let helpers = [];
+  let helperPaths = [];
   let telemetryKeys = Object.keys(telemetry);
-  for (let name of telemetryKeys) {
-    let entry = telemetry[name];
+  for (let path of telemetryKeys) {
+    let entry = telemetry[path];
     if (entry.type === 'Helper') {
-      helpers.push(helperName(name));
+      helperPaths.push(path);
     }
   }
+  let helpers = helperNames(helperPaths);
   debug(JSON.stringify(telemetryKeys, null, 2));
   debug(JSON.stringify(helpers, null, 2));
   return helpers;
