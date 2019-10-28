@@ -23,7 +23,7 @@ running this tool.
 2. Run Codemod, pointing it at the address of the development server
 ```sh
 $ cd my-ember-app-or-addon
-$ npx ember-angle-brackets-codemod angle-brackets http://localhost:4200 path/of/files/ or /some**/*glob.hbs
+$ npx ember-angle-brackets-codemod http://localhost:4200 path/of/files/ or /some**/*glob.hbs
 ```
 
 ## From
