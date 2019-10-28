@@ -90,14 +90,6 @@ function transformNestedSubExpression(subExpression) {
 function shouldSkipFile(fileInfo, config) {
   let source = fileInfo.source;
 
-  if (source.includes('~')) {
-    //skip files with `~` until https://github.com/ember-codemods/ember-angle-brackets-codemod/issues/46 is resolved
-    logger.warn(
-      `WARNING: ${fileInfo.path} was not converted as it contains a "~" (https://github.com/ember-codemods/ember-angle-brackets-codemod/issues/46)`
-    );
-    return true;
-  }
-
   if (config.skipFilesThatMatchRegex && config.skipFilesThatMatchRegex.test(source)) {
     logger.warn(
       `WARNING: ${fileInfo.path} was not skipped as its content matches the "skipFilesThatMatchRegex" config setting: ${config.skipFilesThatMatchRegex}`
