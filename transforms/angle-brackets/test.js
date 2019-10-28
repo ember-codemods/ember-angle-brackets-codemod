@@ -1001,3 +1001,25 @@ test('component-else', () => {
       "
   `);
 });
+
+test('hyphens with nested usage', () => {
+  let input = `
+    {{shared/documents-modal/-email-client}}
+    {{shared/-documents-modal/-email-client}}
+    {{-shared/-documents-modal/-email-client}}
+    {{-shared/documents-modal/-email-client}}
+    {{-shared/documents-modal/email-client}}
+    {{shared/-documents-modal/email-client}}
+  `;
+
+  expect(runTest('hyphens-everywhere.hbs', input)).toMatchInlineSnapshot(`
+    "
+        <Shared::DocumentsModal::-EmailClient />
+        <Shared::-DocumentsModal::-EmailClient />
+        <-Shared::-DocumentsModal::-EmailClient />
+        <-Shared::DocumentsModal::-EmailClient />
+        <-Shared::DocumentsModal::EmailClient />
+        <Shared::-DocumentsModal::EmailClient />
+      "
+  `);
+});
