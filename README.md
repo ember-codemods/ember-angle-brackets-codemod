@@ -1,7 +1,7 @@
 # ember-angle-brackets-codemod
 
 [![Ember Observer Score](https://emberobserver.com/badges/ember-angle-brackets-codemod.svg)](https://emberobserver.com/addons/ember-angle-brackets-codemod)
-[![Build Status](https://travis-ci.org/ember-codemods/ember-angle-brackets-codemod.svg?branch=master)](https://travis-ci.org/ember-codemods/ember-angle-brackets-codemod) 
+[![Build Status](https://travis-ci.org/ember-codemods/ember-angle-brackets-codemod.svg?branch=master)](https://travis-ci.org/ember-codemods/ember-angle-brackets-codemod)
 [![Coverage Status](https://coveralls.io/repos/github/ember-codemods/ember-angle-brackets-codemod/badge.svg?branch=master)](https://coveralls.io/github/ember-codemods/ember-angle-brackets-codemod?branch=master)
 [![npm version](http://img.shields.io/npm/v/ember-angle-brackets-codemod.svg?style=flat)](https://npmjs.org/package/ember-angle-brackets-codemod "View this project on npm")
 [![dependencies Status](https://david-dm.org/ember-codemods/ember-angle-brackets-codemod/status.svg)](https://david-dm.org/ember-codemods/ember-angle-brackets-codemod)
@@ -12,16 +12,18 @@ in an Ember.js app
 
 Refer to this [RFC](https://github.com/emberjs/rfcs/blob/master/text/0311-angle-bracket-invocation.md) for more details on Angle brackets invocation syntax.
 
-## Usage 
+## Usage
 
 **WARNING**: `jscodeshift`, and thus this codemod, **edits your files in place**.
 It does not make a copy. Make sure your code is checked into a source control
 repository like Git and that you have no outstanding changes to commit before
 running this tool.
 
+1. Start your ember development server
+2. Run Codemod, pointing it at the address of the development server
 ```sh
 $ cd my-ember-app-or-addon
-$ npx ember-angle-brackets-codemod angle-brackets app/templates
+$ npx ember-angle-brackets-codemod angle-brackets http://localhost:4200 path/of/files/ or /some**/*glob.hbs
 ```
 
 ## From
@@ -62,7 +64,7 @@ To help the codemod disambiguate components and helpers, you can define a list o
 ```js
 {
   "helpers": [
-    "date-formatter", 
+    "date-formatter",
     "info-pill"
   ]
 }
@@ -115,7 +117,7 @@ If there are files that don't convert well, you can skip them by specifying an o
 
 ## Debugging Workflow
 Oftentimes, you want to debug the codemod or the transform to identify issues with the code or to understand
-how the transforms are working, or to troubleshoot why some tests are failing. 
+how the transforms are working, or to troubleshoot why some tests are failing.
 
 Hence we recommend a debugging work-flow like below to quickly find out what is causing the issue.
 
@@ -134,11 +136,11 @@ const params = a.value.params.map(p => {
 ### 2. Inspect the process with node debug
 Here we are going to start the tests selectively in node debug mode. Since the
 codemod is bootstrapped using [codemod-cli](https://github.com/rwjblue/codemod-cli) which is using [jest](https://jestjs.io/) in turn
-to run the tests, jest is having an option `-t <name-of-spec>` to run a particular 
+to run the tests, jest is having an option `-t <name-of-spec>` to run a particular
 set of tests instead of running the whole test suite.
 
 We are making use of both these features to start our tests in this particular fashion.
-For more details on node debug, visit the [official](https://nodejs.org/en/docs/guides/debugging-getting-started/) 
+For more details on node debug, visit the [official](https://nodejs.org/en/docs/guides/debugging-getting-started/)
 Node.js debugging guide, and for jest documentation on tests, please refer [here](https://jestjs.io/docs/en/cli).
 
 ```sh
