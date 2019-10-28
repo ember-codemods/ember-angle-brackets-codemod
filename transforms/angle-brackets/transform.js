@@ -35,8 +35,8 @@ function capitalizedTagName(tagname) {
   return tagname
     .split('-')
     .map(s => {
-      let firstChar = s[0] || '-';
-      return firstChar.toUpperCase() + s.slice(1);
+      if (!s) return '-';
+      return s[0].toUpperCase() + s.slice(1);
     })
     .join('');
 }
