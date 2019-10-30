@@ -1027,18 +1027,18 @@ test('hyphens with nested usage', () => {
 test('wallstreet.hbs', () => {
   let input = `
     {{#foo-bar$baz-bang/foo-bar::bang}}
-    <div ...attributes>
-      {{foo bar="baz"}}
-    </div>
+      <div ...attributes>
+        {{foo bar="baz"}}
+      </div>
     {{/foo-bar$baz-bang/foo-bar::bang}}
   `;
 
   expect(runTest('splattributes.hbs', input)).toMatchInlineSnapshot(`
     "
         <FooBar$BazBang::FooBar::Bang>
-        <div ...attributes>
-          <Foo @bar=\\"baz\\" />
-        </div>
+          <div ...attributes>
+            <Foo @bar=\\"baz\\" />
+          </div>
         </FooBar$BazBang::FooBar::Bang>
       "
   `);
