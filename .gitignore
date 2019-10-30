@@ -67,3 +67,4 @@ typings/
 tmp
 *.log
 test/**/yarn.lock
+-mock-telemetry.json

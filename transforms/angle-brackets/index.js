@@ -3,8 +3,7 @@ const { getTelemetry } = require('ember-codemods-telemetry-helpers');
 const path = require('path');
 const fs = require('fs');
 const transform = require('./transform');
-const logger = require('debug');
-const debug = logger('transform');
+const { getHelperData } = require('./telemetry/helpers');
 
 function getOptions() {
   let options = {};
@@ -26,36 +25,6 @@ function getOptions() {
   }
 
   return options;
-}
-
-function helperNames(helperPaths) {
-  return [
-    ...new Set(
-      helperPaths
-        .filter(name => name.includes('/helpers/') || name.includes('/helper'))
-        .filter(name => !name.includes('/-'))
-        .map(name => {
-          let path = name.split('/helpers/');
-          return path.pop();
-        })
-        .filter(name => !name.includes('/'))
-    ),
-  ];
-}
-
-function getHelperData(telemetry) {
-  let helperPaths = [];
-  let telemetryKeys = Object.keys(telemetry);
-  for (let path of telemetryKeys) {
-    let entry = telemetry[path];
-    if (entry.type === 'Helper') {
-      helperPaths.push(path);
-    }
-  }
-  let helpers = helperNames(helperPaths);
-  debug(JSON.stringify(telemetryKeys, null, 2));
-  debug(JSON.stringify(helpers, null, 2));
-  return helpers;
 }
 
 module.exports = function(file) {
