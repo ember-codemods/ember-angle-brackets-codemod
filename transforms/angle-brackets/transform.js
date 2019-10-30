@@ -34,7 +34,7 @@ function isNestedComponentTagName(tagName) {
 function capitalizedTagName(tagName) {
   const SIMPLE_DASHERIZE_REGEXP = /[a-z]|\/|-/g;
   const ALPHA = /[A-Za-z0-9]/;
-console.log(tagName)
+
   tagName = tagName.replace(SIMPLE_DASHERIZE_REGEXP, (char, index) => {
     if (char === '/') {
       return '::';
