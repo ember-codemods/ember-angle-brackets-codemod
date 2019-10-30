@@ -56,16 +56,7 @@ function transformTagName(tagName) {
     return tagName;
   }
 
-  if (isNestedComponentTagName(tagName)) {
-    return transformNestedTagName(tagName);
-  }
-
   return capitalizedTagName(tagName);
-}
-
-function transformNestedTagName(tagName) {
-  const paths = tagName.split('/');
-  return paths.map(name => capitalizedTagName(name)).join('::');
 }
 
 function transformNestedSubExpression(subExpression) {

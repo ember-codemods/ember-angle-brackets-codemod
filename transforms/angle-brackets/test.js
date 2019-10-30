@@ -1033,7 +1033,7 @@ test('wallstreet.hbs', () => {
     {{/foo-bar$baz-bang/foo-bar::bang}}
   `;
 
-  expect(runTest('splattributes.hbs', input)).toMatchInlineSnapshot(`
+  expect(runTest('wallstreet.hbs', input)).toMatchInlineSnapshot(`
     "
         <FooBar$BazBang::FooBar::Bang>
           <div ...attributes>
