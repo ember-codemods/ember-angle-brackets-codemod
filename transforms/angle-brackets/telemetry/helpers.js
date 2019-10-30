@@ -1,5 +1,5 @@
-// const logger = require('debug');
-// const debug = logger('transform');
+const logger = require('debug');
+const debug = logger('transform');
 
 function helperName(name) {
   let helpersPath = '/helpers/';
@@ -10,7 +10,7 @@ function getHelperData(telemetry) {
   let helpers = [];
   let telemetryKeys = Object.keys(telemetry);
 
-  // debug(`\nknown modules:\n${JSON.stringify(telemetry, null, 2)}`);
+  debug(`\nknown modules:\n${JSON.stringify(telemetry, null, 2)}`);
   for (let name of telemetryKeys) {
     let entry = telemetry[name];
     if (entry.type === 'Helper') {
@@ -18,7 +18,7 @@ function getHelperData(telemetry) {
     }
   }
 
-  // debug(`\nHelpers found in telemetry:\n${JSON.stringify(helpers, null, 2)}`);
+  debug(`\nHelpers found in telemetry:\n${JSON.stringify(helpers, null, 2)}`);
   return helpers;
 }
 
