@@ -28,12 +28,16 @@ function isNestedComponentTagName(tagName) {
 }
 
 /**
- *  Returns a capitalized tagname for angle brackets syntax
+ *  Returns a transformed capitalized tagname for angle brackets syntax
  *  {{my-component}} => MyComponent
  */
-function capitalizedTagName(tagName) {
+function transformTagName(tagName) {
   const SIMPLE_DASHERIZE_REGEXP = /[a-z]|\/|-/g;
   const ALPHA = /[A-Za-z0-9]/;
+
+  if (tagName.includes('.')) {
+    return tagName;
+  }
 
   tagName = tagName.replace(SIMPLE_DASHERIZE_REGEXP, (char, index) => {
     if (char === '/') {
@@ -49,14 +53,6 @@ function capitalizedTagName(tagName) {
   });
 
   return tagName;
-}
-
-function transformTagName(tagName) {
-  if (tagName.includes('.')) {
-    return tagName;
-  }
-
-  return capitalizedTagName(tagName);
 }
 
 function transformNestedSubExpression(subExpression) {
