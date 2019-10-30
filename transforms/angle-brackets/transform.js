@@ -43,7 +43,7 @@ function capitalizedTagName(tagName) {
     if (index === 0 || !ALPHA.test(tagName[index - 1])) {
       return char.toUpperCase();
     }
-    
+
     // Remove all occurances of '-'s from the tagName that aren't starting with `-`
     return char === '-' ? '' : char.toLowerCase();
   });
