@@ -31,14 +31,24 @@ function isNestedComponentTagName(tagName) {
  *  Returns a capitalized tagname for angle brackets syntax
  *  {{my-component}} => MyComponent
  */
-function capitalizedTagName(tagname) {
-  return tagname
-    .split('-')
-    .map(s => {
-      if (!s) return '-';
-      return s[0].toUpperCase() + s.slice(1);
-    })
-    .join('');
+function capitalizedTagName(tagName) {
+  const SIMPLE_DASHERIZE_REGEXP = /[a-z]|\/|-/g;
+  const ALPHA = /[A-Za-z0-9]/;
+console.log(tagName)
+  tagName = tagName.replace(SIMPLE_DASHERIZE_REGEXP, (char, index) => {
+    if (char === '/') {
+      return '::';
+    }
+
+    if (index === 0 || !ALPHA.test(tagName[index - 1])) {
+      return char.toUpperCase();
+    }
+    
+    // Remove all occurances of '-'s from the tagName that aren't starting with `-`
+    return char === '-' ? '' : char.toLowerCase();
+  });
+
+  return tagName;
 }
 
 function transformTagName(tagName) {
