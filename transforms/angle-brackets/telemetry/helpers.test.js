@@ -21,38 +21,47 @@ describe('Extract Helpers from Telemetry Data`', () => {
   });
 
   test('helper names from host app: app/helpers/*', () => {
-    const addonTelemetry = {
+    const appTelemetry = {
       'app/helpers/biz-baz': {
         type: 'Helper',
       },
     };
-    expect(getHelperData(addonTelemetry)).toEqual(['biz-baz']);
+    expect(getHelperData(appTelemetry)).toEqual(['biz-baz']);
   });
 
   test('helper names from host app: app/helpesr/* - subfolders', () => {
-    const addonTelemetry = {
+    const appTelemetry = {
       'app/helpers/utility/biz-baz': {
         type: 'Helper',
       },
     };
-    expect(getHelperData(addonTelemetry)).toEqual(['utility/biz-baz']);
+    expect(getHelperData(appTelemetry)).toEqual(['utility/biz-baz']);
   });
 
   test('helper names from host app: app/helpesr/* - hyphen usage', () => {
-    const addonTelemetry = {
+    const appTelemetry = {
       'app/helpers/-biz-baz': {
         type: 'Helper',
       },
     };
-    expect(getHelperData(addonTelemetry)).toEqual(['-biz-baz']);
+    expect(getHelperData(appTelemetry)).toEqual(['-biz-baz']);
   });
 
   test('helper names from host app: app/helpesr/* - hyphen usage / subfolders', () => {
-    const addonTelemetry = {
+    const appTelemetry = {
       'app/helpers/utility/-biz-baz': {
         type: 'Helper',
       },
     };
-    expect(getHelperData(addonTelemetry)).toEqual(['utility/-biz-baz']);
+    expect(getHelperData(appTelemetry)).toEqual(['utility/-biz-baz']);
+  });
+
+  test('helper names from host app: app/helpesr/* - deeply nested hyphen mixture', () => {
+    const appTelemetry = {
+      'app/helpers/utility/-/deeply/-nested/-in/-biz-baz': {
+        type: 'Helper',
+      },
+    };
+    expect(getHelperData(appTelemetry)).toEqual(['utility/-/deeply/-nested/-in/-biz-baz']);
   });
 });
