@@ -266,9 +266,17 @@ function getNonDataAttributesFromParams(params) {
   return params.filter(p => !(p.original && `${p.original}`.startsWith('data-')));
 }
 
-function shouldIgnoreMustacheStatement(name, config, helpersFromTelemetry) {
-  let mergedHelpers = [...KNOWN_HELPERS, ...helpersFromTelemetry];
-  return mergedHelpers.includes(name) || config.helpers.includes(name);
+function shouldIgnoreMustacheStatement(name, config, invokableData) {
+  let { helpers, components } = invokableData;
+  let isTelemetryData = !!helpers && !!components;
+  if (isTelemetryData) {
+    let mergedHelpers = [...KNOWN_HELPERS, ...(helpers || [])];
+    let isHelper = mergedHelpers.includes(name) || config.helpers.includes(name);
+    let isComponent = (components || []).includes(name);
+    return isHelper || !isComponent;
+  } else {
+    return KNOWN_HELPERS.includes(name) || config.helpers.includes(name);
+  }
 }
 
 function nodeHasPositionalParameters(node) {
@@ -324,7 +332,7 @@ function transformNode(node, fileInfo, config) {
     let namesParams = transformAttrs(tagName, node.hash.pairs);
     attributes = attributes.concat(namesParams);
   } else {
-    if (nodeHasPositionalParameters(node)) {
+    if (!node.path.original.includes('.') || nodeHasPositionalParameters(node)) {
       logger.warn(
         `WARNING: {{${node.path.original}}} was not converted as it has positional parameters which can't be automatically converted. Source: ${fileInfo.path}`
       );
@@ -349,7 +357,7 @@ function subExpressionToMustacheStatement(subExpression) {
   return b.mustache(subExpression.path, subExpression.params, subExpression.hash);
 }
 
-module.exports = function transform(fileInfo, config, helpersFromTelemetry = []) {
+module.exports = function transform(fileInfo, config, invokableData = {}) {
   config = config || {};
   config.helpers = config.helpers || [];
   config.skipBuiltInComponents =
@@ -361,7 +369,7 @@ module.exports = function transform(fileInfo, config, helpersFromTelemetry = [])
   }
 
   let { code: toAngleBracket } = recast.transform(fileInfo.source, () =>
-    transformToAngleBracket(fileInfo, config, helpersFromTelemetry)
+    transformToAngleBracket(fileInfo, config, invokableData)
   );
 
   let attrEqualEmptyString = new RegExp(_EMPTY_STRING_, 'gi');
@@ -372,7 +380,7 @@ module.exports = function transform(fileInfo, config, helpersFromTelemetry = [])
   return toAngleBracket;
 };
 
-function transformToAngleBracket(fileInfo, config, helpersFromTelemetry) {
+function transformToAngleBracket(fileInfo, config, invokableData) {
   /**
    * Transform the attributes names & values properly
    */
@@ -381,7 +389,7 @@ function transformToAngleBracket(fileInfo, config, helpersFromTelemetry) {
       // Don't change attribute statements
       const isValidMustache =
         node.loc.source !== '(synthetic)' &&
-        !shouldIgnoreMustacheStatement(node.path.original, config, helpersFromTelemetry);
+        !shouldIgnoreMustacheStatement(node.path.original, config, invokableData);
       const tagName = node.path && node.path.original;
       const isNestedComponent = isNestedComponentTagName(tagName);
 
@@ -393,7 +401,7 @@ function transformToAngleBracket(fileInfo, config, helpersFromTelemetry) {
       }
     },
     BlockStatement(node) {
-      if (!shouldIgnoreMustacheStatement(node.path.original, config, helpersFromTelemetry)) {
+      if (!shouldIgnoreMustacheStatement(node.path.original, config, invokableData)) {
         return transformNode(node, fileInfo, config);
       }
     },

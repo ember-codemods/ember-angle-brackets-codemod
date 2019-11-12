@@ -1,5 +1,5 @@
 'use strict';
-const { getHelperData } = require('../telemetry/helpers');
+const { getInvokableData } = require('../telemetry/invokable');
 
 describe('Extract Helpers from Telemetry Data`', () => {
   test('helper names from addons: addon/helpers/*', () => {
@@ -8,7 +8,10 @@ describe('Extract Helpers from Telemetry Data`', () => {
         type: 'Helper',
       },
     };
-    expect(getHelperData(addonTelemetry)).toEqual(['bs-contains']);
+    expect(getInvokableData(addonTelemetry)).toEqual({
+      components: [],
+      helpers: ['bs-contains'],
+    });
   });
 
   test('helper names from addons: addon/helpers/* - subfolders', () => {
@@ -16,8 +19,14 @@ describe('Extract Helpers from Telemetry Data`', () => {
       'ember-bootstrap/helpers/utils/bs-contains': {
         type: 'Helper',
       },
+      'ember-bootstrap/components/bs-navbar/nav': {
+        type: 'Component',
+      },
     };
-    expect(getHelperData(addonTelemetry)).toEqual(['utils/bs-contains']);
+    expect(getInvokableData(addonTelemetry)).toEqual({
+      components: ['bs-navbar/nav'],
+      helpers: ['utils/bs-contains'],
+    });
   });
 
   test('helper names from host app: app/helpers/*', () => {
@@ -26,7 +35,7 @@ describe('Extract Helpers from Telemetry Data`', () => {
         type: 'Helper',
       },
     };
-    expect(getHelperData(appTelemetry)).toEqual(['biz-baz']);
+    expect(getInvokableData(appTelemetry)).toEqual({ components: [], helpers: ['biz-baz'] });
   });
 
   test('helper names from host app: app/helpesr/* - subfolders', () => {
@@ -35,7 +44,10 @@ describe('Extract Helpers from Telemetry Data`', () => {
         type: 'Helper',
       },
     };
-    expect(getHelperData(appTelemetry)).toEqual(['utility/biz-baz']);
+    expect(getInvokableData(appTelemetry)).toEqual({
+      components: [],
+      helpers: ['utility/biz-baz'],
+    });
   });
 
   test('helper names from host app: app/helpesr/* - hyphen usage', () => {
@@ -44,7 +56,7 @@ describe('Extract Helpers from Telemetry Data`', () => {
         type: 'Helper',
       },
     };
-    expect(getHelperData(appTelemetry)).toEqual(['-biz-baz']);
+    expect(getInvokableData(appTelemetry)).toEqual({ components: [], helpers: ['-biz-baz'] });
   });
 
   test('helper names from host app: app/helpesr/* - hyphen usage / subfolders', () => {
@@ -53,7 +65,10 @@ describe('Extract Helpers from Telemetry Data`', () => {
         type: 'Helper',
       },
     };
-    expect(getHelperData(appTelemetry)).toEqual(['utility/-biz-baz']);
+    expect(getInvokableData(appTelemetry)).toEqual({
+      components: [],
+      helpers: ['utility/-biz-baz'],
+    });
   });
 
   test('helper names from host app: app/helpesr/* - deeply nested hyphen mixture', () => {
@@ -62,6 +77,9 @@ describe('Extract Helpers from Telemetry Data`', () => {
         type: 'Helper',
       },
     };
-    expect(getHelperData(appTelemetry)).toEqual(['utility/-/deeply/-nested/-in/-biz-baz']);
+    expect(getInvokableData(appTelemetry)).toEqual({
+      components: [],
+      helpers: ['utility/-/deeply/-nested/-in/-biz-baz'],
+    });
   });
 });

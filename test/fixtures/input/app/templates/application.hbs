@@ -3,7 +3,7 @@
     <h3 class="sr-only">
       Components
     </h3>
-    {{#bs-nav type="pills" stacked=true as |nav|}}
+    <BsNav @type="pills" @stacked={{true}} as |nav|>
       {{#each this.model as |comp|}}
         {{#nav.item}}
           {{#nav.link-to route=comp.demoRoute}}
@@ -11,7 +11,7 @@
           {{/nav.link-to}}
         {{/nav.item}}
       {{/each}}
-    {{/bs-nav}}
+    </BsNav>
   </div>
   <div class="col-sm-8 col-sm-pull-4 col-md-9 col-md-pull-3">
     {{utils/bee-bop}}

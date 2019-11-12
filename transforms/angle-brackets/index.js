@@ -3,7 +3,7 @@ const { getTelemetry } = require('ember-codemods-telemetry-helpers');
 const path = require('path');
 const fs = require('fs');
 const transform = require('./transform');
-const { getHelperData } = require('./telemetry/helpers');
+const { getInvokableData } = require('./telemetry/invokable');
 
 function getOptions() {
   let options = {};
@@ -28,9 +28,9 @@ function getOptions() {
 }
 
 module.exports = function(file) {
-  let helpers = getHelperData(getTelemetry());
+  let invokableData = getInvokableData(getTelemetry());
   try {
-    return transform(file, getOptions(), helpers);
+    return transform(file, getOptions(), invokableData);
   } catch (e) {
     throw new Error(
       `Transformation errored on file ${file.path}. Reason ${e}. Please report this in https://github.com/ember-codemods/ember-angle-brackets-codemod/issues\n\nStack trace:\n${e.stack}`
