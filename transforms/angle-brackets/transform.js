@@ -11,6 +11,8 @@ const { builders: b } = recast;
 const HTML_ATTRIBUTES = ['class', 'placeholder', 'required'];
 const BUILT_IN_COMPONENTS = ['link-to', 'input', 'textarea'];
 
+let inAttr = false;
+
 function isAttribute(key) {
   return HTML_ATTRIBUTES.includes(key) || isDataAttribute(key);
 }
@@ -299,7 +301,7 @@ function transformNode(node, fileInfo, config) {
     return;
   }
 
-  const newTagName = transformTagName(tagName);
+  const newTagName = transformTagName(tagName, inAttr);
 
   let attributes;
   let children = node.program ? node.program.body : undefined;
@@ -321,7 +323,7 @@ function transformNode(node, fileInfo, config) {
     let namesParams = transformAttrs(tagName, node.hash.pairs);
     attributes = attributes.concat(namesParams);
   } else {
-    if (nodeHasPositionalParameters(node)) {
+    if (nodeHasPositionalParameters(node) || inAttr) {
       logger.warn(
         `WARNING: {{${node.path.original}}} was not converted as it has positional parameters which can't be automatically converted. Source: ${fileInfo.path}`
       );
@@ -390,6 +392,14 @@ function transformToAngleBracket(_, fileInfo, config) {
       if (!shouldIgnoreMustacheStatement(node.path.original, config)) {
         return transformNode(node, fileInfo, config);
       }
+    },
+    AttrNode: {
+      enter() {
+        inAttr = true;
+      },
+      exit() {
+        inAttr = false;
+      },
     },
   };
 }
