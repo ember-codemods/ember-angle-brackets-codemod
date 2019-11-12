@@ -246,6 +246,7 @@ test('html-tags', () => {
 
     <div data-foo="{{if someThing yas nah}}"></div>
     <div {{on 'click' this.foo}}></div>
+    <div class="" style="margin-bottom:20px" {{action "updateSetup"  on="change"}}></div>
   `;
 
   expect(runTest('html-tags.hbs', input)).toMatchInlineSnapshot(`
@@ -270,6 +271,7 @@ test('html-tags', () => {
 
         <div data-foo=\\"{{if someThing yas nah}}\\"></div>
         <div {{on 'click' this.foo}}></div>
+        <div class=\\"\\" style=\\"margin-bottom:20px\\" {{action \\"updateSetup\\"  on=\\"change\\"}}></div>
       "
   `);
 });
