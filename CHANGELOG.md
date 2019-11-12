@@ -1,3 +1,21 @@
+## v2.1.0 (2019-11-12)
+
+#### :rocket: Enhancement
+* [#181](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/181) Add support for templates containing `~` (whitespace control) ([@Turbo87](https://github.com/Turbo87))
+* [#155](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/155) Add a Logger ([@tylerturdenpants](https://github.com/tylerturdenpants))
+
+#### :bug: Bug Fix
+* [#182](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/182) fix hyphen usage ([@tylerturdenpants](https://github.com/tylerturdenpants))
+
+#### :house: Internal
+* [#175](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/175) Refactor nested functions to the outer scope ([@tylerturdenpants](https://github.com/tylerturdenpants))
+
+#### Committers: 4
+- Ryan Mark ([@tylerturdenpants](https://github.com/tylerturdenpants))
+- Suchita Doshi ([@suchitadoshi1987](https://github.com/suchitadoshi1987))
+- Tobias Bieniek ([@Turbo87](https://github.com/Turbo87))
+- [@dependabot-preview[bot]](https://github.com/apps/dependabot-preview)
+
 ## v2.0.0 (2019-10-22)
 
 #### :boom: Breaking Change
