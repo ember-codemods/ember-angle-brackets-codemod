@@ -1024,7 +1024,7 @@ test('hyphens with nested usage', () => {
   `);
 });
 
-test('wallstreet.hbs', () => {
+test('wallstreet', () => {
   let input = `
     {{#foo-bar$baz-bang/foo-bar::bang}}
       <div ...attributes>
