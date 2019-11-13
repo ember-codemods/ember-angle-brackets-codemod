@@ -1047,12 +1047,14 @@ test('wallstreet.hbs', () => {
 test('attr-space', () => {
   let input = `
     <MyComp::Test @color={{"custom-2"}} @visible={{Group.item.isNew}} />
+    <MyComp::Test @color="custom-2" @visible={{Group.item.isNew}} />
     <MyComp @value={{value}} @cont={{this}} @class={{model.some-stuff-here}} />
   `;
 
   expect(runTest('attr-space.hbs', input)).toMatchInlineSnapshot(`
       "
           <MyComp::Test @color={{\\"custom-2\\"}} @visible={{Group.item.isNew}} />
+          <MyComp::Test @color=\\"custom-2\\" @visible={{Group.item.isNew}} />
           <MyComp @value={{value}} @cont={{this}} @class={{model.some-stuff-here}} />
         "
     `);

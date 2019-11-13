@@ -50,7 +50,7 @@ function transformTagName(tagName) {
       return char.toUpperCase();
     }
 
-    // Remove all occurances of '-'s from the tagName that aren't starting with `-`
+    // Remove all occurrences of '-'s from the tagName that aren't starting with `-`
     return char === '-' ? '' : char.toLowerCase();
   });
 
@@ -323,10 +323,13 @@ function transformNode(node, fileInfo, config) {
     let namesParams = transformAttrs(tagName, node.hash.pairs);
     attributes = attributes.concat(namesParams);
   } else {
-    if (nodeHasPositionalParameters(node) || inAttr) {
+    if (nodeHasPositionalParameters(node)) {
       logger.warn(
         `WARNING: {{${node.path.original}}} was not converted as it has positional parameters which can't be automatically converted. Source: ${fileInfo.path}`
       );
+      return;
+    }
+    if (inAttr) {
       return;
     }
     attributes = transformNodeAttributes(tagName, node);
