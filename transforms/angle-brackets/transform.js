@@ -1,7 +1,5 @@
 const recast = require('ember-template-recast');
 const logger = require('../../lib/logger');
-const debugFn = require('debug');
-const debug = debugFn('transform-internals');
 
 const KNOWN_HELPERS = require('./known-helpers');
 const _EMPTY_STRING_ = `ANGLE_BRACKET_EMPTY_${Date.now()}`;
@@ -275,9 +273,8 @@ function shouldIgnoreMustacheStatement(name, config, invokableData) {
     let mergedHelpers = [...KNOWN_HELPERS, ...(helpers || [])];
     let isHelper = mergedHelpers.includes(name) || config.helpers.includes(name);
     let isComponent = (components || []).includes(name);
-
-    debug(`Component/Helper ${name} | isComponent ${isComponent} | isHelper ${isHelper}`);
-    return isHelper || !isComponent;
+    let strName = `${name}`; // coerce boolean and number to string
+    return (isHelper || !isComponent) && !strName.includes('.');
   } else {
     return KNOWN_HELPERS.includes(name) || config.helpers.includes(name);
   }
