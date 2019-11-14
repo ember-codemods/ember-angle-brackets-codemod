@@ -1,5 +1,7 @@
 const recast = require('ember-template-recast');
 const logger = require('../../lib/logger');
+const debugFn = require('debug');
+const debug = debugFn('transform-internals');
 
 const KNOWN_HELPERS = require('./known-helpers');
 const _EMPTY_STRING_ = `ANGLE_BRACKET_EMPTY_${Date.now()}`;
@@ -268,11 +270,13 @@ function getNonDataAttributesFromParams(params) {
 
 function shouldIgnoreMustacheStatement(name, config, invokableData) {
   let { helpers, components } = invokableData;
-  let isTelemetryData = !!helpers && !!components;
+  let isTelemetryData = !!(helpers || components);
   if (isTelemetryData) {
     let mergedHelpers = [...KNOWN_HELPERS, ...(helpers || [])];
     let isHelper = mergedHelpers.includes(name) || config.helpers.includes(name);
     let isComponent = (components || []).includes(name);
+
+    debug(`Component/Helper ${name} | isComponent ${isComponent} | isHelper ${isHelper}`);
     return isHelper || !isComponent;
   } else {
     return KNOWN_HELPERS.includes(name) || config.helpers.includes(name);
@@ -332,12 +336,13 @@ function transformNode(node, fileInfo, config) {
     let namesParams = transformAttrs(tagName, node.hash.pairs);
     attributes = attributes.concat(namesParams);
   } else {
-    if (!node.path.original.includes('.') || nodeHasPositionalParameters(node)) {
+    if (nodeHasPositionalParameters(node)) {
       logger.warn(
         `WARNING: {{${node.path.original}}} was not converted as it has positional parameters which can't be automatically converted. Source: ${fileInfo.path}`
       );
       return;
     }
+
     if (inAttr) {
       return;
     }

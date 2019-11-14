@@ -24,8 +24,16 @@
       <p class="lead">
         {{currentComponent.description}}
       </p>
-      <ApiReference @component={{this.currentComponent}} />
+      {{api-reference component=this.currentComponent}}
     {{/if}}
     {{outlet}}
+
+    <BsButton @id="openModal" @onClick={{action "addModal"}}>Open</BsButton>
+
+    {{#if hasModal}}
+      <BsModalSimple @open={{modal}} @onHidden={{action "removeModal"}} @title="Dynamic Dialog">
+        Hi there
+      </BsModalSimple>
+    {{/if}}
   </div>
 </div>
