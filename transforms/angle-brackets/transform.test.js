@@ -1,9 +1,11 @@
 'use strict';
 
 const transform = require('./transform');
+const invokableData = require('./telemetry/mock-invokables');
+const { getInvokableData } = require('./telemetry/invokable');
 
 function runTest(path, source, options) {
-  return transform({ path, source }, options);
+  return transform({ path, source }, options, getInvokableData(invokableData));
 }
 
 test('action-params', () => {

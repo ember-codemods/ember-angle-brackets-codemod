@@ -29,6 +29,10 @@ function isNestedComponentTagName(tagName) {
   return tagName && tagName.includes && (tagName.includes('/') || tagName.includes('-'));
 }
 
+function isWallStreet(tagName) {
+  return tagName.includes('$') || tagName.includes('::');
+}
+
 /**
  *  Returns a transformed capitalized tagname for angle brackets syntax
  *  {{my-component}} => MyComponent
@@ -272,7 +276,7 @@ function shouldIgnoreMustacheStatement(name, config, invokableData) {
   if (isTelemetryData) {
     let mergedHelpers = [...KNOWN_HELPERS, ...(helpers || [])];
     let isHelper = mergedHelpers.includes(name) || config.helpers.includes(name);
-    let isComponent = (components || []).includes(name);
+    let isComponent = [...(components || []), ...BUILT_IN_COMPONENTS].includes(name);
     let strName = `${name}`; // coerce boolean and number to string
     return (isHelper || !isComponent) && !strName.includes('.');
   } else {
@@ -388,11 +392,11 @@ function transformToAngleBracket(fileInfo, config, invokableData) {
    */
   return {
     MustacheStatement(node) {
+      const tagName = `${node.path && node.path.original}`;
       // Don't change attribute statements
       const isValidMustache =
         node.loc.source !== '(synthetic)' &&
-        !shouldIgnoreMustacheStatement(node.path.original, config, invokableData);
-      const tagName = node.path && node.path.original;
+        !shouldIgnoreMustacheStatement(tagName, config, invokableData);
       const isNestedComponent = isNestedComponentTagName(tagName);
 
       if (
@@ -401,9 +405,16 @@ function transformToAngleBracket(fileInfo, config, invokableData) {
       ) {
         return transformNode(node, fileInfo, config);
       }
+      if (isWallStreet(tagName)) {
+        return transformNode(node, fileInfo, config);
+      }
     },
     BlockStatement(node) {
-      if (!shouldIgnoreMustacheStatement(node.path.original, config, invokableData)) {
+      let tagName = `${node.path.original}`;
+      if (
+        !shouldIgnoreMustacheStatement(node.path.original, config, invokableData) ||
+        isWallStreet(tagName)
+      ) {
         return transformNode(node, fileInfo, config);
       }
     },
