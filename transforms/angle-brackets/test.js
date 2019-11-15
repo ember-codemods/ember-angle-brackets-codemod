@@ -1026,7 +1026,7 @@ test('hyphens with nested usage', () => {
   `);
 });
 
-test('wallstreet.hbs', () => {
+test('wallstreet', () => {
   let input = `
     {{#foo-bar$baz-bang/foo-bar::bang}}
       <div ...attributes>
@@ -1044,4 +1044,20 @@ test('wallstreet.hbs', () => {
         </FooBar$BazBang::FooBar::Bang>
       "
   `);
+});
+
+test('attr-space', () => {
+  let input = `
+    <MyComp::Test @color={{"custom-2"}} @visible={{Group.item.isNew}} />
+    <MyComp::Test @color="custom-2" @visible={{Group.item.isNew}} />
+    <MyComp @value={{value}} @cont={{this}} @class={{model.some-stuff-here}} />
+  `;
+
+  expect(runTest('attr-space.hbs', input)).toMatchInlineSnapshot(`
+      "
+          <MyComp::Test @color={{\\"custom-2\\"}} @visible={{Group.item.isNew}} />
+          <MyComp::Test @color=\\"custom-2\\" @visible={{Group.item.isNew}} />
+          <MyComp @value={{value}} @cont={{this}} @class={{model.some-stuff-here}} />
+        "
+    `);
 });

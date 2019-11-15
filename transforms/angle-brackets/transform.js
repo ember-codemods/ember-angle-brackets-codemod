@@ -11,6 +11,8 @@ const { builders: b } = recast;
 const HTML_ATTRIBUTES = ['class', 'placeholder', 'required'];
 const BUILT_IN_COMPONENTS = ['link-to', 'input', 'textarea'];
 
+let inAttr = false;
+
 function isAttribute(key) {
   return HTML_ATTRIBUTES.includes(key) || isDataAttribute(key);
 }
@@ -48,7 +50,7 @@ function transformTagName(tagName) {
       return char.toUpperCase();
     }
 
-    // Remove all occurances of '-'s from the tagName that aren't starting with `-`
+    // Remove all occurrences of '-'s from the tagName that aren't starting with `-`
     return char === '-' ? '' : char.toLowerCase();
   });
 
@@ -299,7 +301,7 @@ function transformNode(node, fileInfo, config) {
     return;
   }
 
-  const newTagName = transformTagName(tagName);
+  const newTagName = transformTagName(tagName, inAttr);
 
   let attributes;
   let children = node.program ? node.program.body : undefined;
@@ -325,6 +327,9 @@ function transformNode(node, fileInfo, config) {
       logger.warn(
         `WARNING: {{${node.path.original}}} was not converted as it has positional parameters which can't be automatically converted. Source: ${fileInfo.path}`
       );
+      return;
+    }
+    if (inAttr) {
       return;
     }
     attributes = transformNodeAttributes(tagName, node);
@@ -390,6 +395,14 @@ function transformToAngleBracket(_, fileInfo, config) {
       if (!shouldIgnoreMustacheStatement(node.path.original, config)) {
         return transformNode(node, fileInfo, config);
       }
+    },
+    AttrNode: {
+      enter() {
+        inAttr = true;
+      },
+      exit() {
+        inAttr = false;
+      },
     },
   };
 }
