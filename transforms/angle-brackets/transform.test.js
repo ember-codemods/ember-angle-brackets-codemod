@@ -955,7 +955,7 @@ test('regex-options', () => {
   `;
 
   let options = {
-    skipFilesThatMatchRegex: /[A-F]oo|[A-Z]ar/gmi,
+    skipFilesThatMatchRegex: /[A-F]oo|[A-Z]ar/gim,
   };
 
   expect(runTest('regex-options.hbs', input, options)).toMatchInlineSnapshot(`
