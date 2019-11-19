@@ -96,7 +96,7 @@ function shouldSkipFile(fileInfo, config) {
 
   if (config.skipFilesThatMatchRegex && config.skipFilesThatMatchRegex.test(source)) {
     logger.warn(
-      `WARNING: ${fileInfo.path} was not skipped as its content matches the "skipFilesThatMatchRegex" config setting: ${config.skipFilesThatMatchRegex}`
+      `WARNING: ${fileInfo.path} was skipped as its content matches the "skipFilesThatMatchRegex" config setting: ${config.skipFilesThatMatchRegex}`
     );
     return true;
   }
@@ -280,7 +280,7 @@ function shouldIgnoreMustacheStatement(name, config, invokableData) {
     let strName = `${name}`; // coerce boolean and number to string
     return (isHelper || !isComponent) && !strName.includes('.');
   } else {
-    return KNOWN_HELPERS.includes(name) || config.helpers.includes(name);
+    return !(KNOWN_HELPERS.includes(name) && config.helpers.includes(name));
   }
 }
 

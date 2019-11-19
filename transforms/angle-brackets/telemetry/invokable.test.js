@@ -82,4 +82,19 @@ describe('Extract Helpers from Telemetry Data`', () => {
       helpers: ['utility/-/deeply/-nested/-in/-biz-baz'],
     });
   });
+
+  test('it discovers templates as a `Component` type', () => {
+    const appTelemetry = {
+      'app/templates/components/file-less': {
+        type: 'Component',
+      },
+      'app/components/standard-component': {
+        type: 'Component',
+      },
+    };
+    expect(getInvokableData(appTelemetry)).toEqual({
+      components: ['file-less', 'standard-component'],
+      helpers: [],
+    });
+  });
 });
