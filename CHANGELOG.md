@@ -1,3 +1,15 @@
+## v3.0.0 (2019-11-20)
+
+#### :boom: Breaking Change
+* [#154](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/154) Use telemetry data to detect known components and helpers ([@tylerturdenpants](https://github.com/tylerturdenpants))
+
+#### :rocket: Enhancement
+* [#154](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/154) Use telemetry data to detect known components and helpers ([@tylerturdenpants](https://github.com/tylerturdenpants))
+
+#### Committers: 2
+- Ryan Mark ([@tylerturdenpants](https://github.com/tylerturdenpants))
+- [@dependabot-preview[bot]](https://github.com/apps/dependabot-preview)
+
 ## v2.1.0 (2019-11-12)
 
 #### :rocket: Enhancement
