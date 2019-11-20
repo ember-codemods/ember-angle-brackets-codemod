@@ -21,8 +21,10 @@
   "bin": "./bin/cli.js",
   "scripts": {
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
+    "debug:integration": "node --inspect-brk ./test/run-test.js",
     "deploy": "npm version patch && git push && git push --tags && npm publish",
     "lint": "eslint . --cache",
+    "test:integration": "node ./test/run-test.js",
     "test": "codemod-cli test --coverage"
   },
   "jest": {
@@ -31,18 +33,21 @@
     ]
   },
   "dependencies": {
-    "codemod-cli": "^2.0.0",
+    "codemod-cli": "^2.1.0",
+    "ember-codemods-telemetry-helpers": "^1.1.0",
     "ember-template-recast": "^3.2.8",
-    "winston": "^3.2.1"
+    "winston": "^3.2.1",
+    "debug": "^4.1.1"
   },
   "devDependencies": {
     "coveralls": "^3.0.7",
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.7.0",
     "eslint-plugin-prettier": "^3.1.1",
+    "execa": "^3.3.0",
     "jest": "^24.9.0",
     "prettier": "^1.19.1",
-    "release-it": "^12.2.1",
+    "release-it": "^12.4.3",
     "release-it-lerna-changelog": "^1.0.3"
   },
   "engines": {

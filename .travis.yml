@@ -8,6 +8,7 @@ cache: yarn
 script:
   - yarn lint
   - yarn test
+  - yarn test:integration
 
 after_success:
 - yarn coveralls

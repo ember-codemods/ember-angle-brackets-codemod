@@ -1,9 +1,14 @@
 'use strict';
 
 const transform = require('./transform');
+const invokableData = require('./telemetry/mock-invokables');
+const { getInvokableData } = require('./telemetry/invokable');
 
 function runTest(path, source, options) {
-  return transform({ path, source }, options);
+  return transform({ path, source }, options, getInvokableData(invokableData));
+}
+function runTestWithData(path, source, options, data) {
+  return transform({ path, source }, options, data);
 }
 
 test('action-params', () => {
@@ -944,6 +949,22 @@ test('custom-options', () => {
   `);
 });
 
+test('regex-options', () => {
+  let input = `
+    {{some-component foo=true}}
+  `;
+
+  let options = {
+    skipFilesThatMatchRegex: /[A-F]oo|[A-Z]ar/gim,
+  };
+
+  expect(runTest('regex-options.hbs', input, options)).toMatchInlineSnapshot(`
+    "
+        {{some-component foo=true}}
+      "
+  `);
+});
+
 test('preserve arguments', () => {
   let input = `
     {{foo-bar class="baz"}}
@@ -1033,6 +1054,7 @@ test('wallstreet', () => {
         {{foo bar="baz"}}
       </div>
     {{/foo-bar$baz-bang/foo-bar::bang}}
+    {{foo-bar$baz-bang/foo-bar::bang}}
   `;
 
   expect(runTest('wallstreet.hbs', input)).toMatchInlineSnapshot(`
@@ -1042,6 +1064,7 @@ test('wallstreet', () => {
             <Foo @bar=\\"baz\\" />
           </div>
         </FooBar$BazBang::FooBar::Bang>
+        <FooBar$BazBang::FooBar::Bang />
       "
   `);
 });
@@ -1060,4 +1083,30 @@ test('attr-space', () => {
           <MyComp @value={{value}} @cont={{this}} @class={{model.some-stuff-here}} />
         "
     `);
+});
+
+test('No telemetry', () => {
+  let input = `
+    {{#my-card as |card|}}
+      {{card.title title="My Card Title"}}
+      {{#card.content}}
+        <p>hello</p>
+      {{/card.content}}
+      {{card.foo-bar}}
+      {{card.foo}}
+    {{/my-card}}
+  `;
+
+  expect(runTestWithData('no-telemetry.hbs', input, {}, {})).toMatchInlineSnapshot(`
+    "
+        {{#my-card as |card|}}
+          {{card.title title=\\"My Card Title\\"}}
+          {{#card.content}}
+            <p>hello</p>
+          {{/card.content}}
+          {{card.foo-bar}}
+          {{card.foo}}
+        {{/my-card}}
+      "
+  `);
 });

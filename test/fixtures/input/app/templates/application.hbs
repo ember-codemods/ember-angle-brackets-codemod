@@ -1,0 +1,40 @@
+<div class="row">
+  <div class="col-sm-4 col-md-3 order-last">
+    <h3 class="sr-only">
+      Components
+    </h3>
+    {{#bs-nav type="pills" stacked=true as |nav|}}
+      {{#each this.model as |comp|}}
+        {{#nav.item}}
+          {{#nav.link-to route=comp.demoRoute}}
+            {{comp.title}}
+          {{/nav.link-to}}
+        {{/nav.item}}
+      {{/each}}
+    {{/bs-nav}}
+  </div>
+  <div class="col-sm-8 col-sm-pull-4 col-md-9 col-md-pull-3">
+    {{utils/bee-bop}}
+    {{-wat-wat}}
+    {{utils/-wat-wat}}
+    {{#if this.isDetailPage}}
+      <h1>
+        {{currentComponent.title}}
+      </h1>
+      <p class="lead">
+        {{currentComponent.description}}
+      </p>
+      {{api-reference component=this.currentComponent}}
+    {{/if}}
+    {{outlet}}
+
+    {{#bs-button id="openModal" onClick=(action "addModal")}}Open{{/bs-button}}
+
+    {{#if hasModal}}
+      {{#bs-modal-simple open=modal onHidden=(action "removeModal") title="Dynamic Dialog"}}
+        Hi there
+      {{/bs-modal-simple}}
+    {{/if}}
+    {{file-less foo=true}}
+  </div>
+</div>
