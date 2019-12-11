@@ -92,4 +92,13 @@ module.exports = {
   'app/components/foo-bar': {
     type: 'Component',
   },
+  'app/components/baz-bang/foo-bar/bang': {
+    type: 'Component',
+  },
+  'app/helpers/helper-1': {
+    type: 'Helper',
+  },
+  'app/helpers/nested/helper': {
+    type: 'Helper',
+  },
 };
