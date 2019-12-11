@@ -1049,12 +1049,12 @@ test('hyphens with nested usage', () => {
 
 test('wallstreet', () => {
   let input = `
-    {{#foo-bar$baz-bang/foo-bar::bang}}
+    {{#foo-bar$baz-bang/foo-bar/bang}}
       <div ...attributes>
         {{foo bar="baz"}}
       </div>
-    {{/foo-bar$baz-bang/foo-bar::bang}}
-    {{foo-bar$baz-bang/foo-bar::bang}}
+    {{/foo-bar$baz-bang/foo-bar/bang}}
+    {{foo-bar$baz-bang/foo-bar/bang}}
   `;
 
   expect(runTest('wallstreet.hbs', input)).toMatchInlineSnapshot(`
@@ -1065,6 +1065,26 @@ test('wallstreet', () => {
           </div>
         </FooBar$BazBang::FooBar::Bang>
         <FooBar$BazBang::FooBar::Bang />
+      "
+  `);
+});
+
+test('wallstreet-telemetry', () => {
+  let input = `
+    {{nested$helper}}
+    {{nested::helper}}
+    {{nested$helper param="cool!"}}
+    {{nested::helper param="yeah!"}}
+    {{helper-1}}
+  `;
+
+  expect(runTest('wallstreet-telemetry.hbs', input)).toMatchInlineSnapshot(`
+    "
+        {{nested$helper}}
+        {{nested::helper}}
+        {{nested$helper param=\\"cool!\\"}}
+        {{nested::helper param=\\"yeah!\\"}}
+        {{helper-1}}
       "
   `);
 });

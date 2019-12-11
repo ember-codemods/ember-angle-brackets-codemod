@@ -270,9 +270,19 @@ function getNonDataAttributesFromParams(params) {
   return params.filter(p => !(p.original && `${p.original}`.startsWith('data-')));
 }
 
-function shouldIgnoreMustacheStatement(name, config, invokableData) {
+function shouldIgnoreMustacheStatement(fullName, config, invokableData) {
   let { helpers, components } = invokableData;
   let isTelemetryData = !!(helpers || components);
+
+  let name = fullName;
+  // replace `::` with `/`, and ignore the path before $
+  if (isWallStreet(name)) {
+    name = name
+      .split('$')
+      .pop()
+      .replace('::', '/');
+  }
+
   if (isTelemetryData) {
     let mergedHelpers = [...KNOWN_HELPERS, ...(helpers || [])];
     let isHelper = mergedHelpers.includes(name) || config.helpers.includes(name);
@@ -403,9 +413,6 @@ function transformToAngleBracket(fileInfo, config, invokableData) {
         isValidMustache &&
         (node.hash.pairs.length > 0 || node.params.length > 0 || isNestedComponent)
       ) {
-        return transformNode(node, fileInfo, config);
-      }
-      if (isWallStreet(tagName)) {
         return transformNode(node, fileInfo, config);
       }
     },
