@@ -1,3 +1,17 @@
+## v3.0.1 (2019-12-12)
+
+#### :bug: Bug Fix
+* [#205](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/205) fix wallstreet integration with telemetry data ([@hmajoros](https://github.com/hmajoros))
+* [#203](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/203) Update README.md ([@samselikoff](https://github.com/samselikoff))
+
+#### :memo: Documentation
+* [#203](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/203) Update README.md ([@samselikoff](https://github.com/samselikoff))
+
+#### Committers: 3
+- Hank Majoros ([@hmajoros](https://github.com/hmajoros))
+- Sam Selikoff ([@samselikoff](https://github.com/samselikoff))
+- [@dependabot-preview[bot]](https://github.com/apps/dependabot-preview)
+
 ## v3.0.0 (2019-11-20)
 
 #### :boom: Breaking Change
