@@ -376,6 +376,7 @@ test('let', () => {
 test('link-to', () => {
   let input = `
     {{#link-to "about"}}About Us{{/link-to}}
+    {{#link-to "data-access"}}Accessing the Crates.io Data{{/link-to}}
     {{#link-to this.dynamicRoute}}About Us{{/link-to}}
     {{#link-to "user" this.first this.second}}Show{{/link-to}}
     {{#link-to "user" this.first this.second (query-params foo="baz")}}Show{{/link-to}}
@@ -386,6 +387,7 @@ test('link-to', () => {
   expect(runTest('link-to.hbs', input)).toMatchInlineSnapshot(`
     "
         <LinkTo @route=\\"about\\">About Us</LinkTo>
+        <LinkTo @route=\\"data-access\\">Accessing the Crates.io Data</LinkTo>
         <LinkTo @route={{this.dynamicRoute}}>About Us</LinkTo>
         <LinkTo @route=\\"user\\" @models={{array this.first this.second}}>Show</LinkTo>
         <LinkTo @route=\\"user\\" @models={{array this.first this.second}} @query={{hash foo=\\"baz\\"}}>Show</LinkTo>
