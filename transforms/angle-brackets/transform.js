@@ -264,7 +264,7 @@ function transformNodeAttributes(tagName, node) {
 
 function getDataAttributesFromParams(params) {
   return params.filter(
-    p => p.original && `${p.original}`.startsWith('data-') && p.type !== 'StringLiteral'
+    p => p.original && `${p.original}`.startsWith('data-') && p.type === 'PathExpression'
   );
 }
 
