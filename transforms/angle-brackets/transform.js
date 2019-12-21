@@ -263,15 +263,11 @@ function transformNodeAttributes(tagName, node) {
 }
 
 function getDataAttributesFromParams(params) {
-  return params.filter(
-    p => p.original && `${p.original}`.startsWith('data-') && p.type === 'PathExpression'
-  );
+  return params.filter(p => p.type === 'PathExpression' && p.original.startsWith('data-'));
 }
 
 function getNonDataAttributesFromParams(params) {
-  return params.filter(
-    p => !(p.original && `${p.original}`.startsWith('data-')) || p.type === 'StringLiteral'
-  );
+  return params.filter(p => p.type === 'StringLiteral' || !`${p.original}`.startsWith('data-'));
 }
 
 function shouldIgnoreMustacheStatement(fullName, config, invokableData) {
