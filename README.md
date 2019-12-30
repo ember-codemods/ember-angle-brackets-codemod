@@ -12,6 +12,10 @@ in an Ember.js app
 
 Refer to this [RFC](https://github.com/emberjs/rfcs/blob/master/text/0311-angle-bracket-invocation.md) for more details on Angle brackets invocation syntax.
 
+## Requirements
+
+This codemod currently only supports Ember's classic filesystem layout, meaning it won't work if your app uses pods. For more info, [see this issue](https://github.com/ember-codemods/ember-angle-brackets-codemod/issues/217).
+
 ## Usage
 
 **WARNING**: `jscodeshift`, and thus this codemod, **edits your files in place**.
