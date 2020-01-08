@@ -18,8 +18,8 @@ function isAttribute(key) {
 }
 
 /**
- * Returns true if any of the user provided regex matches from the
- * `skipAttributesThatMatchRegex` regex array.
+ * Returns true if the key matches any of the user provided regex from the
+ * `skipAttributesThatMatchRegex` array.
  * @param {*} key
  * @param {*} config
  */

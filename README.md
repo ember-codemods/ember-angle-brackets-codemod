@@ -3,7 +3,7 @@
 [![Ember Observer Score](https://emberobserver.com/badges/ember-angle-brackets-codemod.svg)](https://emberobserver.com/addons/ember-angle-brackets-codemod)
 [![Build Status](https://travis-ci.org/ember-codemods/ember-angle-brackets-codemod.svg?branch=master)](https://travis-ci.org/ember-codemods/ember-angle-brackets-codemod)
 [![Coverage Status](https://coveralls.io/repos/github/ember-codemods/ember-angle-brackets-codemod/badge.svg?branch=master)](https://coveralls.io/github/ember-codemods/ember-angle-brackets-codemod?branch=master)
-[![npm version](http://img.shields.io/npm/v/ember-angle-brackets-codemod.svg?style=flat)](https://npmjs.org/package/ember-angle-brackets-codemod "View this project on npm")
+[![npm version](http://img.shields.io/npm/v/ember-angle-brackets-codemod.svg?style=flat)](https://npmjs.org/package/ember-angle-brackets-codemod 'View this project on npm')
 [![dependencies Status](https://david-dm.org/ember-codemods/ember-angle-brackets-codemod/status.svg)](https://david-dm.org/ember-codemods/ember-angle-brackets-codemod)
 [![devDependencies Status](https://david-dm.org/ember-codemods/ember-angle-brackets-codemod/dev-status.svg)](https://david-dm.org/ember-codemods/ember-angle-brackets-codemod?type=dev)
 
@@ -25,12 +25,14 @@ running this tool.
 
 1. Start your ember development server
 2. Run Codemod, pointing it at the address of the development server
+
 ```sh
 $ cd my-ember-app-or-addon
 $ npx ember-angle-brackets-codemod http://localhost:4200 ./path/of/files/ or ./some**/*glob.hbs
 ```
 
 ## From
+
 ```hbs
 {{site-header user=this.user class=(if this.user.isAdmin "admin")}}
 
@@ -44,6 +46,7 @@ $ npx ember-angle-brackets-codemod http://localhost:4200 ./path/of/files/ or ./s
 ```
 
 ## To
+
 ```hbs
 <SiteHeader @user={{this.user}} class={{if this.user.isAdmin "admin"}} />
 <SuperSelect @selected={{this.user.country}} as |s|>
@@ -73,6 +76,7 @@ To help the codemod disambiguate components and helpers, you can define a list o
   ]
 }
 ```
+
 The codemod will then ignore the above list of helpers and prevent them from being transformed into the new angle-brackets syntax.
 
 You can also disable the conversion of the built-in components `{{link-to}}`, `{{input}}` and `{{textarea}}` as follows:
@@ -94,15 +98,19 @@ $ npx ember-angle-brackets-codemod angle-brackets app/templates --config ./confi
 ```
 
 To get a list of helpers in your app you can do this in the Developer Console in your browser inside of your app:
+
 ```js
 var componentLikeHelpers = Object.keys(require.entries)
-    .filter(name=>(name.includes('/helpers/')|| name.includes('/helper')))
-    .filter(name=>!name.includes('/-')).map(name=>{
-        let path = name.split('/helpers/');
-        return path.pop();
-    }).filter(name=>!name.includes('/')).uniq();
+  .filter(name => name.includes('/helpers/') || name.includes('/helper'))
+  .filter(name => !name.includes('/-'))
+  .map(name => {
+    let path = name.split('/helpers/');
+    return path.pop();
+  })
+  .filter(name => !name.includes('/'))
+  .uniq();
 
-copy(JSON.stringify(componentLikeHelpers))
+copy(JSON.stringify(componentLikeHelpers));
 ```
 
 ### Skipping some files
@@ -119,13 +127,42 @@ If there are files that don't convert well, you can skip them by specifying an o
 }
 ```
 
+### Skipping some attributes
+
+If there are cases where some attributes should not be prefixed with `@`, you can skip them by specifying an optional `skipAttributesThatMatchRegex` configuration setting.
+For example, with the configuration below, all attributes that matches either `/data-/gim` or `/aria-/gim` will not be prefixed with `@`:
+
+**config/anglebrackets-codemod-config.json**
+
+```js
+{
+  "helpers": [],
+  "skipBuiltInComponents": true,
+  "skipAttributesThatMatchRegex": [/data-/gim, /aria-/gim]
+}
+```
+
+Input:
+
+```js
+  {{some-component data-test-foo=true aria-label="bar" foo=true}}
+```
+
+Output:
+
+```js
+  <SomeComponent data-test-foo={{true}} aria-label="bar" @foo={{true}} />
+```
+
 ## Debugging Workflow
+
 Oftentimes, you want to debug the codemod or the transform to identify issues with the code or to understand
 how the transforms are working, or to troubleshoot why some tests are failing.
 
 Hence we recommend a debugging work-flow like below to quickly find out what is causing the issue.
 
 ### 1. Place `debugger` statements
+
 Add `debugger` statements, in appropriate places in the code. For example:
 
 ```js
@@ -138,6 +175,7 @@ const params = a.value.params.map(p => {
 ```
 
 ### 2. Inspect the process with node debug
+
 Here we are going to start the tests selectively in node debug mode. Since the
 codemod is bootstrapped using [codemod-cli](https://github.com/rwjblue/codemod-cli) which is using [jest](https://jestjs.io/) in turn
 to run the tests, jest is having an option `-t <name-of-spec>` to run a particular
@@ -162,23 +200,23 @@ Once you run the above command, your tests will start running in debug mode and 
 triggered appropriately when that particular block of code gets executed. You can run the debugger inside
 Chrome browser dev-tools. More details on [here](https://developers.google.com/web/tools/chrome-devtools/javascript/)
 
-
 ## AST Explorer playground
 
 1. Go to the [AST Explorer](https://astexplorer.net/#/gist/b128d5545d7ccc52400b922f3b5010b4/642c6a8d3cc021257110bcf6b1714d1065891aec)
 2. Paste your curly brace syntax code in the top left corner window (Source)
 3. You will get the converted angle bracket syntax in the bottom right corner window (Transform Output)
 
-
 ## RFC
+
 - [Angle Bracket Invocation](https://github.com/emberjs/rfcs/blob/master/text/0311-angle-bracket-invocation.md)
 - [Angle Bracket Invocations For Built-in Components](https://github.com/emberjs/rfcs/blob/32a25b31d67d67bc7581dd0bead559063b06f076/text/0459-angle-bracket-built-in-components.md)
 
-
 ## Known issues
+
 - No formatting preserved
 
 ## References:
- - https://github.com/glimmerjs/glimmer-vm/issues/685
- - https://github.com/q2ebanking/ember-template-rewrite
- - https://github.com/ember-template-lint/ember-template-recast
+
+- https://github.com/glimmerjs/glimmer-vm/issues/685
+- https://github.com/q2ebanking/ember-template-rewrite
+- https://github.com/ember-template-lint/ember-template-recast
