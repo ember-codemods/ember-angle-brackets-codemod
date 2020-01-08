@@ -17,6 +17,19 @@ function isAttribute(key) {
   return HTML_ATTRIBUTES.includes(key) || isDataAttribute(key);
 }
 
+/**
+ * Returns true if any of the user provided regex matches from the
+ * `skipAttributesThatMatchRegex` regex array.
+ * @param {*} key
+ * @param {*} config
+ */
+function shouldSkipAttribute(key, config) {
+  if (config.skipAttributesThatMatchRegex && config.skipAttributesThatMatchRegex.length) {
+    return config.skipAttributesThatMatchRegex.some(rx => rx.test(key));
+  }
+  return false;
+}
+
 function isDataAttribute(key) {
   return key.startsWith('data-');
 }
@@ -104,12 +117,15 @@ function shouldSkipFile(fileInfo, config) {
   return false;
 }
 
-function transformAttrs(tagName, attrs) {
+function transformAttrs(tagName, attrs, config) {
   return attrs.map(a => {
     let _key = a.key;
     let _valueType = a.value.type;
     let _value;
-    if (!isAttribute(_key) || !isBuiltInComponent(tagName)) {
+    if (
+      (!isAttribute(_key) || !isBuiltInComponent(tagName)) &&
+      !shouldSkipAttribute(_key, config)
+    ) {
       _key = `@${_key}`;
     }
 
@@ -257,8 +273,8 @@ function hasValuelessDataParams(params) {
   return getDataAttributesFromParams(params).length > 0;
 }
 
-function transformNodeAttributes(tagName, node) {
-  let attributes = transformAttrs(tagName, node.hash.pairs);
+function transformNodeAttributes(tagName, node, config) {
+  let attributes = transformAttrs(tagName, node.hash.pairs, config);
   return node.params.concat(attributes);
 }
 
@@ -348,7 +364,7 @@ function transformNode(node, fileInfo, config) {
       attributes = transformLinkToAttrs(node.params);
     }
 
-    let namesParams = transformAttrs(tagName, node.hash.pairs);
+    let namesParams = transformAttrs(tagName, node.hash.pairs, config);
     attributes = attributes.concat(namesParams);
   } else {
     if (nodeHasPositionalParameters(node)) {
@@ -361,7 +377,7 @@ function transformNode(node, fileInfo, config) {
     if (inAttr) {
       return;
     }
-    attributes = transformNodeAttributes(tagName, node);
+    attributes = transformNodeAttributes(tagName, node, config);
   }
   return b.element(
     { name: newTagName, selfClosing },
