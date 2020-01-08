@@ -1,3 +1,17 @@
+## v3.1.0 (2020-01-08)
+
+#### :rocket: Enhancement
+* [#226](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/226) Add support to skip prefixing `@` for user provided attributes ([@suchitadoshi1987](https://github.com/suchitadoshi1987))
+
+#### :bug: Bug Fix
+* [#214](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/214) Fix false negatives for `link-to` with `data-` prefixed route name ([@tylerturdenpants](https://github.com/tylerturdenpants))
+
+#### Committers: 4
+- Ryan Mark ([@tylerturdenpants](https://github.com/tylerturdenpants))
+- Sam Selikoff ([@samselikoff](https://github.com/samselikoff))
+- Suchita Doshi ([@suchitadoshi1987](https://github.com/suchitadoshi1987))
+- [@dependabot-preview[bot]](https://github.com/apps/dependabot-preview)
+
 ## v3.0.1 (2019-12-12)
 
 #### :bug: Bug Fix
