@@ -957,7 +957,7 @@ test('skip-attributes', () => {
   `;
 
   let options = {
-    skipAttributesThatMatchRegex: [/data-/gim, /aria-/gim],
+    skipAttributesThatMatchRegex: ['/data-/gim', '/aria-/gim'],
   };
 
   expect(runTest('ignore-attributes.hbs', input, options)).toMatchInlineSnapshot(`
