@@ -1,3 +1,11 @@
+## v3.1.1 (2020-01-10)
+
+#### :bug: Bug Fix
+* [#229](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/229) Accept `skipAttributesThatMatchRegex ` option values as an array of regex strings ([@suchitadoshi1987](https://github.com/suchitadoshi1987))
+
+#### Committers: 1
+- Suchita Doshi ([@suchitadoshi1987](https://github.com/suchitadoshi1987))
+
 ## v3.1.0 (2020-01-08)
 
 #### :rocket: Enhancement
