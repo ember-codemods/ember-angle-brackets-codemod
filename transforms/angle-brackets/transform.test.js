@@ -957,12 +957,28 @@ test('skip-attributes', () => {
   `;
 
   let options = {
-    skipAttributesThatMatchRegex: [/data-/gim, /aria-/gim],
+    skipAttributesThatMatchRegex: ['/data-/gim', '/aria-/gim'],
   };
 
   expect(runTest('ignore-attributes.hbs', input, options)).toMatchInlineSnapshot(`
     "
         <SomeComponent data-test-foo={{true}} aria-label=\\"bar\\" @foo={{true}} />
+      "
+  `);
+});
+
+test('skip-attributes with invalid regex', () => {
+  let input = `
+    {{some-component data-test-foo=true aria-label="bar" foo=true}}
+  `;
+
+  let options = {
+    skipAttributesThatMatchRegex: [null],
+  };
+
+  expect(runTest('ignore-attributes.hbs', input, options)).toMatchInlineSnapshot(`
+    "
+        <SomeComponent @data-test-foo={{true}} @aria-label=\\"bar\\" @foo={{true}} />
       "
   `);
 });

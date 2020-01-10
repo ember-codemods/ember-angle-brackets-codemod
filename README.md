@@ -138,7 +138,7 @@ For example, with the configuration below, all attributes that matches either `/
 {
   "helpers": [],
   "skipBuiltInComponents": true,
-  "skipAttributesThatMatchRegex": [/data-/gim, /aria-/gim]
+  "skipAttributesThatMatchRegex": ["/data-/gim", "/aria-/gim"]
 }
 ```
 

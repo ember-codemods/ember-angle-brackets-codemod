@@ -25,7 +25,14 @@ function isAttribute(key) {
  */
 function shouldSkipAttribute(key, config) {
   if (config.skipAttributesThatMatchRegex && config.skipAttributesThatMatchRegex.length) {
-    return config.skipAttributesThatMatchRegex.some(rx => rx.test(key));
+    return config.skipAttributesThatMatchRegex.some(rx => {
+      // Get the user provided string and convert it to regex.
+      const match = /^\/(.*)\/([a-z]*)$/.exec(rx);
+      if (match) {
+        const regex = new RegExp(match[1], match[2]);
+        return regex.test(key);
+      }
+    });
   }
   return false;
 }
