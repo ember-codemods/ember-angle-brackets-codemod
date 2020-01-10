@@ -967,6 +967,22 @@ test('skip-attributes', () => {
   `);
 });
 
+test('skip-attributes with invalid regex', () => {
+  let input = `
+    {{some-component data-test-foo=true aria-label="bar" foo=true}}
+  `;
+
+  let options = {
+    skipAttributesThatMatchRegex: [null],
+  };
+
+  expect(runTest('ignore-attributes.hbs', input, options)).toMatchInlineSnapshot(`
+    "
+        <SomeComponent @data-test-foo={{true}} @aria-label=\\"bar\\" @foo={{true}} />
+      "
+  `);
+});
+
 test('regex-options', () => {
   let input = `
     {{some-component foo=true}}
