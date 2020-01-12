@@ -1176,8 +1176,11 @@ test('contextual-component-variable', () => {
   {{/power-select}}
   `;
 
-  expect(runTest('contextual-component-variable.hbs', input)).toMatchInlineSnapshot(`"
-  <PowerSelect @search={{perform searchThings}} @selected={{selectedResult}} @placeholder=\\"Enter the thing...\\" @loadingMessage=\\"Searching...\\" @onchange={{perform selectThing}} as |fooResult|>
-      <span class=\\"select-description\\">{{fooResult.attributes.thing-desc}}</span>
-  </PowerSelect>"`);
+  expect(runTest('contextual-component-variable.hbs', input)).toMatchInlineSnapshot(`
+    "
+      <PowerSelect @search={{perform searchThings}} @selected={{selectedResult}} @placeholder=\\"Enter the thing...\\" @loadingMessage=\\"Searching...\\" @onchange={{perform selectThing}} as |fooResult|>
+          <span class=\\"select-description\\">{{fooResult.attributes.thing-desc}}</span>
+      </PowerSelect>
+      "
+  `);
 });
