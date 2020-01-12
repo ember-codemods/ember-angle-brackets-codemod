@@ -1184,3 +1184,41 @@ test('contextual-component-variable', () => {
       "
   `);
 });
+
+test('nested-block-params', () => {
+  let input = `
+  {{#my-component as |foo myAction hash components|}}
+  {{foo}} {{myAction}}
+  {{hash.property}} {{hash.foo}}
+
+  {{components.foo}}
+
+  {{#components.my-component}}
+
+  {{/components.my-component}}
+
+  {{#components.block as |block|}}
+    {{block}}
+  {{/components.block}}
+  {{/my-component}}
+  `;
+
+  expect(runTest('nested-block-params', input)).toMatchInlineSnapshot(`
+    "
+      <MyComponent as |foo myAction hash components|>
+      {{foo}} {{myAction}}
+      {{hash.property}} {{hash.foo}}
+
+      {{components.foo}}
+
+      <components.my-component>
+
+      </components.my-component>
+
+      <components.block as |block|>
+        {{block}}
+      </components.block>
+      </MyComponent>
+      "
+  `);
+});
