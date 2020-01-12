@@ -177,7 +177,7 @@ const params = a.value.params.map(p => {
 ### 2. Inspect the process with node debug
 
 Here we are going to start the tests selectively in node debug mode. Since the
-codemod is bootstrapped using [codemod-cli](https://github.com/rwjblue/codemod-cli) which is using [jest](https://jestjs.io/) in turn
+codemod is using [jest](https://jestjs.io/) in turn
 to run the tests, jest is having an option `-t <name-of-spec>` to run a particular
 set of tests instead of running the whole test suite.
 
@@ -186,14 +186,24 @@ For more details on node debug, visit the [official](https://nodejs.org/en/docs/
 Node.js debugging guide, and for jest documentation on tests, please refer [here](https://jestjs.io/docs/en/cli).
 
 ```sh
-node --inspect-brk ./node_modules/.bin/codemod-cli -t '<fixture-name>'
+node --inspect-brk ./node_modules/.bin/jest --runInBand --testNamePattern <test-name> 
 ```
 
-For example, if you want to debug the `null-subexp.input.hbs` fixture or only that particular test case is failing
-because of an issue.
+For example, if you want to debug the `null-subexp` test or only that particular test case is failing because of an issue.
 
 ```sh
-node --inspect-brk ./node_modules/.bin/codemod-cli -t 'null-subexp'
+node --inspect-brk ./node_modules/.bin/jest --runInBand --testNamePattern 'null-subexp' 
+```
+
+Or you can make use of the npm scripts defined in package.json. All you need to pass the test name as the extra parameter with the script.
+
+```sh
+npm run debug:test 'null-subexp'
+```
+
+Using yarn
+```sh
+yarn debug:test 'null-subexp'
 ```
 
 Once you run the above command, your tests will start running in debug mode and your breakpoints will be
