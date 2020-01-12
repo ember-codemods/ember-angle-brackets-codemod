@@ -12,6 +12,8 @@ const HTML_ATTRIBUTES = ['class', 'placeholder', 'required'];
 const BUILT_IN_COMPONENTS = ['link-to', 'input', 'textarea'];
 
 let inAttr = false;
+let havingBlockParams = false;
+let currentBlockParams = [];
 
 function isAttribute(key) {
   return HTML_ATTRIBUTES.includes(key) || isDataAttribute(key);
@@ -435,16 +437,23 @@ function transformToAngleBracket(fileInfo, config, invokableData) {
         node.loc.source !== '(synthetic)' &&
         !shouldIgnoreMustacheStatement(tagName, config, invokableData);
       const isNestedComponent = isNestedComponentTagName(tagName);
+      const isNotBlockParamValue =
+        !havingBlockParams && !currentBlockParams.includes(node.path.original);
 
       if (
         isValidMustache &&
-        (node.hash.pairs.length > 0 || node.params.length > 0 || isNestedComponent)
+        (node.hash.pairs.length > 0 || node.params.length > 0 || isNestedComponent) &&
+        isNotBlockParamValue
       ) {
         return transformNode(node, fileInfo, config);
       }
     },
     BlockStatement(node) {
       let tagName = `${node.path.original}`;
+      havingBlockParams = node.program.blockParams.length > 0;
+      if (havingBlockParams) {
+        currentBlockParams = node.program.blockParams;
+      }
       if (
         !shouldIgnoreMustacheStatement(node.path.original, config, invokableData) ||
         isWallStreet(tagName)

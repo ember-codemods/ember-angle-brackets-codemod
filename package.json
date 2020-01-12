@@ -22,6 +22,7 @@
   "scripts": {
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
     "debug:integration": "node --inspect-brk ./test/run-test.js",
+    "debug:test": "node --inspect-brk ./node_modules/.bin/jest --runInBand --testNamePattern",
     "deploy": "npm version patch && git push && git push --tags && npm publish",
     "lint": "eslint . --cache",
     "test:integration": "node ./test/run-test.js",
