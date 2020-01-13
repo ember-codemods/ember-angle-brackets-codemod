@@ -960,7 +960,7 @@ test('skip-attributes', () => {
     skipAttributesThatMatchRegex: ['/data-/gim', '/aria-/gim'],
   };
 
-  expect(runTest('ignore-attributes.hbs', input, options)).toMatchInlineSnapshot(`
+  expect(runTest('skip-attributes.hbs', input, options)).toMatchInlineSnapshot(`
     "
         <SomeComponent data-test-foo={{true}} aria-label=\\"bar\\" @foo={{true}} />
       "
@@ -976,7 +976,7 @@ test('skip-attributes with invalid regex', () => {
     skipAttributesThatMatchRegex: [null],
   };
 
-  expect(runTest('ignore-attributes.hbs', input, options)).toMatchInlineSnapshot(`
+  expect(runTest('skip-attributes-invalid-regex.hbs', input, options)).toMatchInlineSnapshot(`
     "
         <SomeComponent @data-test-foo={{true}} @aria-label=\\"bar\\" @foo={{true}} />
       "
