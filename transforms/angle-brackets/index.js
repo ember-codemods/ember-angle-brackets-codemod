@@ -17,6 +17,10 @@ function getOptions() {
       options.helpers = config.helpers;
     }
 
+    if (config.skipAttributesThatMatchRegex) {
+      options.skipAttributesThatMatchRegex = config.skipAttributesThatMatchRegex;
+    }
+
     if (config.skipFilesThatMatchRegex) {
       options.skipFilesThatMatchRegex = new RegExp(config.skipFilesThatMatchRegex);
     }
