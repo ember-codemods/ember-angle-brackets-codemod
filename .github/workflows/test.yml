@@ -1,0 +1,55 @@
+name: Tests
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
+    - name: Install
+      run: yarn install
+    - name: Linting
+      run: yarn lint
+    - name: Test
+      run: yarn test
+
+  integration_tests:
+    name: Integration Tests
+    strategy:
+      matrix:
+        ember_version: ['3.10']
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
+    - name: Install
+      run: yarn install
+    - name: Test
+      env:
+        EMBER_VERSION: ${{ matrix.ember_version }}
+      run: yarn test:integration
+
+  coverage:
+    name: Coverage
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: [tests, integration_tests]
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
+    - name: Coveralls
+      run: yarn coveralls
