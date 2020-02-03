@@ -1,3 +1,13 @@
+## v4.0.0 (2020-02-03)
+
+#### :house: Internal
+* [#238](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/238) Drop node 8 support ([@tylerturdenpants](https://github.com/tylerturdenpants))
+
+#### Committers: 3
+- Rajasegar Chandran ([@rajasegar](https://github.com/rajasegar))
+- Ryan Mark ([@tylerturdenpants](https://github.com/tylerturdenpants))
+- [@dependabot-preview[bot]](https://github.com/apps/dependabot-preview)
+
 ## v3.1.2 (2020-01-13)
 
 #### :bug: Bug Fix
