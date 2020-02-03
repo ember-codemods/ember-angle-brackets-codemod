@@ -23,8 +23,8 @@
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
     "debug:integration": "node --inspect-brk ./test/run-test.js",
     "debug:test": "node --inspect-brk ./node_modules/.bin/jest -i -t ",
-    "deploy": "npm version patch && git push && git push --tags && npm publish",
     "lint": "eslint . --cache",
+    "release": "release-it",
     "test:integration": "node ./test/run-test.js",
     "test": "codemod-cli test --coverage"
   },
@@ -52,7 +52,7 @@
     "release-it-lerna-changelog": "^1.0.3"
   },
   "engines": {
-    "node": "^8 || >=10"
+    "node": "10.* || >=12.*"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
