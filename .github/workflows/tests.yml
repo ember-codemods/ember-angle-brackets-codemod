@@ -20,6 +20,12 @@ jobs:
       run: yarn lint
     - name: Test
       run: yarn test
+    - name: Run Coveralls
+      run: yarn coveralls
+    - name: Submit Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
 
   integration_tests:
     name: Integration Tests
@@ -40,22 +46,3 @@ jobs:
       env:
         EMBER_VERSION: ${{ matrix.ember_version }}
       run: yarn test:integration
-
-  coverage:
-    name: Coverage
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    needs: [tests, integration_tests]
-    steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
-      with:
-        node-version: '10.x'
-    - name: Install
-      run: yarn install
-    - name: Run Coveralls
-      run: yarn coveralls
-    - name: Submit Coveralls
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
