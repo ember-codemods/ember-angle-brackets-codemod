@@ -47,7 +47,12 @@ jobs:
     timeout-minutes: 15
     needs: [tests, integration_tests]
     steps:
-    - name: Coveralls
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
+    - name: Run Coveralls
+      run: yarn coveralls
+    - name: Submit Coveralls
       uses: coverallsapp/github-action@master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
