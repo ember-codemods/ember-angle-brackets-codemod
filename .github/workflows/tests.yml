@@ -51,6 +51,8 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: '10.x'
+    - name: Install
+      run: yarn install
     - name: Run Coveralls
       run: yarn coveralls
     - name: Submit Coveralls
