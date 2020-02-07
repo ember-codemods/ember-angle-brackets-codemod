@@ -280,12 +280,16 @@ function hasValuelessDataParams(params) {
   return getDataAttributesFromParams(params).length > 0;
 }
 
-function shouldSkipDataTestDataParams(node, includeValuelessDataTestAttributes) {
-  // data-* attributes are generally omitted,
-  // but this config allows including data-test-* attributes.
+/**
+ *
+ * data-* attributes are generally omitted,
+ * but this config allows including nodes with data-test-* attributes.
+ * Note this also includes nodes with both data-test-* and data-* attributes.
+ */
+function shouldSkipDataTestParams(params, includeValuelessDataTestAttributes) {
   if (includeValuelessDataTestAttributes) {
-    const dataAttrs = getDataAttributesFromParams(node.params);
-    return !dataAttrs.some(p => p.original.indexOf('data-test') === 0);
+    const dataAttrs = getDataAttributesFromParams(params);
+    return !dataAttrs.some(attr => attr.original.startsWith('data-test'));
   }
   return true;
 }
@@ -350,7 +354,7 @@ function nodeHasPositionalParameters(node) {
 function transformNode(node, fileInfo, config) {
   if (
     hasValuelessDataParams(node.params) &&
-    shouldSkipDataTestDataParams(node, config.includeValuelessDataTestAttributes)
+    shouldSkipDataTestParams(node.params, config.includeValuelessDataTestAttributes)
   ) {
     return;
   }
