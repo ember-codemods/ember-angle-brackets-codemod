@@ -144,6 +144,99 @@ test('data-attributes', () => {
   `);
 });
 
+test('data-test-attributes', () => {
+  let options = {
+    includeValuelessDataTestAttributes: true,
+  };
+  let input = `
+    {{x-foo data-foo=true}}
+    {{x-foo data-test-selector=true}}
+    {{x-foo data-test-selector=post.id}}
+    {{x-foo label="hi" data-test-selector=true}}
+    {{x-foo data-test-foo }}
+
+    {{#x-foo data-foo=true}}
+      block
+    {{/x-foo}}
+
+    {{#x-foo data-test-selector=true}}
+      block
+    {{/x-foo}}
+
+    {{#x-foo data-test-selector=post.id}}
+      block
+    {{/x-foo}}
+
+    {{#common/accordion-component data-test-accordion as |accordion|}}
+      block
+    {{/common/accordion-component}}
+
+    {{x-foo
+      data-foo
+      name="Sophie"
+    }}
+
+    {{#link-to data-test-foo "posts"}}
+      Recent Posts
+    {{/link-to}}
+    {{#link-to data-test-foo this.dynamicPath (query-params direction="desc" showArchived=false)}}
+      Recent Posts
+    {{/link-to}}
+
+    {{#link-to data-foo "posts"}}
+      Recent Posts
+    {{/link-to}}
+    {{#link-to data-foo this.dynamicPath (query-params direction="desc" showArchived=false)}}
+      Recent Posts
+    {{/link-to}}
+  `;
+
+  expect(runTest('data-test-attributes.hbs', input, options)).toMatchInlineSnapshot(`
+    "
+        <XFoo @data-foo={{true}} />
+        <XFoo @data-test-selector={{true}} />
+        <XFoo @data-test-selector={{post.id}} />
+        <XFoo @label=\\"hi\\" @data-test-selector={{true}} />
+        <XFoo data-test-foo />
+
+        <XFoo @data-foo={{true}}>
+          block
+        </XFoo>
+
+        <XFoo @data-test-selector={{true}}>
+          block
+        </XFoo>
+
+        <XFoo @data-test-selector={{post.id}}>
+          block
+        </XFoo>
+
+        <Common::AccordionComponent data-test-accordion as |accordion|>
+          block
+        </Common::AccordionComponent>
+
+        {{x-foo
+          data-foo
+          name=\\"Sophie\\"
+        }}
+
+        <LinkTo @route=\\"posts\\" data-test-foo>
+          Recent Posts
+        </LinkTo>
+        <LinkTo @route={{this.dynamicPath}} @query={{hash direction=\\"desc\\" showArchived=false}} data-test-foo>
+          Recent Posts
+        </LinkTo>
+
+        {{#link-to data-foo \\"posts\\"}}
+          Recent Posts
+        {{/link-to}}
+        {{#link-to data-foo this.dynamicPath (query-params direction=\\"desc\\" showArchived=false)}}
+          Recent Posts
+        {{/link-to}}
+      "
+  `);
+});
+
 test('deeply-nested-sub', () => {
   let input = `
     {{#some-component class=(concat foo (some-helper ted (some-dude bar (a b c)))) }}

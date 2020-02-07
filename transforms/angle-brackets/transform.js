@@ -280,6 +280,16 @@ function hasValuelessDataParams(params) {
   return getDataAttributesFromParams(params).length > 0;
 }
 
+function shouldSkipDataTestDataParams(node, includeValuelessDataTestAttributes) {
+  // data-* attributes are generally omitted,
+  // but this config allows including data-test-* attributes.
+  if (includeValuelessDataTestAttributes) {
+    const dataAttrs = getDataAttributesFromParams(node.params);
+    return !dataAttrs.some(p => p.original.indexOf('data-test') === 0);
+  }
+  return true;
+}
+
 function transformNodeAttributes(tagName, node, config) {
   let attributes = transformAttrs(tagName, node.hash.pairs, config);
   return node.params.concat(attributes);
@@ -338,7 +348,10 @@ function nodeHasPositionalParameters(node) {
 }
 
 function transformNode(node, fileInfo, config) {
-  if (hasValuelessDataParams(node.params)) {
+  if (
+    hasValuelessDataParams(node.params) &&
+    shouldSkipDataTestDataParams(node, config.includeValuelessDataTestAttributes)
+  ) {
     return;
   }
   let selfClosing = node.type !== 'BlockStatement';
