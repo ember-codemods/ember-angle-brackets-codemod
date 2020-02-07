@@ -172,6 +172,9 @@ test('data-test-attributes', () => {
     {{#link-to data-test-foo this.dynamicPath (query-params direction="desc" showArchived=false)}}
       Recent Posts
     {{/link-to}}
+    {{#link-to data-test-foo data-foo this.dynamicPath (query-params direction="desc" showArchived=false)}}
+      Recent Posts
+    {{/link-to}}
 
     {{x-foo
       data-foo
@@ -214,6 +217,9 @@ test('data-test-attributes', () => {
           Recent Posts
         </LinkTo>
         <LinkTo @route={{this.dynamicPath}} @query={{hash direction=\\"desc\\" showArchived=false}} data-test-foo>
+          Recent Posts
+        </LinkTo>
+        <LinkTo @route={{this.dynamicPath}} @query={{hash direction=\\"desc\\" showArchived=false}} data-test-foo data-foo>
           Recent Posts
         </LinkTo>
 

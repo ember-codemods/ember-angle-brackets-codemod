@@ -284,11 +284,12 @@ function hasValuelessDataParams(params) {
  *
  * data-* attributes are generally omitted,
  * but this config allows including nodes with data-test-* attributes.
- * Note this also includes nodes with both data-test-* and data-* attributes.
  */
 function shouldSkipDataTestParams(params, includeValuelessDataTestAttributes) {
   if (includeValuelessDataTestAttributes) {
     const dataAttrs = getDataAttributesFromParams(params);
+    // This is true for nodes with data-* attributes too,
+    // as long as there is one with data-test-* attribute.
     return !dataAttrs.some(attr => attr.original.startsWith('data-test'));
   }
   return true;
