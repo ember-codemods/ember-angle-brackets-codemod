@@ -154,28 +154,18 @@ test('data-test-attributes', () => {
     {{x-foo data-test-selector=post.id}}
     {{x-foo label="hi" data-test-selector=true}}
     {{x-foo data-test-foo }}
-
     {{#x-foo data-foo=true}}
       block
     {{/x-foo}}
-
     {{#x-foo data-test-selector=true}}
       block
     {{/x-foo}}
-
     {{#x-foo data-test-selector=post.id}}
       block
     {{/x-foo}}
-
     {{#common/accordion-component data-test-accordion as |accordion|}}
       block
     {{/common/accordion-component}}
-
-    {{x-foo
-      data-foo
-      name="Sophie"
-    }}
-
     {{#link-to data-test-foo "posts"}}
       Recent Posts
     {{/link-to}}
@@ -183,6 +173,16 @@ test('data-test-attributes', () => {
       Recent Posts
     {{/link-to}}
 
+    {{x-foo
+      data-foo
+      name="Sophie"
+    }}
+    {{#x-foo data-foo}}
+      block
+    {{/x-foo}}
+    {{#common/accordion-component data-accordion as |accordion|}}
+      block
+    {{/common/accordion-component}}
     {{#link-to data-foo "posts"}}
       Recent Posts
     {{/link-to}}
@@ -198,28 +198,18 @@ test('data-test-attributes', () => {
         <XFoo @data-test-selector={{post.id}} />
         <XFoo @label=\\"hi\\" @data-test-selector={{true}} />
         <XFoo data-test-foo />
-
         <XFoo @data-foo={{true}}>
           block
         </XFoo>
-
         <XFoo @data-test-selector={{true}}>
           block
         </XFoo>
-
         <XFoo @data-test-selector={{post.id}}>
           block
         </XFoo>
-
         <Common::AccordionComponent data-test-accordion as |accordion|>
           block
         </Common::AccordionComponent>
-
-        {{x-foo
-          data-foo
-          name=\\"Sophie\\"
-        }}
-
         <LinkTo @route=\\"posts\\" data-test-foo>
           Recent Posts
         </LinkTo>
@@ -227,6 +217,16 @@ test('data-test-attributes', () => {
           Recent Posts
         </LinkTo>
 
+        {{x-foo
+          data-foo
+          name=\\"Sophie\\"
+        }}
+        {{#x-foo data-foo}}
+          block
+        {{/x-foo}}
+        {{#common/accordion-component data-accordion as |accordion|}}
+          block
+        {{/common/accordion-component}}
         {{#link-to data-foo \\"posts\\"}}
           Recent Posts
         {{/link-to}}
