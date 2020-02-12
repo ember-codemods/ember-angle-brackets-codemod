@@ -290,7 +290,7 @@ function shouldSkipDataTestParams(params, includeValuelessDataTestAttributes) {
     const dataAttrs = getDataAttributesFromParams(params);
     // This is true for nodes with data-* attributes too,
     // as long as there is one with data-test-* attribute.
-    return !dataAttrs.some(attr => attr.original.startsWith('data-test'));
+    return !dataAttrs.some(attr => attr.original.startsWith('data-test-'));
   }
   return true;
 }
