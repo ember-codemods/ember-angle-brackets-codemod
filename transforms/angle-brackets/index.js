@@ -25,6 +25,7 @@ function getOptions() {
       options.skipFilesThatMatchRegex = new RegExp(config.skipFilesThatMatchRegex);
     }
 
+    options.includeValuelessDataTestAttributes = !!config.includeValuelessDataTestAttributes;
     options.skipBuiltInComponents = !!config.skipBuiltInComponents;
   }
 
