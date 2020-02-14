@@ -1,3 +1,7 @@
+* Add config to enable transform on valueless attrs (#241) (7e06914)
+* Bump execa from 3.4.0 to 4.0.0 (#211) (0b06732)
+* Bump jest from 24.9.0 to 25.1.0 (#235) (d8fa744)
+
 ## v4.0.0 (2020-02-03)
 
 #### :house: Internal
