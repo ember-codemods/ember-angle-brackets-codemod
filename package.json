@@ -48,7 +48,7 @@
     "execa": "^4.0.0",
     "jest": "^25.1.0",
     "prettier": "^1.19.1",
-    "release-it": "^12.6.2",
+    "release-it": "^12.6.3",
     "release-it-lerna-changelog": "^1.0.3"
   },
   "engines": {
