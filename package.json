@@ -49,7 +49,7 @@
     "jest": "^25.2.3",
     "prettier": "^1.19.1",
     "release-it": "^13.4.0",
-    "release-it-lerna-changelog": "^2.1.1"
+    "release-it-lerna-changelog": "^2.1.2"
   },
   "engines": {
     "node": "10.* || >=12.*"
