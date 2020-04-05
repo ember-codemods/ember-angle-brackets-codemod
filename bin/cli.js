@@ -2,8 +2,12 @@
 'use strict';
 const { gatherTelemetryForUrl, analyzeEmberObject } = require('ember-codemods-telemetry-helpers');
 
+const argv = require('yargs').argv;
+
 (async () => {
-  await gatherTelemetryForUrl(process.argv[2], analyzeEmberObject);
+  if (argv.telemetry) {
+    await gatherTelemetryForUrl(process.argv[2], analyzeEmberObject);
+  }
 
   require('codemod-cli').runTransform(
     __dirname,

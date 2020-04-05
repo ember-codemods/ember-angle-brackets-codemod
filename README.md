@@ -23,13 +23,24 @@ It does not make a copy. Make sure your code is checked into a source control
 repository like Git and that you have no outstanding changes to commit before
 running this tool.
 
+```sh
+$ cd my-ember-app-or-addon
+$ npx ember-angle-brackets-codemod ./path/of/files/ or ./some**/*glob.hbs
+```
+
+### Running the codemod with Telemetry
+Telemetry helpers runs the app, grabs basic info about all of the modules at runtime. This allows the codemod to know the names of every helper, component, route, controller, etc. in the app without guessing / relying on static analysis. They basically help you to create "runtime assisted codemods".
+
+See "Gathering runtime data" section of [ember-native-class-codemod](https://github.com/ember-codemods/ember-native-class-codemod#gathering-runtime-data) for some additonal information.
+
 1. Start your ember development server
 2. Run Codemod, pointing it at the address of the development server
 
 ```sh
 $ cd my-ember-app-or-addon
-$ npx ember-angle-brackets-codemod http://localhost:4200 ./path/of/files/ or ./some**/*glob.hbs
+$ npx ember-angle-brackets-codemod --telemetry=http://localhost:4200 ./path/of/files/ or ./some**/*glob.hbs
 ```
+
 
 ## From
 
