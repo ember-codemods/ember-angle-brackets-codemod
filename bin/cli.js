@@ -6,7 +6,7 @@ const argv = require('yargs').argv;
 
 (async () => {
   if (argv.telemetry) {
-    await gatherTelemetryForUrl(process.argv[2], analyzeEmberObject);
+    await gatherTelemetryForUrl(argv.telemetry, analyzeEmberObject);
   }
 
   require('codemod-cli').runTransform(
