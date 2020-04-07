@@ -25,6 +25,7 @@
     "deploy": "npm version patch && git push && git push --tags && npm publish",
     "lint": "eslint . --cache",
     "test:integration": "node ./test/run-test.js",
+    "test:notelemetry": " node ./test/run-test-without-telemetry.js",
     "test": "codemod-cli test --coverage"
   },
   "jest": {
