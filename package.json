@@ -36,10 +36,10 @@
   },
   "dependencies": {
     "codemod-cli": "^2.1.0",
+    "debug": "^4.1.1",
     "ember-codemods-telemetry-helpers": "^1.2.1",
-    "ember-template-recast": "^4.1.3",
-    "winston": "^3.2.1",
-    "debug": "^4.1.1"
+    "ember-template-recast": "^4.1.4",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "coveralls": "^3.1.0",
