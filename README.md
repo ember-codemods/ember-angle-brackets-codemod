@@ -28,7 +28,18 @@ running this tool.
 
 ```sh
 $ cd my-ember-app-or-addon
-$ npx ember-angle-brackets-codemod http://localhost:4200 ./path/of/files/ or ./some**/*glob.hbs
+$ npx ember-angle-brackets-codemod --telemetry=http://localhost:4200 ./path/of/files/ or ./some**/*glob.hbs
+```
+
+Telemetry helpers runs the app, grabs basic info about all of the modules at runtime. This allows the codemod to know the names of every helper, component, route, controller, etc. in the app without guessing / relying on static analysis. They basically help you to create "runtime assisted codemods".
+
+See "Gathering runtime data" section of [ember-native-class-codemod](https://github.com/ember-codemods/ember-native-class-codemod#gathering-runtime-data) for some additonal information.
+
+### Running the codemod without Telemetry
+
+```sh
+$ cd my-ember-app-or-addon
+$ npx ember-angle-brackets-codemod ./path/of/files/ or ./some**/*glob.hbs
 ```
 
 ## From

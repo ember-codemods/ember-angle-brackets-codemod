@@ -26,6 +26,7 @@
     "lint": "eslint . --cache",
     "release": "release-it",
     "test:integration": "node ./test/run-test.js",
+    "test:notelemetry": " node ./test/run-test-without-telemetry.js",
     "test": "codemod-cli test --coverage"
   },
   "jest": {

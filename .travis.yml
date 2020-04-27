@@ -9,6 +9,7 @@ script:
   - yarn lint
   - yarn test
   - yarn test:integration
+  - yarn test:notelemetry
 
 after_success:
 - yarn coveralls

@@ -1252,14 +1252,14 @@ test('No telemetry', () => {
 
   expect(runTestWithData('no-telemetry.hbs', input, {}, {})).toMatchInlineSnapshot(`
     "
-        {{#my-card as |card|}}
-          {{card.title title=\\"My Card Title\\"}}
-          {{#card.content}}
+        <MyCard as |card|>
+          <card.title @title=\\"My Card Title\\" />
+          <card.content>
             <p>hello</p>
-          {{/card.content}}
-          {{card.foo-bar}}
+          </card.content>
+          <card.foo-bar />
           {{card.foo}}
-        {{/my-card}}
+        </MyCard>
       "
   `);
 });

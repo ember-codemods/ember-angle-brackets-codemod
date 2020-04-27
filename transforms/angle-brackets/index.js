@@ -29,13 +29,18 @@ function getOptions() {
     options.skipBuiltInComponents = !!config.skipBuiltInComponents;
   }
 
+  if (cliOptions.telemetry) {
+    options.telemetry = cliOptions.telemetry;
+  }
+
   return options;
 }
 
 module.exports = function(file) {
-  let invokableData = getInvokableData(getTelemetry());
+  const options = getOptions();
+  let invokableData = options.telemetry ? getInvokableData(getTelemetry()) : {};
   try {
-    return transform(file, getOptions(), invokableData);
+    return transform(file, options, invokableData);
   } catch (e) {
     throw new Error(
       `Transformation errored on file ${file.path}. Reason ${e}. Please report this in https://github.com/ember-codemods/ember-angle-brackets-codemod/issues\n\nStack trace:\n${e.stack}`

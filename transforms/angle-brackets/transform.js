@@ -332,7 +332,7 @@ function shouldIgnoreMustacheStatement(fullName, config, invokableData) {
     let strName = `${name}`; // coerce boolean and number to string
     return (isHelper || !isComponent) && !strName.includes('.');
   } else {
-    return !(KNOWN_HELPERS.includes(name) && config.helpers.includes(name));
+    return KNOWN_HELPERS.includes(name) || config.helpers.includes(name);
   }
 }
 
