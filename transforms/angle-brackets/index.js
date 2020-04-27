@@ -36,7 +36,7 @@ function getOptions() {
   return options;
 }
 
-module.exports = function(file) {
+module.exports = function (file) {
   const options = getOptions();
   let invokableData = options.telemetry ? getInvokableData(getTelemetry()) : {};
   try {

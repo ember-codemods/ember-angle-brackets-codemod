@@ -25,7 +25,7 @@ function isAttribute(key) {
  */
 function shouldSkipAttribute(key, config) {
   if (config.skipAttributesThatMatchRegex && config.skipAttributesThatMatchRegex.length) {
-    return config.skipAttributesThatMatchRegex.some(rx => {
+    return config.skipAttributesThatMatchRegex.some((rx) => {
       // Get the user provided string and convert it to regex.
       const match = /^\/(.*)\/([a-z]*)$/.exec(rx);
       if (match) {
@@ -82,7 +82,7 @@ function transformTagName(tagName) {
 }
 
 function transformNestedSubExpression(subExpression) {
-  let positionalArgs = subExpression.params.map(param => {
+  let positionalArgs = subExpression.params.map((param) => {
     if (param.type === 'SubExpression') {
       return transformNestedSubExpression(param);
     } else if (param.type === 'StringLiteral') {
@@ -94,7 +94,7 @@ function transformNestedSubExpression(subExpression) {
 
   let namedArgs = [];
   if (subExpression.hash.pairs.length > 0) {
-    namedArgs = subExpression.hash.pairs.map(pair => {
+    namedArgs = subExpression.hash.pairs.map((pair) => {
       if (pair.value.type === 'SubExpression') {
         let nestedValue = transformNestedSubExpression(pair.value);
         return `${pair.key}=${nestedValue}`;
@@ -125,7 +125,7 @@ function shouldSkipFile(fileInfo, config) {
 }
 
 function transformAttrs(tagName, attrs, config) {
-  return attrs.map(a => {
+  return attrs.map((a) => {
     let _key = a.key;
     let _valueType = a.value.type;
     let _value;
@@ -144,7 +144,7 @@ function transformAttrs(tagName, attrs, config) {
         _value = a.value;
       } else {
         const params = a.value.params
-          .map(p => {
+          .map((p) => {
             if (p.type === 'SubExpression') {
               return transformNestedSubExpression(p);
             } else if (p.type === 'StringLiteral') {
@@ -290,7 +290,7 @@ function shouldSkipDataTestParams(params, includeValuelessDataTestAttributes) {
     const dataAttrs = getDataAttributesFromParams(params);
     // This is true for nodes with data-* attributes too,
     // as long as there is one with data-test-* attribute.
-    return !dataAttrs.some(attr => attr.original.startsWith('data-test-'));
+    return !dataAttrs.some((attr) => attr.original.startsWith('data-test-'));
   }
   return true;
 }
@@ -305,11 +305,11 @@ function isDataAttrPathExpression(node) {
 }
 
 function getDataAttributesFromParams(params) {
-  return params.filter(it => isDataAttrPathExpression(it));
+  return params.filter((it) => isDataAttrPathExpression(it));
 }
 
 function getNonDataAttributesFromParams(params) {
-  return params.filter(it => !isDataAttrPathExpression(it));
+  return params.filter((it) => !isDataAttrPathExpression(it));
 }
 
 function shouldIgnoreMustacheStatement(fullName, config, invokableData) {
@@ -319,10 +319,7 @@ function shouldIgnoreMustacheStatement(fullName, config, invokableData) {
   let name = fullName;
   // replace `::` with `/`, and ignore the path before $
   if (isWallStreet(name)) {
-    name = name
-      .split('$')
-      .pop()
-      .replace('::', '/');
+    name = name.split('$').pop().replace('::', '/');
   }
 
   if (isTelemetryData) {

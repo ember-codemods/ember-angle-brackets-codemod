@@ -21,8 +21,8 @@ const execOpts = { cwd: inputDir, stderr: 'inherit' };
   emberServe.stderr.pipe(process.stderr);
   emberServe.stdout.pipe(process.stdout);
 
-  await new Promise(resolve => {
-    emberServe.stdout.on('data', data => {
+  await new Promise((resolve) => {
+    emberServe.stdout.on('data', (data) => {
       if (data.toString().includes('Build successful')) {
         resolve();
       }
