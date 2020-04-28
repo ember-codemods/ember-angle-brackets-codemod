@@ -42,6 +42,8 @@ $ cd my-ember-app-or-addon
 $ npx ember-angle-brackets-codemod ./path/of/files/ or ./some**/*glob.hbs
 ```
 
+**NOTE** If you are not using telemetry, you will probably need to [manually configure the codemod to at least skip any helpers](#skipping-helpers) that are invoked in the template files you are running it on.
+
 ## From
 
 ```hbs
