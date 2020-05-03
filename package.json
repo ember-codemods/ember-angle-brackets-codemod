@@ -49,7 +49,7 @@
     "execa": "^4.0.0",
     "jest": "^25.5.4",
     "prettier": "^2.0.5",
-    "release-it": "^13.5.7",
+    "release-it": "^13.5.8",
     "release-it-lerna-changelog": "^2.3.0"
   },
   "engines": {
