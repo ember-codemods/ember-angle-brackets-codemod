@@ -25,9 +25,9 @@
     "debug:test": "node --inspect-brk ./node_modules/.bin/jest -i -t ",
     "lint": "eslint . --cache",
     "release": "release-it",
+    "test": "codemod-cli test --coverage",
     "test:integration": "node ./test/run-test.js",
-    "test:notelemetry": " node ./test/run-test-without-telemetry.js",
-    "test": "codemod-cli test --coverage"
+    "test:notelemetry": " node ./test/run-test-without-telemetry.js"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -61,14 +61,16 @@
   "release-it": {
     "plugins": {
       "release-it-lerna-changelog": {
-        "infile": "CHANGELOG.md"
+        "infile": "CHANGELOG.md",
+        "launchEditor": true
       }
     },
     "git": {
       "tagName": "v${version}"
     },
     "github": {
-      "release": true
+      "release": true,
+      "tokenRef": "GITHUB_AUTH"
     }
   }
 }
