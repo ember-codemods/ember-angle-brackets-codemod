@@ -1,3 +1,18 @@
+## v5.0.0 (2020-05-06)
+
+#### :boom: Breaking Change
+* [#287](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/287) Add `--telemetry` argument and ensure running without telemetry is possible ([@rajasegar](https://github.com/rajasegar))
+
+#### :house: Internal
+* [#320](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/320) Update release automation settings. ([@rwjblue](https://github.com/rwjblue))
+
+#### Committers: 4
+- Rajasegar Chandran ([@rajasegar](https://github.com/rajasegar))
+- Robert Jackson ([@rwjblue](https://github.com/rwjblue))
+- Tom Wayson ([@tomwayson](https://github.com/tomwayson))
+- [@dependabot-preview[bot]](https://github.com/apps/dependabot-preview)
+
+
 * Add config to enable transform on valueless attrs (#241) (7e06914)
 * Bump execa from 3.4.0 to 4.0.0 (#211) (0b06732)
 * Bump jest from 24.9.0 to 25.1.0 (#235) (d8fa744)
