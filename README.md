@@ -145,6 +145,18 @@ If there are files that don't convert well, you can skip them by specifying an o
 If there are cases where some attributes should not be prefixed with `@`, you can skip them by specifying an optional `skipAttributesThatMatchRegex` configuration setting.
 For example, with the configuration below, all attributes that matches either `/data-/gim` or `/aria-/gim` will not be prefixed with `@`:
 
+### Processing valueless data test attributes
+
+Curly invocations that have `data-test-` attributes with no value are not processed by default. The configuration below will cause them to be processed:
+
+**config/anglebrackets-codemod-config.json**
+
+```js
+{
+  "includeValuelessDataTestAttributes": true
+}
+```
+
 **config/anglebrackets-codemod-config.json**
 
 ```js
