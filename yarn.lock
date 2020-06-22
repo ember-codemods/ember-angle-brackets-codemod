@@ -948,6 +948,15 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@dabh/diagnostics@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@dabh/diagnostics/-/diagnostics-2.0.2.tgz#290d08f7b381b8f94607dc8f471a12c675f9db31"
+  integrity sha512-+A1YivoVDNNVCdfozHSR8v/jyuuLTMXwjWuxPFlFlUapXoGc+Gj9mDlTDDfrwl7rXCl2tNZ0kE8sIBO6YOn96Q==
+  dependencies:
+    colorspace "1.1.x"
+    enabled "2.0.x"
+    kuler "^2.0.0"
+
 "@glimmer/env@0.1.7":
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/@glimmer/env/-/env-0.1.7.tgz#fd2d2b55a9029c6b37a6c935e8c8871ae70dfa07"
@@ -2633,15 +2642,6 @@ detect-repo-changelog@1.0.1:
     is-regular-file "^1.0.1"
     lodash.find "^4.6.0"
     pify "^2.3.0"
-
-"diagnostics@github:DABH/diagnostics#master":
-  version "2.0.2"
-  uid "1533851826eac88679124d41f87e45e1b196be56"
-  resolved "https://codeload.github.com/DABH/diagnostics/tar.gz/1533851826eac88679124d41f87e45e1b196be56"
-  dependencies:
-    colorspace "1.1.x"
-    enabled "2.0.x"
-    kuler "^2.0.0"
 
 diff-sequences@^26.0.0:
   version "26.0.0"
@@ -7064,13 +7064,13 @@ winston-transport@^4.4.0:
     readable-stream "^2.3.7"
     triple-beam "^1.2.0"
 
-winston@^3.3.1:
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/winston/-/winston-3.3.1.tgz#866764c2af1e4bba860091e2692545f55ea98003"
-  integrity sha512-ijjJtGl8tqQzftLysZn0jQBwa1VjyIrgysvk9tJJczk88oXmXZ5z6CvSFcQ69FfXONINxgIVfx3lqwjK57Hfsg==
+winston@^3.3.2:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/winston/-/winston-3.3.2.tgz#943773ea8e1c2353e088acd64a952c7809ac076e"
+  integrity sha512-vTOrUZlyQPS8VpCcQ1JT8BumDAUe4awCHZ9nmGgO7LqkV4atj0dKa5suA7Trf7QKtBszE2yUs9d8744Kz9j4jQ==
   dependencies:
+    "@dabh/diagnostics" "^2.0.2"
     async "^3.1.0"
-    diagnostics "github:DABH/diagnostics#master"
     is-stream "^2.0.0"
     logform "^2.2.0"
     one-time "^1.0.0"
