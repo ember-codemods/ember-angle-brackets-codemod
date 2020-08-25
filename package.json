@@ -48,7 +48,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "execa": "^4.0.3",
     "jest": "^26.4.2",
-    "prettier": "^2.0.5",
+    "prettier": "^2.1.0",
     "release-it": "^13.6.9",
     "release-it-lerna-changelog": "^2.3.0"
   },
