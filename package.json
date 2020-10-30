@@ -35,7 +35,7 @@
     ]
   },
   "dependencies": {
-    "codemod-cli": "^2.1.0",
+    "codemod-cli": "^3.0.0",
     "debug": "^4.2.0",
     "ember-codemods-telemetry-helpers": "^1.2.1",
     "ember-template-recast": "^4.2.1",

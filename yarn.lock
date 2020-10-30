@@ -318,17 +318,7 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@babel/parser@^7.1.0", "@babel/parser@^7.1.6", "@babel/parser@^7.6.0", "@babel/parser@^7.6.2":
-  version "7.6.2"
-  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.6.2.tgz#205e9c95e16ba3b8b96090677a67c9d6075b70a1"
-  integrity sha512-mdFqWrSPCmikBoaBYMuBulzTIKuXVPtEISFbRRVNwMWpCms/hmE2kRq0bblUHaNRKrjRlmVbx1sDHmjmRgD2Xg==
-
-"@babel/parser@^7.7.5", "@babel/parser@^7.8.3", "@babel/parser@^7.8.4":
-  version "7.8.4"
-  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.8.4.tgz#d1dbe64691d60358a974295fa53da074dd2ce8e8"
-  integrity sha512-0fKu/QqildpXmPVaRBoXOlyBb3MC+J0A66x97qEfLOMkn3u6nfY5esWogQwi/K0BjASYy4DbnsEWnpNL6qT5Mw==
-
-"@babel/parser@^7.8.6":
+"@babel/parser@^7.1.0", "@babel/parser@^7.1.6", "@babel/parser@^7.6.0", "@babel/parser@^7.6.2", "@babel/parser@^7.7.5", "@babel/parser@^7.8.3", "@babel/parser@^7.8.4", "@babel/parser@^7.8.6":
   version "7.9.4"
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.9.4.tgz#68a35e6b0319bbc014465be43828300113f2f2e8"
   integrity sha512-bC49otXX6N0/VYhgOMh4gnP26E9xnDZK3TmbNpxYzzz9BQLBosQwfyOe9/cXUU3txYhTzLCbcqd5c8y/OmCjHA==
@@ -2274,14 +2264,15 @@ co@^4.6.0:
   resolved "https://registry.yarnpkg.com/co/-/co-4.6.0.tgz#6ea6bdf3d853ae54ccb8e47bfa0bf3f9031fb184"
   integrity sha1-bqa989hTrlTMuOR7+gvz+QMfsYQ=
 
-codemod-cli@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/codemod-cli/-/codemod-cli-2.1.0.tgz#c42f08b73bff3aba3b6c4db83ef8afbfec51afe8"
-  integrity sha512-aUhTsDYjYderONZr8VK/89vfhwAsm+6NI6AodoB0QVTU0crg/rc3W+jmRujXfNepRPzFW1iDRlYP5up3ek2S4Q==
+codemod-cli@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/codemod-cli/-/codemod-cli-3.0.0.tgz#d590f382a102a1edc6080ede67896c533749a81e"
+  integrity sha512-oZOkKcpHSNaLHkdhwp+1PDXzWTzx+5rkbc3TGCHnZg/tAtDGNlSU+24zkzTMm31+XxAxqt3Da323UZKxudWRBw==
   dependencies:
     "@babel/parser" "^7.6.0"
     chalk "^2.4.2"
     common-tags "^1.8.0"
+    ember-template-recast "^4.1.4"
     execa "^2.0.4"
     fs-extra "^8.1.0"
     globby "^10.0.1"
@@ -2738,7 +2729,7 @@ ember-codemods-telemetry-helpers@^1.2.1:
     sync-disk-cache "^1.3.3"
     walk-sync "^2.0.2"
 
-ember-template-recast@^4.2.1:
+ember-template-recast@^4.1.4, ember-template-recast@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/ember-template-recast/-/ember-template-recast-4.2.1.tgz#f1ecc78e4d99cea7d656dfc1ac951a30e6b04451"
   integrity sha512-H+8fsAy5HD30zU1Z3SPDoQnbgISucOCODQZ/OkIr2xBE9z9hEEgVYXe8sNraQ77EVa+ouAXtLfwImo38qE4YEg==
@@ -7302,14 +7293,6 @@ yargs-parser@^13.1.1:
     camelcase "^5.0.0"
     decamelize "^1.2.0"
 
-yargs-parser@^16.1.0:
-  version "16.1.0"
-  resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-16.1.0.tgz#73747d53ae187e7b8dbe333f95714c76ea00ecf1"
-  integrity sha512-H/V41UNZQPkUMIT5h5hiwg4QKIY1RPvoBV4XcjUbRM8Bk2oKqqyZ0DIEbTFZB0XjbtSPG8SAa/0DxCQmiRgzKg==
-  dependencies:
-    camelcase "^5.0.0"
-    decamelize "^1.2.0"
-
 yargs-parser@^18.1.2:
   version "18.1.3"
   resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-18.1.3.tgz#be68c4975c6b2abf469236b0c870362fab09a7b0"
@@ -7334,24 +7317,7 @@ yargs@^13.0.0, yargs@^13.2.0:
     y18n "^4.0.0"
     yargs-parser "^13.1.1"
 
-yargs@^15.0.0:
-  version "15.1.0"
-  resolved "https://registry.yarnpkg.com/yargs/-/yargs-15.1.0.tgz#e111381f5830e863a89550bd4b136bb6a5f37219"
-  integrity sha512-T39FNN1b6hCW4SOIk1XyTOWxtXdcen0t+XYrysQmChzSipvhBO8Bj0nK1ozAasdk24dNWuMZvr4k24nz+8HHLg==
-  dependencies:
-    cliui "^6.0.0"
-    decamelize "^1.2.0"
-    find-up "^4.1.0"
-    get-caller-file "^2.0.1"
-    require-directory "^2.1.1"
-    require-main-filename "^2.0.0"
-    set-blocking "^2.0.0"
-    string-width "^4.2.0"
-    which-module "^2.0.0"
-    y18n "^4.0.0"
-    yargs-parser "^16.1.0"
-
-yargs@^15.4.1:
+yargs@^15.0.0, yargs@^15.4.1:
   version "15.4.1"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-15.4.1.tgz#0d87a16de01aee9d8bec2bfbf74f67851730f4f8"
   integrity sha512-aePbxDmcYW++PaqBsJ+HYUFwCdv4LVvdnhBy78E57PIor8/OVvhMrADFFEDh8DHDFRv/O9i3lPhsENjO7QX0+A==
