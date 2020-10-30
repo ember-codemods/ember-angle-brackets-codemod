@@ -50,7 +50,7 @@
     "jest": "^26.6.1",
     "prettier": "^2.1.2",
     "release-it": "^14.2.0",
-    "release-it-lerna-changelog": "^3.0.0"
+    "release-it-lerna-changelog": "^3.1.0"
   },
   "engines": {
     "node": "10.* || >=12.*"
