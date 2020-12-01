@@ -2475,16 +2475,16 @@ co@^4.6.0:
   resolved "https://registry.yarnpkg.com/co/-/co-4.6.0.tgz#6ea6bdf3d853ae54ccb8e47bfa0bf3f9031fb184"
   integrity sha1-bqa989hTrlTMuOR7+gvz+QMfsYQ=
 
-codemod-cli@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/codemod-cli/-/codemod-cli-3.1.0.tgz#0697bb99aaaf2316529595954e2148c2e962d999"
-  integrity sha512-5nqkLddU7Seu9H2I8xBhCAiYZDV/ZRG1o3eZZbuFX/i8SGp6FlkJ5JtZCpjOlO3VEpqMjx+RJtiP0MS2FcIBjw==
+codemod-cli@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/codemod-cli/-/codemod-cli-3.1.1.tgz#568d7af51bc97bafd3cca987fb604c2ff03fad18"
+  integrity sha512-lEadlcV4qyWGLDnNUIwmDc0+KOHvxHcp1FGNYreDpN3D7QQvJM+l5L+fKD76K1WOpzpCxr+xDmoptIQDaPHTjw==
   dependencies:
     "@babel/parser" "^7.11.5"
     chalk "^4.1.0"
     common-tags "^1.8.0"
     ember-template-recast "^4.1.4"
-    execa "^4.0.3"
+    execa "^4.1.0"
     fs-extra "^8.1.0"
     globby "^11.0.1"
     import-cwd "^3.0.0"
