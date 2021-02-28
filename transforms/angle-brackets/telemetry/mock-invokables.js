@@ -101,4 +101,7 @@ module.exports = {
   'app/helpers/nested/helper': {
     type: 'Helper',
   },
+  'app/components/power-select': {
+    type: 'Component',
+  },
 };

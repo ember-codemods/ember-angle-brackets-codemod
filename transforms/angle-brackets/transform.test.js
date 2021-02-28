@@ -1263,3 +1263,61 @@ test('No telemetry', () => {
       "
   `);
 });
+
+test('contextual-component-variable', () => {
+  let input = `
+  {{#power-select search=(perform searchThings)
+    selected=selectedResult
+    placeholder="Enter the thing..."
+    loadingMessage="Searching..."
+    onchange=(perform selectThing) as |fooResult|}}
+      <span class="select-description">{{fooResult.attributes.thing-desc}}</span>
+  {{/power-select}}
+  `;
+
+  expect(runTest('contextual-component-variable.hbs', input)).toMatchInlineSnapshot(`
+    "
+      <PowerSelect @search={{perform searchThings}} @selected={{selectedResult}} @placeholder=\\"Enter the thing...\\" @loadingMessage=\\"Searching...\\" @onchange={{perform selectThing}} as |fooResult|>
+          <span class=\\"select-description\\">{{fooResult.attributes.thing-desc}}</span>
+      </PowerSelect>
+      "
+  `);
+});
+
+test('nested-block-params', () => {
+  let input = `
+  {{#my-component as |foo myAction hash components|}}
+  {{foo}} {{myAction}}
+  {{hash.property}} {{hash.foo}}
+
+  {{components.foo}}
+
+  {{#components.my-component}}
+
+  {{/components.my-component}}
+
+  {{#components.block as |block|}}
+    {{block}}
+  {{/components.block}}
+  {{/my-component}}
+  `;
+
+  expect(runTest('nested-block-params', input)).toMatchInlineSnapshot(`
+    "
+      <MyComponent as |foo myAction hash components|>
+      {{foo}} {{myAction}}
+      {{hash.property}} {{hash.foo}}
+
+      {{components.foo}}
+
+      <components.my-component>
+
+      </components.my-component>
+
+      <components.block as |block|>
+        {{block}}
+      </components.block>
+      </MyComponent>
+      "
+  `);
+});
