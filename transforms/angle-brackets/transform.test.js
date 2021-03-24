@@ -1050,6 +1050,32 @@ test('custom-options', () => {
   `);
 });
 
+test('specific-components', () => {
+  let input = `
+    {{some-component foo=true}}
+    {{my-component foo=true}}
+    {{x-foo foo=true}}
+    {{#my-card as |card|}}
+      {{card.title title="My Card Title"}}
+    {{/my-card}}
+  `;
+
+  let options = {
+    components: ['some-component', 'x-foo', 'my-card'],
+  };
+
+  expect(runTest('specific-components.hbs', input, options)).toMatchInlineSnapshot(`
+    "
+        <SomeComponent @foo={{true}} />
+        {{my-component foo=true}}
+        <XFoo @foo={{true}} />
+        <MyCard as |card|>
+          {{card.title title=\\"My Card Title\\"}}
+        </MyCard>
+      "
+  `);
+});
+
 test('skip-attributes', () => {
   let input = `
     {{some-component data-test-foo=true aria-label="bar" foo=true}}
