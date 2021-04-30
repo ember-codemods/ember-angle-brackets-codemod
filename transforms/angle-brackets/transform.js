@@ -445,6 +445,9 @@ function transformToAngleBracket(fileInfo, config, invokableData) {
   return {
     MustacheStatement(node) {
       const tagName = `${node.path && node.path.original}`;
+
+      if (config.components && !config.components.includes(tagName)) return;
+
       // Don't change attribute statements
       const isValidMustache =
         node.loc.source !== '(synthetic)' &&
@@ -460,6 +463,9 @@ function transformToAngleBracket(fileInfo, config, invokableData) {
     },
     BlockStatement(node) {
       let tagName = `${node.path.original}`;
+
+      if (config.components && !config.components.includes(tagName)) return;
+
       if (
         !shouldIgnoreMustacheStatement(node.path.original, config, invokableData) ||
         isWallStreet(tagName)

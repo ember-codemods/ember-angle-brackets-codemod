@@ -17,6 +17,10 @@ function getOptions() {
       options.helpers = config.helpers;
     }
 
+    if (config.components) {
+      options.components = config.components;
+    }
+
     if (config.skipAttributesThatMatchRegex) {
       options.skipAttributesThatMatchRegex = config.skipAttributesThatMatchRegex;
     }

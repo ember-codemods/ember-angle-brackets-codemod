@@ -179,6 +179,18 @@ Output:
   <SomeComponent data-test-foo={{true}} aria-label="bar" @foo={{true}} />
 ```
 
+### Converting specific components only
+
+If you would like to only convert certain component invocations to use the angle brackets syntax, use the `components` configuration setting and specify component names. For example, with the configuration below, only the `{{baz}}` and `{{bat}}` components will be converted, leaving everything else intact.
+
+**config/anglebrackets-codemod-config.json**
+
+```js
+{
+  "components": ["baz", "bat"]
+}
+```
+
 ## Debugging Workflow
 
 Oftentimes, you want to debug the codemod or the transform to identify issues with the code or to understand
