@@ -37,19 +37,19 @@
   "dependencies": {
     "codemod-cli": "^3.1.2",
     "debug": "^4.3.1",
-    "ember-codemods-telemetry-helpers": "^1.2.1",
-    "ember-template-recast": "^4.3.0",
+    "ember-codemods-telemetry-helpers": "^2.1.0",
+    "ember-template-recast": "^5.0.1",
     "winston": "^3.3.3"
   },
   "devDependencies": {
     "coveralls": "^3.1.0",
-    "eslint": "^7.21.0",
-    "eslint-config-prettier": "^6.15.0",
-    "eslint-plugin-prettier": "^3.3.1",
-    "execa": "^4.1.0",
+    "eslint": "^7.25.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "execa": "^5.0.0",
     "jest": "^26.6.3",
     "prettier": "^2.2.1",
-    "release-it": "^14.4.1",
+    "release-it": "^14.6.1",
     "release-it-lerna-changelog": "^3.1.0"
   },
   "engines": {
