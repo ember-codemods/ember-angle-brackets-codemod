@@ -68,6 +68,20 @@ test('boolean-values', () => {
   `);
 });
 
+test('string-preserve-quotes', () => {
+  let input = '{{foo-bar placeholder="Choose a \\"thing\\"..."}}';
+  // eslint-disable-next-line prettier/prettier
+  expect(runTest('string-preserve-quotes.hbs', input)).toMatch('<FooBar @placeholder="Choose a \\"thing\\"..." />');
+});
+
+test('string-mixed-line-endings', () => {
+  let input = '{{foo-bar placeholder="Choose a... \\t\\r\\n"}}';
+
+  expect(runTest('string-mixed-line-endings.hbs', input)).toMatch(
+    '<FooBar @placeholder="Choose a... \\\\t\\\\r\\\\n" />'
+  );
+});
+
 test('curly', () => {
   let input = `
     <div>{{foo}}</div>
