@@ -615,6 +615,31 @@ test('link-to-query-param', () => {
       'all-users'
       (query-params searchTerm=searchTerm)
     }}
+    {{#link-to (concat parentName ".index")
+      model.project.id
+      model.projectVersion.compactVersion
+      model.name
+      (query-params anchor=undefined)
+      class="tabbed-layout__menu__item"
+      activeClass="tabbed-layout__menu__item_selected"
+      current-when=(concat parentName ".index")
+      data-test-tab="index"
+    }}
+      <span>Events</span>
+    {{/link-to}}
+    {{#link-to (concat parentName ".index")
+      model.project.id
+      model.projectVersion.compactVersion
+      model.name
+      model.description
+      (query-params anchor=undefined)
+      class="tabbed-layout__menu__item"
+      activeClass="tabbed-layout__menu__item_selected"
+      current-when=(concat parentName ".index")
+      data-test-tab="index"
+    }}
+      <span>Events</span>
+    {{/link-to}}
   `;
   /**
    * NOTE: An issue has been opened in `ember-template-recast` (https://github.com/ember-template-lint/ember-template-recast/issues/82)
@@ -639,6 +664,12 @@ test('link-to-query-param', () => {
           Recent Posts
         </LinkTo>
         <LinkTo @route=\\"apps.app.users.segments.segment\\" @model=\\"all-users\\" @query={{hash searchTerm=searchTerm}}>Users</LinkTo>
+        <LinkTo @route={{concat parentName \\".index\\"}} @models={{array model.project.id model.projectVersion.compactVersion model.name}} @query={{hash anchor=undefined}} class=\\"tabbed-layout__menu__item\\" @activeClass=\\"tabbed-layout__menu__item_selected\\" @current-when={{concat parentName \\".index\\"}} data-test-tab=\\"index\\">
+          <span>Events</span>
+        </LinkTo>
+        <LinkTo @route={{concat parentName \\".index\\"}} @models={{array model.project.id model.projectVersion.compactVersion model.name model.description}} @query={{hash anchor=undefined}} class=\\"tabbed-layout__menu__item\\" @activeClass=\\"tabbed-layout__menu__item_selected\\" @current-when={{concat parentName \\".index\\"}} data-test-tab=\\"index\\">
+          <span>Events</span>
+        </LinkTo>
       "
   `);
 });

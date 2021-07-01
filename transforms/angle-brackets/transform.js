@@ -261,7 +261,10 @@ function transformLinkToAttrs(params) {
       if (models.length < 3) {
         _modelsParam = b.attr('@model', transformModelParams(models[0]));
       } else {
-        _modelsParam = b.attr('@models', b.mustache(b.path('array'), models.slice().splice(0, 2)));
+        _modelsParam = b.attr(
+          '@models',
+          b.mustache(b.path('array'), models.slice(0, models.length - 1))
+        );
       }
       _qpParam = b.attr('@query', b.mustache(b.path('hash'), [], models[models.length - 1].hash));
     } else {
