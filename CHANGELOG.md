@@ -1,3 +1,26 @@
+Version 9 of Highlight.js has reached EOL and is no longer supported.
+Please upgrade or ask whatever dependency you are using to upgrade.
+https://github.com/highlightjs/highlight.js/issues/2877
+
+## v5.1.0 (2022-01-28)
+
+#### :rocket: Enhancement
+* [#437](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/437) [Feature]: Add ability to convert only specific component invocations with each run ([@kcarmonamurphy](https://github.com/kcarmonamurphy))
+
+#### :bug: Bug Fix
+* [#486](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/486) fix any number of models in link-to ([@tylerturdenpants](https://github.com/tylerturdenpants))
+
+#### :house: Internal
+* [#486](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/486) fix any number of models in link-to ([@tylerturdenpants](https://github.com/tylerturdenpants))
+* [#452](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/452) Update dependencies ([@tylerturdenpants](https://github.com/tylerturdenpants))
+* [#393](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/393) fix eslint prettier errors ([@tylerturdenpants](https://github.com/tylerturdenpants))
+
+#### Committers: 4
+- Buck Doyle ([@backspace](https://github.com/backspace))
+- Kevin Carmona-Murphy ([@kcarmonamurphy](https://github.com/kcarmonamurphy))
+- Ryan Mark ([@tylerturdenpants](https://github.com/tylerturdenpants))
+- [@dependabot-preview[bot]](https://github.com/apps/dependabot-preview)
+
 ## v5.0.0 (2020-05-06)
 
 #### :boom: Breaking Change
