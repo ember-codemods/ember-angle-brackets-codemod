@@ -2,6 +2,20 @@ Version 9 of Highlight.js has reached EOL and is no longer supported.
 Please upgrade or ask whatever dependency you are using to upgrade.
 https://github.com/highlightjs/highlight.js/issues/2877
 
+
+## v6.0.0 (2022-08-19)
+
+#### :boom: Breaking Change
+* [#499](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/499) breaking: drop EOL versions of Node ([@mansona](https://github.com/mansona))
+
+#### :house: Internal
+* [#501](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/501) update all dev-dependencies ([@mansona](https://github.com/mansona))
+* [#500](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/500) update ember-codemods-telemetry-helpers to support M1 macs ([@mansona](https://github.com/mansona))
+* [#498](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/498) move from travis to github actions ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## v5.1.0 (2022-01-28)
 
 #### :rocket: Enhancement
