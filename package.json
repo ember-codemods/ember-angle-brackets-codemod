@@ -27,7 +27,7 @@
     "release": "release-it",
     "test": "codemod-cli test --coverage",
     "test:integration": "node ./test/run-test.mjs",
-    "test:notelemetry": " node ./test/run-test-without-telemetry.js"
+    "test:notelemetry": " node ./test/run-test-without-telemetry.mjs"
   },
   "jest": {
     "collectCoverageFrom": [
