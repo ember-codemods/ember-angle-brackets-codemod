@@ -200,7 +200,7 @@ test('data-test-attributes', () => {
         <XFoo @data-test-selector={{true}} />
         <XFoo @data-test-selector={{post.id}} />
         <XFoo @label=\\"hi\\" @data-test-selector={{true}} />
-        <XFoo data-test-foo />
+        <XFoo data-test-foo  />
         <XFoo @data-foo={{true}}>
           block
         </XFoo>
@@ -210,16 +210,16 @@ test('data-test-attributes', () => {
         <XFoo @data-test-selector={{post.id}}>
           block
         </XFoo>
-        <Common::AccordionComponent data-test-accordion as |accordion|>
+        <Common::AccordionComponent data-test-accordion  as |accordion|>
           block
         </Common::AccordionComponent>
-        <LinkTo @route=\\"posts\\" data-test-foo>
+        <LinkTo @route=\\"posts\\" data-test-foo >
           Recent Posts
         </LinkTo>
-        <LinkTo @route={{this.dynamicPath}} @query={{hash direction=\\"desc\\" showArchived=false}} data-test-foo>
+        <LinkTo @route={{this.dynamicPath}} @query={{hash direction=\\"desc\\" showArchived=false}} data-test-foo >
           Recent Posts
         </LinkTo>
-        <LinkTo @route={{this.dynamicPath}} @query={{hash direction=\\"desc\\" showArchived=false}} data-test-foo data-foo>
+        <LinkTo @route={{this.dynamicPath}} @query={{hash direction=\\"desc\\" showArchived=false}} data-test-foo data-foo  >
           Recent Posts
         </LinkTo>
 
@@ -239,6 +239,21 @@ test('data-test-attributes', () => {
         {{#link-to data-foo this.dynamicPath (query-params direction=\\"desc\\" showArchived=false)}}
           Recent Posts
         {{/link-to}}
+      "
+  `);
+});
+
+test('data-test-empty-attributes', () => {
+  let options = {
+    includeValuelessDataTestAttributes: true,
+  };
+  let input = `
+    {{x-foo data-test-foo }}
+  `;
+
+  expect(runTest('data-test-empty-attributes.hbs', input, options)).toMatchInlineSnapshot(`
+    "
+        <XFoo data-test-foo  />
       "
   `);
 });
