@@ -32,7 +32,7 @@ const execOpts = { cwd: inputDir, stderr: 'inherit' };
   console.log('running codemod');
 
   const codemod = execa(
-    '../../../bin/cli.js',
+    path.resolve('./bin/cli.js'),
     ['--telemetry', 'http://localhost:4200', 'app'],
     execOpts
   );
