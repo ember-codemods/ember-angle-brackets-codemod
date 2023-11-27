@@ -5,7 +5,7 @@ const execa = require('execa');
 const path = require('path');
 
 // resolved from the root of the project
-const inputDir = path.resolve('./test/fixtures/input');
+const inputDir = path.resolve('./test/fixtures/with-telemetry/input');
 const execOpts = { cwd: inputDir, stderr: 'inherit' };
 
 (async () => {
