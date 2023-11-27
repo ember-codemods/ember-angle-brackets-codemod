@@ -124,8 +124,8 @@ function shouldSkipFile(fileInfo, config) {
   return false;
 }
 
-function transformAttrs(tagName, attrs, config) {
-  return attrs.map((a) => {
+function transformAttrs(tagName, attrs, nodeParams, config) {
+  const newAttrs = attrs.map((a) => {
     let _key = a.key;
     let _valueType = a.value.type;
     let _value;
@@ -174,6 +174,17 @@ function transformAttrs(tagName, attrs, config) {
     }
     return b.attr(_key, _value);
   });
+
+  const newValuelessAttrs = nodeParams
+    .filter((param) => !!param.parts)
+    .filter((param) => isAttribute(param.parts[0]))
+    .map((param) => {
+      const attr = b.attr(param.parts[0], b.text(''));
+      attr.isValueless = true;
+      return attr;
+    });
+
+  return [...newAttrs, ...newValuelessAttrs];
 }
 
 function isQueryParam(param) {
@@ -299,7 +310,7 @@ function shouldSkipDataTestParams(params, includeValuelessDataTestAttributes) {
 }
 
 function transformNodeAttributes(tagName, node, config) {
-  let attributes = transformAttrs(tagName, node.hash.pairs, config);
+  let attributes = transformAttrs(tagName, node.hash.pairs, node.params, config);
   return node.params.concat(attributes);
 }
 
@@ -389,7 +400,7 @@ function transformNode(node, fileInfo, config) {
       attributes = transformLinkToAttrs(node.params);
     }
 
-    let namesParams = transformAttrs(tagName, node.hash.pairs, config);
+    let namesParams = transformAttrs(tagName, node.hash.pairs, node.params, config);
     attributes = attributes.concat(namesParams);
   } else {
     if (nodeHasPositionalParameters(node)) {
