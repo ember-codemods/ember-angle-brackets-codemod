@@ -18,14 +18,12 @@ const KNOWN_HELPERS = [
   'loc',
   'log',
   'mut',
-  'outlet',
   'partial',
   'query-params',
   'readonly',
   'unbound',
   'unless',
   'with',
-  'yield',
 
   // Glimmer VM
   'identity', // glimmer blocks

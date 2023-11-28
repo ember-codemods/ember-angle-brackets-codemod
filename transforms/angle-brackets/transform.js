@@ -326,7 +326,7 @@ function getNonDataAttributesFromParams(params) {
   return params.filter((it) => !isDataAttrPathExpression(it));
 }
 
-function shouldIgnoreMustacheStatement(fullName, config, invokableData) {
+function isKnownHelper(fullName, config, invokableData) {
   let { helpers, components } = invokableData;
   let isTelemetryData = !!(helpers || components);
 
@@ -337,11 +337,18 @@ function shouldIgnoreMustacheStatement(fullName, config, invokableData) {
   }
 
   if (isTelemetryData) {
+    let isComponent =
+      !config.helpers.includes(name) &&
+      [...(components || []), ...BUILT_IN_COMPONENTS].includes(name);
+
+    if (isComponent) {
+      return false;
+    }
+
     let mergedHelpers = [...KNOWN_HELPERS, ...(helpers || [])];
     let isHelper = mergedHelpers.includes(name) || config.helpers.includes(name);
-    let isComponent = [...(components || []), ...BUILT_IN_COMPONENTS].includes(name);
     let strName = `${name}`; // coerce boolean and number to string
-    return (isHelper || !isComponent) && !strName.includes('.');
+    return isHelper && !strName.includes('.');
   } else {
     return KNOWN_HELPERS.includes(name) || config.helpers.includes(name);
   }
@@ -363,7 +370,7 @@ function nodeHasPositionalParameters(node) {
   return false;
 }
 
-function transformNode(node, fileInfo, config) {
+function transformComponentNode(node, fileInfo, config) {
   if (
     hasValuelessDataParams(node.params) &&
     shouldSkipDataTestParams(node.params, config.includeValuelessDataTestAttributes)
@@ -425,6 +432,10 @@ function transformNode(node, fileInfo, config) {
   );
 }
 
+function transformHelperNode(node) {
+  return b.mustache(b.sexpr(node.path, node.params, node.hash));
+}
+
 function subExpressionToMustacheStatement(subExpression) {
   return b.mustache(subExpression.path, subExpression.params, subExpression.hash);
 }
@@ -457,22 +468,29 @@ function transformToAngleBracket(fileInfo, config, invokableData) {
    * Transform the attributes names & values properly
    */
   return {
-    MustacheStatement(node) {
+    MustacheStatement(node, walkerPath) {
       const tagName = `${node.path && node.path.original}`;
 
       if (config.components && !config.components.includes(tagName)) return;
 
+      const isTagKnownHelper = isKnownHelper(tagName, config, invokableData);
+
       // Don't change attribute statements
-      const isValidMustache =
-        node.loc.source !== '(synthetic)' &&
-        !shouldIgnoreMustacheStatement(tagName, config, invokableData);
+      const isValidMustacheComponent = node.loc.source !== '(synthetic)' && !isTagKnownHelper;
       const isNestedComponent = isNestedComponentTagName(tagName);
 
       if (
-        isValidMustache &&
+        isValidMustacheComponent &&
         (node.hash.pairs.length > 0 || node.params.length > 0 || isNestedComponent)
       ) {
-        return transformNode(node, fileInfo, config);
+        return transformComponentNode(node, fileInfo, config);
+      } else if (
+        isTagKnownHelper &&
+        node.path.type !== 'SubExpression' &&
+        walkerPath.parent.node.type !== 'AttrNode' &&
+        walkerPath.parent.node.type !== 'ConcatStatement'
+      ) {
+        return transformHelperNode(node, walkerPath);
       }
     },
     BlockStatement(node) {
@@ -480,11 +498,8 @@ function transformToAngleBracket(fileInfo, config, invokableData) {
 
       if (config.components && !config.components.includes(tagName)) return;
 
-      if (
-        !shouldIgnoreMustacheStatement(node.path.original, config, invokableData) ||
-        isWallStreet(tagName)
-      ) {
-        return transformNode(node, fileInfo, config);
+      if (!isKnownHelper(node.path.original, config, invokableData) || isWallStreet(tagName)) {
+        return transformComponentNode(node, fileInfo, config);
       }
     },
     AttrNode: {
