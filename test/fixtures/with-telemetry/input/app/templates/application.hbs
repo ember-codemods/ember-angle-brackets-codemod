@@ -28,7 +28,7 @@
     {{/if}}
     {{outlet}}
 
-    {{#bs-button id="openModal" onClick=(action "addModal")}}Open{{/bs-button}}
+    {{#bs-button id="openModal" onClick=(action this.addModal)}}Open{{/bs-button}}
 
     {{#if hasModal}}
       {{#bs-modal-simple open=modal onHidden=(action "removeModal") title="Dynamic Dialog"}}
