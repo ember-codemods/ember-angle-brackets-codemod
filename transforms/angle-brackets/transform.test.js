@@ -878,7 +878,7 @@ test('tilde', () => {
   expect(runTest('tilde.hbs', input)).toMatchInlineSnapshot(`
     "
         {{#if foo~}}
-          <SomeComponent />
+          {{some-component}}
         {{/if}}
       "
   `);
@@ -1369,4 +1369,20 @@ test('yield', () => {
   let input = `{{yield}}`;
 
   expect(runTestWithData('pipe.hbs', input, {}, {})).toMatchInlineSnapshot(`"{{yield}}"`);
+});
+
+test('unknown helper with args', () => {
+  let input = `
+    {{api-reference component=this.currentComponent}}
+    {{api-reference someArg}}
+    {{api-reference}}
+  `;
+
+  expect(runTestWithData('pipe.hbs', input, {}, {})).toMatchInlineSnapshot(`
+    "
+        <ApiReference @component={{this.currentComponent}} />
+        {{api-reference someArg}}
+        {{api-reference}}
+      "
+  `);
 });

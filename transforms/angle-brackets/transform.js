@@ -46,7 +46,11 @@ function isBuiltInComponent(key) {
 }
 
 function isNestedComponentTagName(tagName) {
-  return tagName && tagName.includes && (tagName.includes('/') || tagName.includes('-'));
+  return (
+    tagName &&
+    tagName.includes &&
+    (tagName.includes('/') || (tagName.includes('-') && tagName.includes('.')))
+  );
 }
 
 function isWallStreet(tagName) {
