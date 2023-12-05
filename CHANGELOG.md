@@ -1,4 +1,23 @@
 # Changelog
+## Release (2023-12-05)
+
+ember-angle-brackets-codemod 7.0.0 (major)
+
+#### :boom: Breaking Change
+* [#511](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/511) drop support for node < 16 ([@mansona](https://github.com/mansona))
+* [#509](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/509) Make helpers unambiguious with parens aka subexpressions ([@lolmaus](https://github.com/lolmaus))
+
+#### :rocket: Enhancement
+* [#505](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/505) Bump ember-template-recast to ^6.1.4 ([@lolmaus](https://github.com/lolmaus))
+
+#### :house: Internal
+* [#512](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/512) move to pnpm ([@mansona](https://github.com/mansona))
+* [#510](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/510) setup release-plan ([@mansona](https://github.com/mansona))
+* [#506](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/506) Move fixtures to with-telemetry/ for consistency ([@lolmaus](https://github.com/lolmaus))
+
+#### Committers: 2
+- Andrey Mikhaylov (lolmaus) ([@lolmaus](https://github.com/lolmaus))
+- Chris Manson ([@mansona](https://github.com/mansona))
 
 Version 9 of Highlight.js has reached EOL and is no longer supported.
 Please upgrade or ask whatever dependency you are using to upgrade.
