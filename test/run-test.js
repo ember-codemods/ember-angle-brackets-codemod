@@ -11,13 +11,12 @@ const execOpts = { cwd: inputDir, stderr: 'inherit' };
 (async () => {
   console.log('installing deps');
 
-  await execa('rm', ['-rf', 'node_modules'], execOpts);
-  await execa('yarn', ['install'], execOpts);
+  await execa('pnpm', ['install', '--no-lockfile'], execOpts);
 
   console.log('starting serve');
 
   // We use spawn for this one so we can kill it later without throwing an error
-  const emberServe = spawn('yarn', ['start'], execOpts);
+  const emberServe = spawn('pnpm', ['start'], execOpts);
   emberServe.stderr.pipe(process.stderr);
   emberServe.stdout.pipe(process.stdout);
 
