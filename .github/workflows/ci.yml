@@ -17,17 +17,20 @@ jobs:
         node-version: [16.x, 18.x, 20.x]
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - uses: pnpm/action-setup@v2
+      with:
+        version: 8
+    - uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
-        cache: yarn
-    - run: yarn install --frozen-lockfile
-    - run: yarn lint
-    - run: yarn test
+        cache: pnpm
+    - run: pnpm install --frozen-lockfile
+    - run: pnpm lint
+    - run: pnpm test
     - uses: coverallsapp/github-action@master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-    - run: yarn test:integration
-    - run: yarn test:notelemetry
+    - run: pnpm test:integration
+    - run: pnpm test:notelemetry
 
