@@ -24,7 +24,6 @@
     "debug:integration": "node --inspect-brk ./test/run-test.js",
     "debug:test": "node --inspect-brk ./node_modules/.bin/jest -i -t ",
     "lint": "eslint . --cache",
-    "release": "release-it",
     "test": "codemod-cli test --coverage",
     "test:integration": "node ./test/run-test.js",
     "test:notelemetry": " node ./test/run-test-without-telemetry.js"
@@ -49,28 +48,12 @@
     "execa": "^5.0.0",
     "jest": "^28.1.3",
     "prettier": "^2.7.1",
-    "release-it": "^15.3.0",
-    "release-it-lerna-changelog": "^5.0.0"
+    "release-plan": "^0.4.1"
   },
   "engines": {
     "node": "16.* || 18.* || >=20.*"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
-  },
-  "release-it": {
-    "plugins": {
-      "release-it-lerna-changelog": {
-        "infile": "CHANGELOG.md",
-        "launchEditor": true
-      }
-    },
-    "git": {
-      "tagName": "v${version}"
-    },
-    "github": {
-      "release": true,
-      "tokenRef": "GITHUB_AUTH"
-    }
   }
 }
