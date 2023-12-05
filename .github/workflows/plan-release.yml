@@ -50,7 +50,7 @@ jobs:
         with:
           node-version: 18
       
-      - run: npm ci
+      - run: yarn install --frozen-lockfile
       
       - name: "Generate Explanation and Prep Changelogs"
         id: explanation

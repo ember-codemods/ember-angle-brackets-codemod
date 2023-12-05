@@ -47,7 +47,7 @@ jobs:
           # This creates an .npmrc that reads the NODE_AUTH_TOKEN environment variable
           registry-url: 'https://registry.npmjs.org'
       
-      - run: npm ci
+      - run: yarn install --frozen-lockfile
       - name: npm publish
         run: npx release-plan publish
       
