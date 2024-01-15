@@ -458,6 +458,18 @@ test('input-helper', () => {
   `);
 });
 
+test('input-helper-with-action', () => {
+  let input = `
+    {{input class='cl-input' value=(readonly param) input=(action 'paramUpdated' value='target.value')}}
+  `;
+
+  expect(runTest('input-helper.hbs', input)).toMatchInlineSnapshot(`
+    "
+    <Input class=\\"cl-input\\" @value={{readonly param}} @input={{action 'paramUpdated' value='target.value'}} />
+    "
+  `);
+});
+
 test('let', () => {
   let input = `
     {{#let (capitalize this.person.firstName) (capitalize this.person.lastName)
