@@ -176,6 +176,10 @@ function transformAttrs(tagName, attrs, nodeParams, config) {
     } else {
       _value = b.text(a.value.original || _EMPTY_STRING_);
     }
+
+    if (_value.chars && _value.chars.length > 0) {
+      _value.chars = JSON.stringify(_value.chars).slice(1, -1);
+    }
     return b.attr(_key, _value);
   });
 
