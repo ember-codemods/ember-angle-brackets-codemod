@@ -495,6 +495,7 @@ test('link-to', () => {
     {{#link-to "user" this.first this.second (query-params foo="baz")}}Show{{/link-to}}
     {{#link-to "user" this.first}}Show{{/link-to}}
     {{#link-to "user" this.first (query-params foo="baz")}}Show{{/link-to}}
+    {{#link-to "categories" (html-attributes id="main-bar" class="large" data-foo="123")}}{{svg-jar "crate"}}{{/link-to}}
   `;
 
   expect(runTest('link-to.hbs', input)).toMatchInlineSnapshot(`
@@ -506,6 +507,7 @@ test('link-to', () => {
         <LinkTo @route=\\"user\\" @models={{array this.first this.second}} @query={{hash foo=\\"baz\\"}}>Show</LinkTo>
         <LinkTo @route=\\"user\\" @model={{this.first}}>Show</LinkTo>
         <LinkTo @route=\\"user\\" @model={{this.first}} @query={{hash foo=\\"baz\\"}}>Show</LinkTo>
+        <LinkTo @route=\\"categories\\" id=\\"main-bar\\" class=\\"large\\" data-foo=\\"123\\">{{svg-jar \\"crate\\"}}</LinkTo>
       "
   `);
 });

@@ -243,10 +243,14 @@ function transformLinkToAttrs(params) {
     attributes = [firstParamOutput];
   } else if (params.length === 2) {
     // @route and @model param
-
     // eslint-disable-next-line no-unused-vars
     let [_, secondParamInput] = params;
     if (secondParamInput.type === 'SubExpression') {
+      let htmlAttrs;
+      if (secondParamInput.path.original === 'html-attributes') {
+        htmlAttrs = secondParamInput.hash.pairs;
+      }
+
       let _queryParamOrModel;
       if (isQueryParam(secondParamInput)) {
         _queryParamOrModel = b.attr(
@@ -254,12 +258,17 @@ function transformLinkToAttrs(params) {
           b.mustache(b.path('hash'), [], secondParamInput.hash)
         );
       } else {
-        _queryParamOrModel = b.attr(
-          '@model',
-          b.mustache(secondParamInput.path, secondParamInput.params)
-        );
+        if (secondParamInput.path.original !== 'html-attributes') {
+          _queryParamOrModel = b.attr(
+            '@model',
+            b.mustache(secondParamInput.path, secondParamInput.params)
+          );
+        }
       }
-      attributes = [firstParamOutput, _queryParamOrModel];
+      attributes = _queryParamOrModel ? [firstParamOutput, _queryParamOrModel] : [firstParamOutput];
+      if (htmlAttrs) {
+        attributes = [...attributes, ...htmlAttrs];
+      }
     } else {
       let _modelParam = b.attr('@model', transformModelParams(secondParamInput));
       attributes = [firstParamOutput, _modelParam];
