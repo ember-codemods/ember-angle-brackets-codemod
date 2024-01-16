@@ -1386,3 +1386,15 @@ test('unknown helper with args', () => {
       "
   `);
 });
+
+test('escaped-quotes', () => {
+  let input = `
+    {{foo-bar placeholder="Choose a \"thing\" here"}}
+    `;
+
+  expect(runTest('escaped-quotes', input, {}, {})).toMatchInlineSnapshot(`
+  "
+      <FooBar @placeholder=\\"Choose a \\"thing\\" here\\" />
+      "
+  `);
+});
