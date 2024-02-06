@@ -14,9 +14,9 @@
     </BsNav>
   </div>
   <div class="col-sm-8 col-sm-pull-4 col-md-9 col-md-pull-3">
-    {{(utils/bee-bop)}}
-    {{(-wat-wat)}}
-    {{(utils/-wat-wat)}}
+    <Utils::BeeBop />
+    {{-wat-wat}}
+    <Utils::-WatWat />
     {{#if this.isDetailPage}}
       <h1>
         {{currentComponent.title}}
@@ -28,7 +28,7 @@
     {{/if}}
     {{outlet}}
 
-    <BsButton @id="openModal" @onClick={{action this.addModal}}>Open</BsButton>
+    <BsButton @id="openModal" @onClick={{action "addModal"}}>Open</BsButton>
 
     {{#if hasModal}}
       <BsModalSimple @open={{modal}} @onHidden={{action "removeModal"}} @title="Dynamic Dialog">

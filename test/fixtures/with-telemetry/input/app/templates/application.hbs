@@ -3,15 +3,15 @@
     <h3 class="sr-only">
       Components
     </h3>
-    {{#bs-nav type="pills" stacked=true as |nav|}}
+    <BsNav @type="pills" @stacked={{true}} as |nav|>
       {{#each this.model as |comp|}}
-        {{#nav.item}}
-          {{#nav.link-to route=comp.demoRoute}}
+        <nav.item>
+          <nav.link-to @route={{comp.demoRoute}}>
             {{comp.title}}
-          {{/nav.link-to}}
-        {{/nav.item}}
+          </nav.link-to>
+        </nav.item>
       {{/each}}
-    {{/bs-nav}}
+    </BsNav>
   </div>
   <div class="col-sm-8 col-sm-pull-4 col-md-9 col-md-pull-3">
     {{utils/bee-bop}}
@@ -28,13 +28,13 @@
     {{/if}}
     {{outlet}}
 
-    {{#bs-button id="openModal" onClick=(action this.addModal)}}Open{{/bs-button}}
+    {{#bs-button id="openModal" onClick=(action "addModal")}}Open{{/bs-button}}
 
     {{#if hasModal}}
       {{#bs-modal-simple open=modal onHidden=(action "removeModal") title="Dynamic Dialog"}}
         Hi there
       {{/bs-modal-simple}}
     {{/if}}
-    {{file-less foo=true}}
+    <FileLess @foo={{true}} />
   </div>
 </div>
