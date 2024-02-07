@@ -878,7 +878,7 @@ test('tilde', () => {
   expect(runTest('tilde.hbs', input)).toMatchInlineSnapshot(`
     "
         {{#if foo~}}
-          <SomeComponent />
+          {{some-component}}
         {{/if}}
       "
   `);

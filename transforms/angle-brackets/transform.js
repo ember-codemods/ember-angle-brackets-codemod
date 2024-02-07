@@ -45,16 +45,12 @@ function isBuiltInComponent(key) {
   return BUILT_IN_COMPONENTS.includes(key);
 }
 
-function isNestedComponentTagName(tagName, unambiguousHelpers = false) {
-  if (unambiguousHelpers) {
-    return (
-      tagName &&
-      tagName.includes &&
-      (tagName.includes('/') || (tagName.includes('-') && tagName.includes('.')))
-    );
-  }
-
-  return tagName && tagName.includes && (tagName.includes('/') || tagName.includes('-'));
+function isNestedComponentTagName(tagName) {
+  return (
+    tagName &&
+    tagName.includes &&
+    (tagName.includes('/') || (tagName.includes('-') && tagName.includes('.')))
+  );
 }
 
 function isWallStreet(tagName) {
@@ -491,7 +487,7 @@ function transformToAngleBracket(fileInfo, config, invokableData) {
         ? node.loc.source !== '(synthetic)' && !isTagKnownHelper
         : node.loc.source !== '(synthetic)' && !isKnownHelper(tagName, config, invokableData);
 
-      const isNestedComponent = isNestedComponentTagName(tagName, config.unambiguousHelpers);
+      const isNestedComponent = isNestedComponentTagName(tagName);
 
       if (
         isValidMustacheComponent &&
