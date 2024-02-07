@@ -45,7 +45,8 @@ const execOpts = { cwd: inputDir, stderr: 'inherit' };
   console.log('comparing results');
 
   try {
-    await execa('diff', ['-rq', './app', '../output/app'], execOpts);
+    const compareFixture = await import('compare-fixture');
+    compareFixture.default(path.join(inputDir, 'app'), path.join(inputDir, '../output/app'));
   } catch (e) {
     console.error('codemod did not run successfully');
     console.log(e);
