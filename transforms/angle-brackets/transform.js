@@ -349,13 +349,13 @@ function isKnownHelper(fullName, config, invokableData) {
       if (isComponent) {
         return false;
       }
+    } else {
+      let mergedHelpers = [...KNOWN_HELPERS, ...(helpers || [])];
+      let isHelper = mergedHelpers.includes(name) || config.helpers.includes(name);
+      let isComponent = [...(components || []), ...BUILT_IN_COMPONENTS].includes(name);
+      let strName = `${name}`; // coerce boolean and number to string
+      return (isHelper || !isComponent) && !strName.includes('.');
     }
-
-    let mergedHelpers = [...KNOWN_HELPERS, ...(helpers || [])];
-    let isHelper = mergedHelpers.includes(name) || config.helpers.includes(name);
-    let isComponent = [...(components || []), ...BUILT_IN_COMPONENTS].includes(name);
-    let strName = `${name}`; // coerce boolean and number to string
-    return (isHelper || (!config.unambiguousHelpers && !isComponent)) && !strName.includes('.');
   } else {
     return KNOWN_HELPERS.includes(name) || config.helpers.includes(name);
   }
@@ -483,10 +483,7 @@ function transformToAngleBracket(fileInfo, config, invokableData) {
       const isTagKnownHelper = isKnownHelper(tagName, config, invokableData);
 
       // Don't change attribute statements
-      const isValidMustacheComponent = config.unambiguousHelpers
-        ? node.loc.source !== '(synthetic)' && !isTagKnownHelper
-        : node.loc.source !== '(synthetic)' && !isKnownHelper(tagName, config, invokableData);
-
+      const isValidMustacheComponent = node.loc.source !== '(synthetic)' && !isTagKnownHelper;
       const isNestedComponent = isNestedComponentTagName(tagName);
 
       if (
