@@ -1382,24 +1382,22 @@ test('unknown helper with args', () => {
     "
         <ApiReference @component={{this.currentComponent}} />
         {{api-reference someArg}}
-        <ApiReference />
+        {{api-reference}}
       "
   `);
 });
 
 test('unambiguousHelpers: true', () => {
   let input = `
-    {{concat}}
-    {{unknown}}
-    {{t "some.string" param="string" another=1}}
+    {{helper-1}}
+    {{nested/helper "some.string" param="string" another=1}}
   `;
 
   expect(runTest('unambiguousHelpers: true', input, { unambiguousHelpers: true }))
     .toMatchInlineSnapshot(`
     "
-        {{(concat)}}
-        {{unknown}}
-        {{(t \\"some.string\\" param=\\"string\\" another=1)}}
+        {{(helper-1)}}
+        {{(nested/helper \\"some.string\\" param=\\"string\\" another=1)}}
       "
   `);
 });

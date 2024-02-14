@@ -16,11 +16,6 @@ function invokableName(name, type) {
     invokePath = '/components/';
   }
 
-  console.log({
-    name,
-    invokePath,
-    result: name.substring(name.lastIndexOf(invokePath) + invokePath.length, name.length),
-  });
   return name.substring(name.lastIndexOf(invokePath) + invokePath.length, name.length);
 }
 

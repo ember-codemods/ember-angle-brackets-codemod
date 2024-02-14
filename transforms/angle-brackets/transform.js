@@ -349,6 +349,11 @@ function isKnownHelper(fullName, config, invokableData) {
       if (isComponent) {
         return false;
       }
+
+      let mergedHelpers = [...KNOWN_HELPERS, ...(helpers || [])];
+      let isHelper = mergedHelpers.includes(name) || config.helpers.includes(name);
+      let strName = `${name}`; // coerce boolean and number to string
+      return isHelper && !strName.includes('.');
     } else {
       let mergedHelpers = [...KNOWN_HELPERS, ...(helpers || [])];
       let isHelper = mergedHelpers.includes(name) || config.helpers.includes(name);

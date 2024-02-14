@@ -14,27 +14,8 @@
     </BsNav>
   </div>
   <div class="col-sm-8 col-sm-pull-4 col-md-9 col-md-pull-3">
-    <Utils::BeeBop />
     {{-wat-wat}}
-    <Utils::-WatWat />
-    {{#if this.isDetailPage}}
-      <h1>
-        {{currentComponent.title}}
-      </h1>
-      <p class="lead">
-        {{currentComponent.description}}
-      </p>
-      <ApiReference @component={{this.currentComponent}} />
-    {{/if}}
-    {{outlet}}
-
-    <BsButton @id="openModal" @onClick={{action "addModal"}}>Open</BsButton>
-
-    {{#if hasModal}}
-      <BsModalSimple @open={{modal}} @onHidden={{action "removeModal"}} @title="Dynamic Dialog">
-        Hi there
-      </BsModalSimple>
-    {{/if}}
+    {{outlet}}    
     <FileLess @foo={{true}} />
   </div>
 </div>
