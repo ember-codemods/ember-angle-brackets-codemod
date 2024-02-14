@@ -42,9 +42,9 @@
     "yargs": "^17.7.2"
   },
   "devDependencies": {
-    "compare-fixture": "^1.1.0",
+    "compare-fixture": "^1.1.2",
     "coveralls": "^3.1.1",
-    "eslint": "^8.22.0",
+    "eslint": "^8.56.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "execa": "^5.0.0",
