@@ -1,6 +1,6 @@
 {
   "name": "ember-angle-brackets-codemod",
-  "version": "7.0.1",
+  "version": "7.0.2",
   "description": "Codemod to convert to Angle brackets syntax",
   "keywords": [
     "codemod-cli",

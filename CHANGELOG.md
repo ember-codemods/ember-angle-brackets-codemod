@@ -1,4 +1,16 @@
 # Changelog
+
+## Release (2024-02-14)
+
+ember-angle-brackets-codemod 7.0.2 (patch)
+
+#### :house: Internal
+* `ember-angle-brackets-codemod`
+  * [#525](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/525) update release-plan ([@mansona](https://github.com/mansona))
+  * [#517](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/517) create dependabot config with batching for minor changes ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
 ## Release (2024-02-14)
 
 ember-angle-brackets-codemod 7.0.1 (patch)

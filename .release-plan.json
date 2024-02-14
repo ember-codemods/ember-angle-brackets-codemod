@@ -2,16 +2,16 @@
   "solution": {
     "ember-angle-brackets-codemod": {
       "impact": "patch",
-      "oldVersion": "7.0.0",
-      "newVersion": "7.0.1",
+      "oldVersion": "7.0.1",
+      "newVersion": "7.0.2",
       "constraints": [
         {
           "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
+          "reason": "Appears in changelog section :house: Internal"
         }
       ],
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2024-02-14)\n\nember-angle-brackets-codemod 7.0.1 (patch)\n\n#### :bug: Bug Fix\n* [#515](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/515) Move helper disambiguation to a flag that is off by default ([@lolmaus](https://github.com/lolmaus))\n\n#### Committers: 1\n- Andrey Mikhaylov (lolmaus) ([@lolmaus](https://github.com/lolmaus))\n"
+  "description": "## Release (2024-02-14)\n\nember-angle-brackets-codemod 7.0.2 (patch)\n\n#### :house: Internal\n* `ember-angle-brackets-codemod`\n  * [#525](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/525) update release-plan ([@mansona](https://github.com/mansona))\n  * [#517](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/517) create dependabot config with batching for minor changes ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
 }
