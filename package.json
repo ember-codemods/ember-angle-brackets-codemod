@@ -49,7 +49,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "execa": "^5.0.0",
     "jest": "^28.1.3",
-    "prettier": "^2.7.1",
+    "prettier": "^3.2.5",
     "release-plan": "^0.7.0"
   },
   "engines": {
