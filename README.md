@@ -191,6 +191,22 @@ If you would like to only convert certain component invocations to use the angle
 }
 ```
 
+### Making helper invocations unambiguous
+
+You may want to convert invocations like `{{concat "foo" "bar"}}` into `{{(concat "foo" "bar")}}`, which may be useful as a temporary step when upgrading to strict-mode Embroider.
+
+In your **config/anglebrackets-codemod-config.json**, add this:
+
+```js
+{
+  "unambiguousHelpers": true
+}
+```
+
+Note that unambiguous helpers do not work in non-Embroider Ember, as of January 2024.
+
+Note that ambiguous invocations that cannot be statically distinguished between a helper, a property and a component — will not be modified.
+
 ## Debugging Workflow
 
 Oftentimes, you want to debug the codemod or the transform to identify issues with the code or to understand

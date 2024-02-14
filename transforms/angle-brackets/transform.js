@@ -341,18 +341,26 @@ function isKnownHelper(fullName, config, invokableData) {
   }
 
   if (isTelemetryData) {
-    let isComponent =
-      !config.helpers.includes(name) &&
-      [...(components || []), ...BUILT_IN_COMPONENTS].includes(name);
+    if (config.unambiguousHelpers) {
+      let isComponent =
+        !config.helpers.includes(name) &&
+        [...(components || []), ...BUILT_IN_COMPONENTS].includes(name);
 
-    if (isComponent) {
-      return false;
+      if (isComponent) {
+        return false;
+      }
+
+      let mergedHelpers = [...KNOWN_HELPERS, ...(helpers || [])];
+      let isHelper = mergedHelpers.includes(name) || config.helpers.includes(name);
+      let strName = `${name}`; // coerce boolean and number to string
+      return isHelper && !strName.includes('.');
+    } else {
+      let mergedHelpers = [...KNOWN_HELPERS, ...(helpers || [])];
+      let isHelper = mergedHelpers.includes(name) || config.helpers.includes(name);
+      let isComponent = [...(components || []), ...BUILT_IN_COMPONENTS].includes(name);
+      let strName = `${name}`; // coerce boolean and number to string
+      return (isHelper || !isComponent) && !strName.includes('.');
     }
-
-    let mergedHelpers = [...KNOWN_HELPERS, ...(helpers || [])];
-    let isHelper = mergedHelpers.includes(name) || config.helpers.includes(name);
-    let strName = `${name}`; // coerce boolean and number to string
-    return isHelper && !strName.includes('.');
   } else {
     return KNOWN_HELPERS.includes(name) || config.helpers.includes(name);
   }
@@ -489,6 +497,7 @@ function transformToAngleBracket(fileInfo, config, invokableData) {
       ) {
         return transformComponentNode(node, fileInfo, config);
       } else if (
+        config.unambiguousHelpers &&
         isTagKnownHelper &&
         node.path.type !== 'SubExpression' &&
         walkerPath.parent.node.type !== 'AttrNode' &&

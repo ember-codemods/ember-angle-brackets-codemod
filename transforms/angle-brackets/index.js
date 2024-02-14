@@ -31,6 +31,7 @@ function getOptions() {
 
     options.includeValuelessDataTestAttributes = !!config.includeValuelessDataTestAttributes;
     options.skipBuiltInComponents = !!config.skipBuiltInComponents;
+    options.unambiguousHelpers = !!config.unambiguousHelpers;
   }
 
   if (cliOptions.telemetry) {

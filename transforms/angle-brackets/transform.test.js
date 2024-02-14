@@ -476,7 +476,7 @@ test('let', () => {
         {{#let (capitalize this.person.firstName) (capitalize this.person.lastName)
           as |firstName lastName|
         }}
-          Welcome back {{(concat firstName ' ' lastName)}}
+          Welcome back {{concat firstName ' ' lastName}}
 
           Account Details:
           First Name: {{firstName}}
@@ -554,8 +554,8 @@ test('link-to-inline', () => {
         <LinkTo @route=\\"apps.segments\\" class=\\"tabs__discrete-tab\\" @activeClass=\\"o__selected\\" @current-when=\\"apps.segments\\" data-test-segment-link=\\"segments\\">Segments</LinkTo>
         <LinkTo @route={{this.dynamicPath}} class=\\"tabs__discrete-tab\\" @activeClass=\\"o__selected\\" @current-when=\\"apps.segments\\" data-test-segment-link=\\"segments\\">Segments</LinkTo>
         <LinkTo @route=\\"apps.app.companies.segments.segment\\" @model={{segment}} class=\\"t__em-link\\">{{segment.name}}</LinkTo>
-        <LinkTo @route=\\"flight\\" @model={{event.flight.id}} class=\\"btn btn-default btn-sm pull-right\\">{{(t \\"show\\")}}</LinkTo>
-        <LinkTo @route=\\"user\\" @model={{if linkActor event.actor.id event.user.id}}>{{(t \\"show\\")}}</LinkTo>
+        <LinkTo @route=\\"flight\\" @model={{event.flight.id}} class=\\"btn btn-default btn-sm pull-right\\">{{t \\"show\\"}}</LinkTo>
+        <LinkTo @route=\\"user\\" @model={{if linkActor event.actor.id event.user.id}}>{{t \\"show\\"}}</LinkTo>
         <LinkTo @route=\\"user\\" @models={{array this.first this.second}}>Show</LinkTo>
         <LinkTo @route=\\"user\\" @models={{array this.first this.second}} @query={{hash foo=\\"baz\\"}}>Show</LinkTo>
         <LinkTo @route=\\"user\\" @model={{this.first}}>Show</LinkTo>
@@ -839,7 +839,7 @@ test('t-helper', () => {
 
   expect(runTest('t-helper.hbs', input)).toMatchInlineSnapshot(`
     "
-        {{(t \\"some.string\\" param=\\"string\\" another=1)}}
+        {{t \\"some.string\\" param=\\"string\\" another=1}}
       "
   `);
 });
@@ -977,7 +977,7 @@ test('skip-default-helpers', () => {
   expect(runTest('skip-default-helpers.hbs', input, options)).toMatchInlineSnapshot(`
     "
         <div id=\\"main-container\\">
-          {{(liquid-outlet)}}
+          {{liquid-outlet}}
         </div>
         <button {{action \\"toggle\\" \\"showA\\"}}>
           Toggle A/B</button>
@@ -997,11 +997,11 @@ test('skip-default-helpers', () => {
             Two
           </div>
         {{/liquid-if}}
-        {{(moment '12-25-1995' 'MM-DD-YYYY')}}
-        {{(moment-from '1995-12-25' '2995-12-25' hideAffix=true)}}
+        {{moment '12-25-1995' 'MM-DD-YYYY'}}
+        {{moment-from '1995-12-25' '2995-12-25' hideAffix=true}}
         <SomeComponent @foo={{true}} />
-        {{(some-helper1 foo=true)}}
-        {{(some-helper2 foo=true)}}
+        {{some-helper1 foo=true}}
+        {{some-helper2 foo=true}}
       "
   `);
 });
@@ -1039,7 +1039,7 @@ test('skip-default-helpers (no-config)', () => {
   expect(runTest('skip-default-helpers.hbs', input)).toMatchInlineSnapshot(`
     "
         <div id=\\"main-container\\">
-          {{(liquid-outlet)}}
+          {{liquid-outlet}}
         </div>
         <button {{action \\"toggle\\" \\"showA\\"}}>
           Toggle A/B</button>
@@ -1059,8 +1059,8 @@ test('skip-default-helpers (no-config)', () => {
             Two
           </div>
         {{/liquid-if}}
-        {{(moment '12-25-1995' 'MM-DD-YYYY')}}
-        {{(moment-from '1995-12-25' '2995-12-25' hideAffix=true)}}
+        {{moment '12-25-1995' 'MM-DD-YYYY'}}
+        {{moment-from '1995-12-25' '2995-12-25' hideAffix=true}}
         <SomeComponent @foo={{true}} />
         <SomeHelper1 @foo={{true}} />
         <SomeHelper2 @foo={{true}} />
@@ -1086,8 +1086,8 @@ test('custom-options', () => {
   expect(runTest('custom-options.hbs', input, options)).toMatchInlineSnapshot(`
     "
         <SomeComponent @foo={{true}} />
-        {{(some-helper1 foo=true)}}
-        {{(some-helper2 foo=true)}}
+        {{some-helper1 foo=true}}
+        {{some-helper2 foo=true}}
         {{link-to \\"Title\\" \\"some.route\\"}}
         {{textarea value=this.model.body}}
         {{input type=\\"checkbox\\" name=\\"email-opt-in\\" checked=this.model.emailPreference}}
@@ -1180,7 +1180,7 @@ test('preserve arguments', () => {
     "
         <FooBar @class=\\"baz\\" />
         {{foo-bar data-baz class=\\"baz\\"}}
-        <LinkTo @route=\\"flight\\" @model={{event.flight.id}} class=\\"btn btn-default btn-sm pull-right\\">{{(t \\"show\\")}}</LinkTo>
+        <LinkTo @route=\\"flight\\" @model={{event.flight.id}} class=\\"btn btn-default btn-sm pull-right\\">{{t \\"show\\"}}</LinkTo>
       "
   `);
 });
@@ -1284,9 +1284,9 @@ test('wallstreet-telemetry', () => {
   expect(runTest('wallstreet-telemetry.hbs', input)).toMatchInlineSnapshot(`
     "
         {{nested$helper}}
-        {{(nested::helper)}}
-        {{(nested::helper param=\\"yeah!\\")}}
-        {{(helper-1)}}
+        {{nested::helper}}
+        {{nested::helper param=\\"yeah!\\"}}
+        {{helper-1}}
       "
   `);
 });
@@ -1294,16 +1294,16 @@ test('wallstreet-telemetry', () => {
 test('wrapping-helpers-with-parens', () => {
   let input = `
     {{fooknownhelper}}
-    {{(fooknownhelper)}}
+    {{fooknownhelper}}
     {{fooknownhelper data-test-foo foo="bar"}}
     {{foounknownhelper}}
   `;
 
   expect(runTest('wrapping-helpers-with-parens.hbs', input)).toMatchInlineSnapshot(`
     "
-        {{(fooknownhelper)}}
-        {{(fooknownhelper)}}
-        {{(fooknownhelper data-test-foo foo=\\"bar\\")}}
+        {{fooknownhelper}}
+        {{fooknownhelper}}
+        {{fooknownhelper data-test-foo foo=\\"bar\\"}}
         {{foounknownhelper}}
       "
   `);
@@ -1383,6 +1383,21 @@ test('unknown helper with args', () => {
         <ApiReference @component={{this.currentComponent}} />
         {{api-reference someArg}}
         {{api-reference}}
+      "
+  `);
+});
+
+test('unambiguousHelpers: true', () => {
+  let input = `
+    {{helper-1}}
+    {{nested/helper "some.string" param="string" another=1}}
+  `;
+
+  expect(runTest('unambiguousHelpers: true', input, { unambiguousHelpers: true }))
+    .toMatchInlineSnapshot(`
+    "
+        {{(helper-1)}}
+        {{(nested/helper \\"some.string\\" param=\\"string\\" another=1)}}
       "
   `);
 });

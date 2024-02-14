@@ -4,7 +4,18 @@ const HELPER = 'Helper';
 const COMPONENT = 'Component';
 
 function invokableName(name, type) {
-  let invokePath = type === HELPER ? '/helpers/' : '/components/';
+  let invokePath;
+
+  if (name.startsWith('@ember/component/')) {
+    invokePath = '@ember/component/';
+  } else if (name.startsWith('@ember/routing/')) {
+    invokePath = '@ember/routing/';
+  } else if (type === HELPER) {
+    invokePath = '/helpers/';
+  } else {
+    invokePath = '/components/';
+  }
+
   return name.substring(name.lastIndexOf(invokePath) + invokePath.length, name.length);
 }
 
