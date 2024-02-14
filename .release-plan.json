@@ -1,25 +1,17 @@
 {
   "solution": {
     "ember-angle-brackets-codemod": {
-      "impact": "major",
-      "oldVersion": "6.0.0",
-      "newVersion": "7.0.0",
+      "impact": "patch",
+      "oldVersion": "7.0.0",
+      "newVersion": "7.0.1",
       "constraints": [
         {
-          "impact": "major",
-          "reason": "Appears in changelog section :boom: Breaking Change"
-        },
-        {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
-        },
-        {
           "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
+          "reason": "Appears in changelog section :bug: Bug Fix"
         }
       ],
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2023-12-05)\n\nember-angle-brackets-codemod 7.0.0 (major)\n\n#### :boom: Breaking Change\n* [#511](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/511) drop support for node < 16 ([@mansona](https://github.com/mansona))\n* [#509](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/509) Make helpers unambiguious with parens aka subexpressions ([@lolmaus](https://github.com/lolmaus))\n\n#### :rocket: Enhancement\n* [#505](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/505) Bump ember-template-recast to ^6.1.4 ([@lolmaus](https://github.com/lolmaus))\n\n#### :house: Internal\n* [#512](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/512) move to pnpm ([@mansona](https://github.com/mansona))\n* [#510](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/510) setup release-plan ([@mansona](https://github.com/mansona))\n* [#506](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/506) Move fixtures to with-telemetry/ for consistency ([@lolmaus](https://github.com/lolmaus))\n\n#### Committers: 2\n- Andrey Mikhaylov (lolmaus) ([@lolmaus](https://github.com/lolmaus))\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2024-02-14)\n\nember-angle-brackets-codemod 7.0.1 (patch)\n\n#### :bug: Bug Fix\n* [#515](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/515) Move helper disambiguation to a flag that is off by default ([@lolmaus](https://github.com/lolmaus))\n\n#### Committers: 1\n- Andrey Mikhaylov (lolmaus) ([@lolmaus](https://github.com/lolmaus))\n"
 }

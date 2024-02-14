@@ -1,4 +1,13 @@
 # Changelog
+## Release (2024-02-14)
+
+ember-angle-brackets-codemod 7.0.1 (patch)
+
+#### :bug: Bug Fix
+* [#515](https://github.com/ember-codemods/ember-angle-brackets-codemod/pull/515) Move helper disambiguation to a flag that is off by default ([@lolmaus](https://github.com/lolmaus))
+
+#### Committers: 1
+- Andrey Mikhaylov (lolmaus) ([@lolmaus](https://github.com/lolmaus))
 ## Release (2023-12-05)
 
 ember-angle-brackets-codemod 7.0.0 (major)
